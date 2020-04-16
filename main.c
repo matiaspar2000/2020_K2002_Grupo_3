@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -49,7 +50,7 @@ int estadoFinal (char *cadena){
     matriz [6] [5] = 6};
 
     int estadoNumero;
-    for (estadoNumero=0; *cadena != '\0'; cadena++){
+    for (estadoNumero=0; *cadena != '\0'; cadena++)
     {switch (*cadena) {
       case '0': estadoNumero = matriz [estadoNumero] [0]; break;
       case '1': estadoNumero = matriz [estadoNumero] [1]; break;
@@ -75,13 +76,31 @@ int estadoFinal (char *cadena){
       case 'F': estadoNumero = matriz [estadoNumero] [3]; break;
       case 'x': estadoNumero = matriz [estadoNumero] [4]; break;
       case 'X': estadoNumero = matriz [estadoNumero] [4]; break;
-      default : estadoNumero = 6;
+      default : estadoNumero = 6;}
     }
     return  estadoNumero;
 }
-
-void leer (){
-    // funcion que diga que tipo de dato es
+void leer(char aux[]){
+    char separador[] = ",";
+    char *numero = strtok(aux, separador);
+    if(numero != NULL){
+        while(numero != NULL){
+            printf("%s",numero);
+            if(estadoFinal(numero)==1){
+                printf(" es un numero decimal\n");
+            }
+            else if(estadoFinal(numero)==3){
+                printf(" es un numero octal\n");
+            }
+            else if(estadoFinal(numero)==5){
+                printf(" es un numero hexadecimal\n");
+            }
+            else {
+                printf(" no es un numero\n");
+            }
+            numero = strtok(NULL, separador);
+        }
+    }
 
 }
 
@@ -92,7 +111,11 @@ int main()
  	archivo = fopen("archivo.txt","r");
  	if (archivo == NULL)
  		exit(1);
-    //llamar funciones
+
+    while(!feof(archivo))
+        fgets (aux, 50, archivo);
+    leer(aux);
     fclose(archivo);
     return 0;
 }
+
