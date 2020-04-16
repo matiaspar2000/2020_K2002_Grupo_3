@@ -80,42 +80,46 @@ int estadoFinal (char *cadena){
     }
     return  estadoNumero;
 }
-void leer(char aux[]){
-    char separador[] = ",";
-    char *numero = strtok(aux, separador);
-    if(numero != NULL){
-        while(numero != NULL){
-            printf("%s",numero);
-            if(estadoFinal(numero)==1){
-                printf(" es un numero decimal\n");
-            }
-            else if(estadoFinal(numero)==3){
-                printf(" es un numero octal\n");
-            }
-            else if(estadoFinal(numero)==5){
-                printf(" es un numero hexadecimal\n");
-            }
-            else {
-                printf(" no es un numero\n");
-            }
-            numero = strtok(NULL, separador);
-        }
-    }
 
-}
 
 int main()
 {
     char aux[50];
     FILE *archivo;
+    FILE *salida;
  	archivo = fopen("archivo.txt","r");
+ 	salida = fopen("salida.txt", "w");
  	if (archivo == NULL)
  		exit(1);
-
     while(!feof(archivo))
         fgets (aux, 50, archivo);
-    leer(aux);
+    char separador[] = ",";
+    char *numero = strtok(aux, separador);
+    if(numero != NULL){
+        while(numero != NULL){
+            printf("%s",numero);
+            fputs(numero,salida);
+            if(estadoFinal(numero)==1){
+                printf(" es un numero decimal\n");
+                fputs(" es un numero decimal\n",salida);
+            }
+            else if(estadoFinal(numero)==3){
+                printf(" es un numero octal\n");
+                fputs(" es un numero octal\n",salida);
+            }
+            else if(estadoFinal(numero)==5){
+                printf(" es un numero hexadecimal\n");
+                fputs(" es un numero hexadecimal\n",salida);
+            }
+            else {
+                printf(" no es un numero\n");
+                fputs(" no es un numero\n",salida);
+            }
+            numero = strtok(NULL, separador);
+        }
+    }
     fclose(archivo);
+    fclose(salida);
     return 0;
 }
 
