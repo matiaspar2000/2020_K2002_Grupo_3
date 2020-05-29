@@ -214,7 +214,7 @@ int estados(char cadena[50])
             printf("La expresion \"%s\" es incorrecta ",cadena);
             printf("el error esta en el caracter \"%c\" en la posicion ",cadena[posicion]);
             printf("%i \n",posicion+1);
-            break;//break;//break;kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+            break;
         }
         if(estado_actual==-1){
             printf("El caracter \"%c\" en la posicion ",cadena[posicion]);
