@@ -202,34 +202,73 @@ int leer(int estado , char caracter)
     }
 return -1;
 }
-int estados(char *cadena)
+int estados(char cadena[50])
 {
-    int estado_actual;
-    for (estado_actual=1; *cadena != '\0'; cadena++)
+    int estado_actual=1;
+    int posicion;
+    for (posicion=0; posicion<strlen(cadena); posicion++)
     {
-        estado_actual=leer(estado_actual,*cadena);
+        estado_actual=leer(estado_actual,cadena[posicion]);
+        if(estado_actual==0)
+        {
+            printf("La expresion \"%s\" es incorrecta ",cadena);
+            printf("el error esta en el caracter \"%c\" en la posicion ",cadena[posicion]);
+            printf("%i \n",posicion+1);
+            break;//break;//break;kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk
+        }
+        if(estado_actual==-1){
+            printf("El caracter \"%c\" en la posicion ",cadena[posicion]);
+            printf("\"%i\" no pertenece al alfabeto \n",posicion+1);
+            break;
+        }
     }
  return estado_actual;
 }
-int main() {
-    char aux[50];
-    while(gets(aux))
+void SepararYVerificar(char cadena[50]){
+
+    int i=0,u,largo,v,ultimo_estado;
+    largo=strlen(cadena);
+    while(cadena[i]!='\0')
     {
-        int ultimo_estado;
-        ultimo_estado=estados(aux);
-        if(ultimo_estado==2 || ultimo_estado==6)
+        if(cadena[i]==' ')
         {
-            printf("La expresion es correcta \n");
-        }
-        else
+        while(cadena[i]==' ')
         {
-            printf("No es correcta \n");
+        for(u=i;u<largo;u++)
+        cadena[u]=cadena[u+1];
+        u--;
         }
-        memset(aux, 0, 50);
-        while(expresion!=NULL)
-        {
-            pop(&expresion);
+    }
+    i++;
+    }
+    if(strlen(cadena)!=0){
+        ultimo_estado=estados(cadena);
+        if(ultimo_estado==2 || ultimo_estado==6){
+                printf("La cadena \"%s\"  es correcta \n",cadena);
+            }
+        else if(ultimo_estado!=0 && ultimo_estado!=-1){
+            printf("La expresion es incorrecta, el error esta en el ultimo caracter\n");
         }
+
+    }
+    else{
+        printf("La cadena esta vacia \n");
+    }
+}
+
+
+int main() {
+    push(&expresion,'$');
+    char cadena[50];
+    while(gets(cadena))
+    {
+            SepararYVerificar(cadena);
+            memset(cadena, 0, 50);
+            while(expresion->valor!='$')
+                {
+                    pop(&expresion);
+                }
+            //posicion=0;
     }
  return 0;
 }
