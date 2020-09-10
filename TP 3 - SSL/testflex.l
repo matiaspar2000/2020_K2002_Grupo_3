@@ -23,10 +23,8 @@ LETRA [a-zA-Z]
 "volatile"|"goto"|"extern"|"static"|"auto"|"register" {printf("Se encontró la palabra reservada de tipo otro: %s \n", yytext);ac=ac+1;}
 \+\+|\*|\+|\&|\!|"sizeof"|\/|\%|\<|\<\=|\=\=|\!\=|\&\&|\|\||\?\:|\=|\+\=|\(|\)|\{|\}|\,|\;|\[|\] {printf("Se encontró un operador o caracter de puntuacion: %s \n", yytext);ac=ac+1;}
 [a-zA-Z_][a-zA-Z0-9_]* {printf("Se encontró el identificador: %s \n", yytext);ac=ac+1;}
-\'(.)\' {printf("Se encontró el caracter: %s \n", yytext);ac=ac+1;}    
-\’(.|"\n")\’ /*caracter*/ 
-\"(.)*\" {printf("Se encontró el literal cadena: %s de largo %d \n", yytext, yyleng);ac=ac+1;}  
-\’(.|"\n")*\’ /*literal cadena*/ 
+\'(.|"\n")\'  {printf("Se encontró el caracter: %s \n", yytext);ac=ac+1;} 
+\"(.|"\n")*\" {printf("Se encontró el literal cadena: %s de largo %d \n", yytext, yyleng);ac=ac+1;}
 \/\*(\*+[^\*\/]|[^\*])*\*+\/ {printf("Se encontró el comentario largo: %s \n", yytext);ac=ac+1;}
 \/\/(.)* {printf("Se encontró el comentario corto : %s \n", yytext);ac=ac+1;}
 
