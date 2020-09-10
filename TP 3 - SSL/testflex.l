@@ -4,7 +4,7 @@
 %{
 #include <stdio.h>
 
-int acumDecimales = 0;
+int ac = 0;
 %}
 
 DIGITO_DECIMAL [0-9]
@@ -14,26 +14,30 @@ LETRA [a-zA-Z]
 
 %%
 
-[1-9]{DIGITO_DECIMAL}* {printf("Se encontró la constante entera decimal: %s \n", yytext);}
-0{DIGITO_OCTAL}* {printf("Se encontró la constante entera octal: %s \n", yytext);} 
-0[xX]{DIGITO_HEXADECIMAL}+ {printf("Se encontró la constante entera hexadecimal: %s \n", yytext);}
-{DIGITO_DECIMAL}*(\.){DIGITO_DECIMAL}+([eE]([\+\-]?){DIGITO_DECIMAL}+)? {printf("Se encontró la constante real: %s \n", yytext);}
-"char"|"int"|"float"|"double"|"long"|"short"|"signed"|"unsigned"|"void"|"enum"|"struct"|"typedef"|"union"  {printf("Se encontró la palabra reservada de tipo de dato: %s \n", yytext);}
-"switch"|"case"|"break"|"default"|"continue"|"do"|"while"|"if"|"else"|"fo"|"return"|"goto" {printf("Se encontró la palabra reservada de tipo control: %s \n", yytext);}
-"volatile"|"goto"|"extern"|"static"|"auto"|"register" {printf("Se encontró la palabra reservada de tipo otro: %s \n", yytext);}
-\+\+|\*|\+|\&|\!|"sizeof"|\/|\%|\<|\<\=|\=\=|\!\=|\&\&|\|\||\?\:|\=|\+\=|\(|\)|\{|\}|\,|\; {printf("Se encontró un operador o caracter de puntuacion: %s \n", yytext);}
-[a-zA-Z_][a-zA-Z0-9_]* {printf("Se encontró el identificador: %s \n", yytext);}
-\'(.)\' {printf("Se encontró el caracter: %s \n", yytext);}    
-\"(.)*\" {printf("Se encontró el literal cadena: %s de largo %d \n", yytext, yyleng);}  
-\/\*(\*+[^\*\/]|[^\*])*\*+\/ {printf("Se encontró el comentario largo: %s \n", yytext);}
-\/\/(.)* {printf("Se encontró el comentario corto : %s \n", yytext);}
+[1-9]{DIGITO_DECIMAL}* {printf("Se encontró la constante entera decimal: %s \n", yytext);ac=ac+1;}
+0{DIGITO_OCTAL}* {printf("Se encontró la constante entera octal: %s \n", yytext);ac=ac+1;} 
+0[xX]{DIGITO_HEXADECIMAL}+ {printf("Se encontró la constante entera hexadecimal: %s \n", yytext);ac=ac+1;}
+{DIGITO_DECIMAL}*(\.){DIGITO_DECIMAL}+([eE]([\+\-]?){DIGITO_DECIMAL}+)? {printf("Se encontró la constante real: %s \n", yytext);ac=ac+1;}
+"char"|"int"|"float"|"double"|"long"|"short"|"signed"|"unsigned"|"void"|"enum"|"struct"|"typedef"|"union"  {printf("Se encontró la palabra reservada de tipo de dato: %s \n", yytext);ac=ac+1;}
+"switch"|"case"|"break"|"default"|"continue"|"do"|"while"|"if"|"else"|"fo"|"return"|"goto" {printf("Se encontró la palabra reservada de tipo control: %s \n", yytext);ac=ac+1;}
+"volatile"|"goto"|"extern"|"static"|"auto"|"register" {printf("Se encontró la palabra reservada de tipo otro: %s \n", yytext);ac=ac+1;}
+\+\+|\*|\+|\&|\!|"sizeof"|\/|\%|\<|\<\=|\=\=|\!\=|\&\&|\|\||\?\:|\=|\+\=|\(|\)|\{|\}|\,|\;|\[|\] {printf("Se encontró un operador o caracter de puntuacion: %s \n", yytext);ac=ac+1;}
+[a-zA-Z_][a-zA-Z0-9_]* {printf("Se encontró el identificador: %s \n", yytext);ac=ac+1;}
+\'(.)\' {printf("Se encontró el caracter: %s \n", yytext);ac=ac+1;}    
+\’(.|"\n")\’ /*caracter*/ 
+\"(.)*\" {printf("Se encontró el literal cadena: %s de largo %d \n", yytext, yyleng);ac=ac+1;}  
+\’(.|"\n")*\’ /*literal cadena*/ 
+\/\*(\*+[^\*\/]|[^\*])*\*+\/ {printf("Se encontró el comentario largo: %s \n", yytext);ac=ac+1;}
+\/\/(.)* {printf("Se encontró el comentario corto : %s \n", yytext);ac=ac+1;}
+
+
 
 %%
 int main() {
     yyin=fopen("entrada.txt", "r"); 
     yyout=fopen("salida.txt", "w");
     yylex();
-
+    printf("ac : %s \n", ac);
     return 0;
 }
 
