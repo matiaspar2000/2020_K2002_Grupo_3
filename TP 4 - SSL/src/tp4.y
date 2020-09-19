@@ -42,6 +42,10 @@ input:  /* vacio */
 line:   '\n'
         | exp '\n'  
 ;
+
+exp: 
+
+;
         
 %%
 
