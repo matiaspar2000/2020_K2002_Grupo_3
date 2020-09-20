@@ -33,6 +33,7 @@ void yyerror (char const *s) {
 
 %type 
 
+
 %% /* A continuacion las reglas gramaticales y las acciones */
 
 input:  /* vacio */
@@ -40,10 +41,26 @@ input:  /* vacio */
 ;
 
 line:   '\n'
-        | exp '\n'  
+        | exp '\n'    {/*cami*/}
+        | declaracion '\n' {/*mati puyol*/}
+        | definicion '\n' {/*partarrié*/}
+        | sentencia '\n' {/*martín*/}
+
 ;
 
 exp: 
+
+;
+
+declaracion:
+
+;
+
+definicion:
+
+;
+
+sentencia:
 
 ;
         
