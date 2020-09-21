@@ -43,8 +43,9 @@ input:  /* vacio */
 line:   '\n'
         | exp '\n'    {/*cami*/}
         | declaracion '\n' {/*mati puyol*/}
-        | definicion '\n' {/*partarrié*/}
+        | definicionExterna '\n' {/*partarrié*/}
         | sentencia '\n' {/*martín*/}
+        | error '\n'
 
 ;
 
@@ -56,16 +57,16 @@ declaracion:
 
 ;
 
-definicionesExternas:  '\n'
-                      | unidadDeTraducción
+definicionExternas:  '\n'
+                      | unidadDeTraduccion
 ; 
-unidadDeTraducción: declaracionExterna 
-                    |unidadDeTraducción declaracionExterna
+unidadDeTraduccion: declaracionExterna 
+                    |unidadDeTraduccion declaracionExterna
 ;               
-declaracionExterna: definiciónDeFunción 
-                   | declaración
+declaracionExterna: definicionDeFuncion 
+                   | declaracion
 ;
-definiciónDeFunción: especificadoresDeDeclaración? decla listaDeDeclaraciones? sentenciaCompuesta 
+definicionDeFuncion: especificadoresDeDeclaracion? decla listaDeDeclaraciones? sentenciaCompuesta 
 ;
 
 sentencia:
