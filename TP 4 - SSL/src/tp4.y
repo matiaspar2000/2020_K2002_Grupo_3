@@ -56,8 +56,9 @@ declaracion:
 
 ;
 
-definicion:
-
+definicionDeFuncion: '\n'
+          | especificadoresDeDeclaración? decla listaDeDeclaraciones? sentenciaCompuesta
+ 
 ;
 
 sentencia:
