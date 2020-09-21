@@ -56,9 +56,16 @@ declaracion:
 
 ;
 
-definicionDeFuncion: '\n'
-          | especificadoresDeDeclaración? decla listaDeDeclaraciones? sentenciaCompuesta
- 
+definicionesExternas:  '\n'
+                      | unidadDeTraducción
+; 
+unidadDeTraducción: declaracionExterna 
+                    |unidadDeTraducción declaracionExterna
+;               
+declaracionExterna: definiciónDeFunción 
+                   | declaración
+;
+definiciónDeFunción: especificadoresDeDeclaración? decla listaDeDeclaraciones? sentenciaCompuesta 
 ;
 
 sentencia:
