@@ -69,7 +69,28 @@ declaracionExterna: definicionDeFuncion
 definicionDeFuncion: especificadoresDeDeclaracion? decla listaDeDeclaraciones? sentenciaCompuesta 
 ;
 
-sentencia:
+sentencia: sentenciaCompuesta 
+         | sentenciaExpresion
+         | sentenciaSeleccion
+         | sentenciaIteracion
+         | sentenciaSalto
+;
+
+sentenciaCompuesta: listaDeDeclaraciones? listaSentencias?
+;
+
+listaDeDeclaraciones: declaracion
+                    | listaDeDeclaraciones declaracion
+;
+
+listaSentencias: sentencia
+               | listaSentencias sentencia
+;
+
+sentenciaExpresion: exp? ';'      
+;
+
+sentenciaSeleccion:
 
 ;
         
