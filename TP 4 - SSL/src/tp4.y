@@ -61,8 +61,23 @@ exp:
 
 ;
 
-declaracion:
+declaracion: TIPO_DATO IDENTIFICADOR parametros
+;
+parametros : '(' listaDeParametros ')'
+            | '(' ')'
+;
+listaDeParametros :   parametro
+                    | listaDeParametros ',' parametro
 
+;
+parametro :     TIPO_DATO
+               | TIPO_DATO IDENTIFICADOR
+               | ERROR  IDENTIFICADOR     
+               | TIPODATO ERROR 
+cuerpo :  ';'                          
+              | sentenciaCompuesta                 
+              | '{' ERROR '}'                
+              | ERROR  
 ;
 
 definicionExternas:  '\n'
