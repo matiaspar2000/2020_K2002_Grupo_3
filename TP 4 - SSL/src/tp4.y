@@ -42,7 +42,7 @@ void yyerror (char const *s) {
 %type 
 
 
-%% /* A continuacion las reglas gramaticales y las acciones */
+%% /* reglas gramaticales y acciones */
 
 input:  /* vacio */
         | input line
@@ -63,21 +63,25 @@ exp:
 
 declaracion: TIPO_DATO IDENTIFICADOR parametros
 ;
-parametros : '(' listaDeParametros ')'
+
+parametros: '(' listaDeParametros ')'
             | '(' ')'
 ;
-listaDeParametros :   parametro
-                    | listaDeParametros ',' parametro
 
+listaDeParametros:   parametro
+                    | listaDeParametros ',' parametro
 ;
-parametro :     TIPO_DATO
+
+parametro:     TIPO_DATO
                | TIPO_DATO IDENTIFICADOR
-               | ERROR  IDENTIFICADOR     
+               | ERROR IDENTIFICADOR     
                | TIPODATO ERROR 
-cuerpo :  ';'                          
-              | sentenciaCompuesta                 
-              | '{' ERROR '}'                
-              | ERROR  
+;
+
+cuerpo:  ';'                          
+         | sentenciaCompuesta                 
+         | '{' ERROR '}'                
+         | ERROR  
 ;
 
 definicionExternas:  '\n'
@@ -89,7 +93,15 @@ unidadDeTraduccion: declaracionExterna
 declaracionExterna: definicionDeFuncion 
                    | declaracion
 ;
-definicionDeFuncion: especificadoresDeDeclaracion? decla listaDeDeclaraciones? sentenciaCompuesta 
+definicionDeFuncion: especificadoresDeDeclaracionOP decla listaDeDeclaracionesOP sentenciaCompuesta 
+;
+
+listaDeDeclaracionesOP: /*vacio*/
+                        | listaDeDeclaraciones
+;
+
+especificadoresDeDeclaracionOP: /*vacio*/
+                                | especificadoresDeDeclaracion
 ;
 
 sentencia: sentenciaCompuesta 
