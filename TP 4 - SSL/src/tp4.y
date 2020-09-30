@@ -29,12 +29,20 @@ void yyerror (char const *s) {
 %token <cadena> STRING 
 %token <caracter> CCARACTER
 %token <real> CONSTANTE_REAL
-%token <entero> error
+%token <entero> ERROR 
+%token <cadena> MAYORIGUAL 
+%token <cadena> IGUALIGUAL
+%token <cadena> DISTINTO
+%token <cadena> INCREMENTO
+%token <cadena> DECREMENTO
+%token <cadena> FLECHA
+%token <cadena> O
+%token <cadena> Y
 
 %type 
 
 
-%% /* A continuacion las reglas gramaticales y las acciones */
+%% /* reglas gramaticales y acciones */
 
 input:  /* vacio */
         | input line
@@ -53,8 +61,27 @@ exp:
 
 ;
 
-declaracion:
+declaracion: TIPO_DATO IDENTIFICADOR parametros
+;
 
+parametros: '(' listaDeParametros ')'
+            | '(' ')'
+;
+
+listaDeParametros:   parametro
+                    | listaDeParametros ',' parametro
+;
+
+parametro:     TIPO_DATO
+               | TIPO_DATO IDENTIFICADOR
+               | ERROR IDENTIFICADOR     
+               | TIPODATO ERROR 
+;
+
+cuerpo:  ';'                          
+         | sentenciaCompuesta                 
+         | '{' ERROR '}'                
+         | ERROR  
 ;
 
 definicionExternas:  '\n'
@@ -66,7 +93,36 @@ unidadDeTraduccion: declaracionExterna
 declaracionExterna: definicionDeFuncion 
                    | declaracion
 ;
-definicionDeFuncion: especificadoresDeDeclaracion? decla listaDeDeclaraciones? sentenciaCompuesta 
+definicionDeFuncion: especificadoresDeDeclaracionOP decla listaDeDeclaracionesOP sentenciaCompuesta 
+;
+
+listaDeDeclaracionesOP: /*vacio*/
+                        | listaDeDeclaraciones
+;
+
+especificadoresDeDeclaracionOP: /*vacio*/
+                                | especificadoresDeDeclaracion
+;
+
+sentencia: sentenciaCompuesta 
+         | sentenciaExpresion
+         | sentenciaSeleccion
+         | sentenciaIteracion
+         | sentenciaSalto
+;
+
+sentenciaCompuesta: listaDeDeclaraciones? listaSentencias?
+;
+
+listaDeDeclaraciones: declaracion
+                    | listaDeDeclaraciones declaracion
+;
+
+listaSentencias: sentencia
+               | listaSentencias sentencia
+;
+
+sentenciaExpresion: exp? ';'      
 ;
 
 sentencia: sentenciaCompuesta 
@@ -103,7 +159,7 @@ expOP: /* vacio */
 ;
 
 sentenciaSeleccion:     
-
+;
         
 %%
 
