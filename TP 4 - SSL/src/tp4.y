@@ -69,9 +69,41 @@ declaracionExterna: definicionDeFuncion
 definicionDeFuncion: especificadoresDeDeclaracion? decla listaDeDeclaraciones? sentenciaCompuesta 
 ;
 
-sentencia:
-
+sentencia: sentenciaCompuesta 
+         | sentenciaExpresion
+         | sentenciaSeleccion
+         | sentenciaIteracion
+         | sentenciaSalto
 ;
+
+sentenciaCompuesta: listaDeDeclaracionesOP listaSentenciasOP
+;
+
+listaDeDeclaracionesOP: /* vacio */
+                        | listaDeDeclaraciones
+;
+
+listaDeDeclaraciones: declaracion
+                    | listaDeDeclaraciones declaracion
+;
+
+listaSentenciasOP: /* vacio */
+                   | listaSentencias
+;
+
+listaSentencias: sentencia
+               | listaSentencias sentencia
+;
+
+sentenciaExpresion: expOP ';'      
+;
+
+expOP: /* vacio */
+       | exp
+;
+
+sentenciaSeleccion:     
+
         
 %%
 
