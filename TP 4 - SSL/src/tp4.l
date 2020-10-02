@@ -34,11 +34,19 @@ volatile|goto|extern|static|auto|register|sizeof {strcpy(yylval.cadena,yytext); 
 ";"     {return ';';}  //agregar algun simbolo si llegara a faltar
 ","     {return ',';}
 "&"     {return '&';}
+"|"     {return '|'}
 "!"     {return '!';}
 "%"     {return '%';}
 "/"     {return '/';}
 "<"     {return '<';}
 ">"     {return '>';}
+"?"     {return '?';}
+":"     {return ':';}
+"("     {return '(';} 
+")"     {return ')';} 
+"{"     {return '{';} 
+"}"     {return '}';} 
+
 "<="     {return 'MAYORIGUAL';}
 "=="     {return 'IGUALIGUAL';}
 "!="     {return 'DISTINTO';}
@@ -48,13 +56,7 @@ volatile|goto|extern|static|auto|register|sizeof {strcpy(yylval.cadena,yytext); 
 "->"     {return 'FLECHA';} 
 "||"     {return 'O';}
 "&&"     {return 'Y';}
-"?"     {return '?';}
-":"     {return ':';}
-"("     {return '(';} 
-")"     {return ')';} 
-"{"     {return '{';} 
-"}"     {return '}';} 
-
+"sizeof" {return 'sizeof';}
 
 
 \+\+|\*|\+|\&|\!|sizeof|\/|\%|\<|\<\=|\=\=|\!\=|\&\&|\|\||\?\:|\=|\+\=|\(|\)|\{|\}|\,|\;|\[|\] {return 'yytext';}

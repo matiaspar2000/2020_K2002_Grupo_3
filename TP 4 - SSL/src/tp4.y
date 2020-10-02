@@ -30,17 +30,20 @@ void yyerror (char const *s) {
 %token <caracter> CCARACTER
 %token <real> CONSTANTE_REAL
 %token <entero> ERROR 
-%token <cadena> MAYORIGUAL 
+%token <cadena> MAYORIGUAL
+%token <cadena> MENORIGUAL 
 %token <cadena> IGUALIGUAL
 %token <cadena> DISTINTO
 %token <cadena> INCREMENTO
 %token <cadena> DECREMENTO
 %token <cadena> FLECHA
-%token <cadena> O
-%token <cadena> Y
+%token <cadena> OR
+%token <cadena> AND
+%token <cadena> MASIGUAL
+%token <cadena> SIZEOF
 
-%type 
-
+%left '.' FLECHA '*' '%' '/' '+' '-'  '>' '<' MAYORIGUAL MENORIGUAL '&' '|' AND OR  IGUALIGUAL DISTINTO ',' 
+%right '(' ')''[' ']' '&' '!' '*' '?' ':' '='    SIZEOF MASIGUAL INCREMENTO DECREMENTO 
 
 %% /* reglas gramaticales y acciones */
 
@@ -57,7 +60,103 @@ line:   '\n'
 
 ;
 
-exp: 
+exp: expAsignacion
+;
+
+expAsignacion: expCondicional 
+               | expUnaria operadorAsignacion expAsignacion   
+;
+
+operadorAsignacion: '='
+                    |MASIGUAL
+;
+
+expCondicional:  expOLogico
+                | expOLogico '?' exp ':' expCondicional  
+
+;
+expORLogico: expANDLogico
+           | expORLogico OR expANDLogico 
+;
+
+expANDLogico: expORInclusivo
+             |expANDLogico AND expORInclusivo 
+;
+
+expORInclusivo: expANDLogico  
+                | expORInclusivo '|' expAND
+;
+
+expAND: expIgualdad
+        |expAND '&' expIgualdad
+;
+
+expIgualdad: expRelacional
+             | expIgualdad operadorIgualdad expRelacional
+;
+
+operadorIgualdad: IGUALIGUAL
+                 |DISTINTO
+;
+
+expRelacional: expRelacional operadorRelacional expAditiva
+;
+
+operadorRelacional: '<'
+                   |'>'
+                   |MAYORIGUAL
+                   |MENORIGUAL
+;
+
+expAditiva:  expMultiplicativa
+            | expAditiva operadorAditividad expMultiplicativa
+;
+
+operadorAditividad: '+'
+                   |'-'
+;
+
+expMultiplicativa: expUnaria 
+                  | expMultiplicativa operadorMultiplicativo expUnaria
+;
+
+expMultiplicativa: '/'
+                  |'%'
+                  |'*'
+;
+
+expUnaria: expSufijo 
+           | INCREMENTO expUnaria
+           | DECREMENTO expUnaria
+           | operadorUnario expUnaria
+           | SIZEOF  expUnaria
+           | SIZEOF '(' TIPO_DATO ')'
+;
+
+operadorUnario: '&'
+               |'*'
+               |'!'
+;
+
+expSufijo: expPrimaria
+          | expSufijo '[' exp ']' 
+          | expSufijo '(' listaArgumentos ')'
+          | expSufijo '.' IDENTIFICADOR
+          | expSufijo FLECHA IDENTIFICADOR
+          | expSufijo INCREMENTO
+          | expSufijo DECREMENTO
+;
+
+listaArgumentos: exp
+                |listaArgumentos ',' exp
+;
+
+exprecionPrimaria: IDENTIFICADOR
+                  |CONSTANTE_REAL
+                  |STRING
+                  |NUM
+                  |'(' exp ')'
+                  |ERROR
 
 ;
 
