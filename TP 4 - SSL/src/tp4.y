@@ -210,28 +210,7 @@ sentencia: sentenciaCompuesta
          | sentenciaSalto
 ;
 
-sentenciaCompuesta: listaDeDeclaraciones? listaSentencias?
-;
-
-listaDeDeclaraciones: declaracion
-                    | listaDeDeclaraciones declaracion
-;
-
-listaSentencias: sentencia
-               | listaSentencias sentencia
-;
-
-sentenciaExpresion: exp? ';'      
-;
-
-sentencia: sentenciaCompuesta 
-         | sentenciaExpresion
-         | sentenciaSeleccion
-         | sentenciaIteracion
-         | sentenciaSalto
-;
-
-sentenciaCompuesta: listaDeDeclaracionesOP listaSentenciasOP
+sentenciaCompuesta: '{' listaDeDeclaracionesOP listaSentenciasOP '}'
 ;
 
 listaDeDeclaracionesOP: /* vacio */
@@ -257,7 +236,26 @@ expOP: /* vacio */
        | exp
 ;
 
-sentenciaSeleccion:     
+sentenciaSeleccion: PALABRA_RESERVADA '(' exp ')' sentencia                                     //if
+                  | PALABRA_RESERVADA '(' exp ')' sentencia PALABRA_RESERVADA sentencia         //if else
+                  | PALABRA_RESERVADA '(' entero ')' sentencia                                  //switch
+;
+
+sentenciaIteracion: PALABRA_RESERVADA '(' exp ')' sentencia                                     //while
+                  | PALABRA_RESERVADA sentencia PALABRA_RESERVADA '(' exp ')'                   //do while
+                  | PALABRA_RESERVADA '(' expOP ';' expOP ';' expOP ')' sentencia               //for
+;
+
+sentenciaSalto: PALABRA_RESERVADA ';'                   //continue
+              | PALABRA_RESERVADA ';'                   //break
+              | PALABRA_RESERVADA expOP ';'             //return
+              | PALABRA_RESERVADA IDENTIFICADOR ';'     //goto
+
+/*La sentencia continue solo debe aparecer dentro del cuerpo de un ciclo. La sentencia
+break solo debe aparecer dentro de un switch o en el cuerpo de un ciclo. La
+sentencia return con una expresión no puede aparecer en una función void.
+*/
+
 ;
         
 %%
