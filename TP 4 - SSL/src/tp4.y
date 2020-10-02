@@ -63,12 +63,11 @@ input:  /* vacio */
 ;
 
 line:   '\n'
-        | exp '\n'    {/*cami*/}
-        | declaracion '\n' {/*mati puyol*/}
-        | definicionExterna '\n' {/*partarrié*/}
-        | sentencia '\n' {/*martín*/}
+        | exp '\n'    
+        | declaracion '\n' 
+        | definicionDeFuncion '\n' 
+        | sentencia '\n' 
         | error '\n'
-
 ;
 
 exp: expAsignacion
@@ -131,7 +130,7 @@ expMultiplicativa: expUnaria
                   | expMultiplicativa operadorMultiplicativo expUnaria
 ;
 
-expMultiplicativa: '/'
+operadorMultiplicativo: '/'
                   |'%'
                   |'*'
 ;
@@ -162,13 +161,12 @@ listaArgumentos: exp
                 |listaArgumentos ',' exp
 ;
 
-exprecionPrimaria: IDENTIFICADOR
+expresionPrimaria: IDENTIFICADOR
                   |CONSTANTE_REAL
                   |STRING
                   |NUM
                   |'(' exp ')'
                   |ERROR
-
 ;
 
 declaracion: TIPO_DATO IDENTIFICADOR parametros
@@ -194,24 +192,7 @@ cuerpo:  ';'
          | ERROR  
 ;
 
-definicionExternas:  '\n'
-                      | unidadDeTraduccion
-; 
-unidadDeTraduccion: declaracionExterna 
-                    |unidadDeTraduccion declaracionExterna
-;               
-declaracionExterna: definicionDeFuncion 
-                   | declaracion
-;
-definicionDeFuncion: especificadoresDeDeclaracionOP decla listaDeDeclaracionesOP sentenciaCompuesta 
-;
-
-listaDeDeclaracionesOP: /*vacio*/
-                        | listaDeDeclaraciones
-;
-
-especificadoresDeDeclaracionOP: /*vacio*/
-                                | especificadoresDeDeclaracion
+definicionDeFuncion:   TIPODATO IDENTIFICADOR parametros cuerpo                                                                        
 ;
 
 sentencia: sentenciaCompuesta 
