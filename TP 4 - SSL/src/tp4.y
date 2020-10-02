@@ -41,6 +41,17 @@ void yyerror (char const *s) {
 %token <cadena> AND
 %token <cadena> MASIGUAL
 %token <cadena> SIZEOF
+%token <cadena> IF
+%token <cadena> ELSE
+%token <cadena> SWITCH
+%token <cadena> WHILE
+%token <cadena> DO
+%token <cadena> CONTINUE
+%token <cadena> BREAK
+%token <cadena> RETURN
+%token <cadena> GOTO
+
+
 
 %left '.' FLECHA '*' '%' '/' '+' '-'  '>' '<' MAYORIGUAL MENORIGUAL '&' '|' AND OR  IGUALIGUAL DISTINTO ',' 
 %right '(' ')''[' ']' '&' '!' '*' '?' ':' '='    SIZEOF MASIGUAL INCREMENTO DECREMENTO 
@@ -236,20 +247,20 @@ expOP: /* vacio */
        | exp
 ;
 
-sentenciaSeleccion: PALABRA_RESERVADA '(' exp ')' sentencia                                     //if
-                  | PALABRA_RESERVADA '(' exp ')' sentencia PALABRA_RESERVADA sentencia         //if else
-                  | PALABRA_RESERVADA '(' entero ')' sentencia                                  //switch
+sentenciaSeleccion: IF '(' exp ')' sentencia                                    
+                  | IF '(' exp ')' sentencia ELSE sentencia         
+                  | SWITCH '(' entero ')' sentencia                                  
 ;
 
-sentenciaIteracion: PALABRA_RESERVADA '(' exp ')' sentencia                                     //while
-                  | PALABRA_RESERVADA sentencia PALABRA_RESERVADA '(' exp ')'                   //do while
-                  | PALABRA_RESERVADA '(' expOP ';' expOP ';' expOP ')' sentencia               //for
+sentenciaIteracion: WHILE '(' exp ')' sentencia                                  
+                  | DO sentencia WHILE '(' exp ')'                   
+                  | FOR '(' expOP ';' expOP ';' expOP ')' sentencia               
 ;
 
-sentenciaSalto: PALABRA_RESERVADA ';'                   //continue
-              | PALABRA_RESERVADA ';'                   //break
-              | PALABRA_RESERVADA expOP ';'             //return
-              | PALABRA_RESERVADA IDENTIFICADOR ';'     //goto
+sentenciaSalto: CONTINUE ';'                   
+              | BREAK ';'                   
+              | RETURN expOP ';'             
+              | GOTO IDENTIFICADOR ';'     
 
 /*La sentencia continue solo debe aparecer dentro del cuerpo de un ciclo. La sentencia
 break solo debe aparecer dentro de un switch o en el cuerpo de un ciclo. La
