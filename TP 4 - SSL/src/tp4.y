@@ -180,19 +180,21 @@ listaDeParametros:   parametro
                     | listaDeParametros ',' parametro
 ;
 
-parametro:     TIPO_DATO
-               | TIPO_DATO IDENTIFICADOR
-               | ERROR IDENTIFICADOR     
-               | TIPODATO ERROR 
+parametro:     TIPO_DATO     {printf("Se encontró un parámetro de tipo %s \n", $1); }
+               | TIPO_DATO IDENTIFICADOR  {printf("Se encontró un parámetro de tipo %s de nombre %s \n", $<cadena>1, $<cadena>2); }
+               | ERROR IDENTIFICADOR  {printf("error al declarar el tipo de dato del parámetro"); }   
+               | TIPODATO ERROR {printf("error al definir el identificador del parámetro"); }
 ;
 
-cuerpo:  ';'                          
-         | sentenciaCompuesta                 
-         | '{' ERROR '}'                
-         | ERROR  
+cuerpo:  ';'    {}                       
+         | sentenciaCompuesta    { printf("función definida correctamente");}             
+         | '{' ERROR '}' { printf("error al definir la función");}               
+         | ERROR  { printf("error al definir la función");}
 ;
 
-definicionDeFuncion:   TIPODATO IDENTIFICADOR parametros cuerpo                                                                        
+definicionDeFuncion:   TIPODATO IDENTIFICADOR parametros cuerpo     {printf("Se declaró correctamente la funcion %s \n", $<cadena>2;}    
+                        | error IDENTIFICADOR parametros cuerpo     {printf("Error al definir el tipo de dato de la funcion\n");}
+                        | TIPODATO error parametros cuerpo          {printf("Error al definir el identificador de la funcion\n");}                                                         
 ;
 
 sentencia: sentenciaCompuesta 
