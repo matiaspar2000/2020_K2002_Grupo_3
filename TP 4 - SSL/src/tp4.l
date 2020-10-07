@@ -1,7 +1,11 @@
 %{
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
+#include <math.h>
+#define YYDEBUG1
 
+extern FILE* yyin;
 %}
 
 DIGITO_DECIMAL [0-9]

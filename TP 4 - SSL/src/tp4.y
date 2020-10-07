@@ -1,16 +1,19 @@
+
 %{
 #include <stdio.h>
-#include <ctype.h>
+#include <stdlib.h>
 #include <string.h>
+#include <math.h>
+#define YYDEBUG1
+  
+extern int lineno;
+extern FILE* yyin; 
 
-int yylex();
-int yywrap(){
-	return(1);
-}
-
-void yyerror (char const *s) {
-   fprintf (stderr, "%s\n", s);
-}
+void yyerror(char const *s);                                                  
+    int yylex();  
+    int yywrap(){
+        return(1);
+    }    
 
 %}
 
@@ -187,14 +190,14 @@ parametro:     TIPO_DATO     {printf("Se encontró un parámetro de tipo %s \n",
 ;
 
 cuerpo:  ';'    {}                       
-         | sentenciaCompuesta    { printf("función definida correctamente");}             
-         | '{' ERROR '}' { printf("error al definir la función");}               
-         | ERROR  { printf("error al definir la función");}
+         | sentenciaCompuesta    {printf("función definida correctamente");}             
+         | '{' ERROR '}' {yyerror; printf("error al definir la función");}               
+         | ERROR  {yyerror; printf("error al definir la función");}
 ;
 
 definicionDeFuncion:   TIPODATO IDENTIFICADOR parametros cuerpo     {printf("Se declaró correctamente la funcion %s \n", $<cadena>2;}    
-                        | error IDENTIFICADOR parametros cuerpo     {printf("Error al definir el tipo de dato de la funcion\n");}
-                        | TIPODATO error parametros cuerpo          {printf("Error al definir el identificador de la funcion\n");}                                                         
+                        | error IDENTIFICADOR parametros cuerpo     {yyerror; printf("Error al definir el tipo de dato de la funcion\n");}
+                        | TIPODATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion\n");}                                                         
 ;
 
 sentencia: sentenciaCompuesta 
@@ -253,11 +256,22 @@ sentencia return con una expresión no puede aparecer en una función void.
 ;
         
 %%
-
-int main ()
+%%
+void yyerror (char const *s)
 {
-#ifdef BISON_DEBUG
-        yydebug = 1;
-#endif
-        yyparse ();
+  fprintf(stderr, "Error Sintactico en la linea %d = %s \n", lineno,s);
+  exit(1);
+}
+
+int main (int argc, char *argv[])
+{
+    int flag;
+ 
+    yyin=fopen("archivoFuente.c","r");
+ 
+    flag=yyparse();
+ 
+    fclose(yyin);
+   
+    return flag;
 }
