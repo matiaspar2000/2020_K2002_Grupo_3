@@ -5,15 +5,19 @@
 #include <string.h>
 #include <math.h>
 #define YYDEBUG1
-  
-extern int lineno;
-extern FILE* yyin; 
 
-void yyerror(char const *s);                                                  
-    int yylex();  
-    int yywrap(){
-        return(1);
-    }    
+int flag_error=0;
+extern int lineno;
+extern FILE* yyin;
+
+int yylex();
+int yywrap(){
+	return(1);
+}
+
+void yyerror (char const *s) {
+   fprintf (stderr, "%s\n", s);
+}  
 
 %}
 
@@ -32,7 +36,6 @@ void yyerror(char const *s);
 %token <cadena> STRING 
 %token <caracter> CCARACTER
 %token <real> CONSTANTE_REAL
-%token <entero> ERROR 
 %token <cadena> MAYORIGUAL
 %token <cadena> MENORIGUAL 
 %token <cadena> IGUALIGUAL
@@ -53,6 +56,7 @@ void yyerror(char const *s);
 %token <cadena> BREAK
 %token <cadena> RETURN
 %token <cadena> GOTO
+%token <entero> error 
 
 
 
@@ -73,7 +77,7 @@ line:   '\n'
         | error '\n'
 ;
 
-exp: expAsignacion
+exp: expAsignacion      //printf de cada expresion
 ;
 
 expAsignacion: expCondicional 
@@ -169,10 +173,10 @@ expresionPrimaria: IDENTIFICADOR
                   |STRING
                   |NUM
                   |'(' exp ')'
-                  |ERROR
+                  |error  {printf("Error el declarar una expresion\n"); flag_error=1;};} 
 ;
 
-declaracion: TIPO_DATO IDENTIFICADOR parametros
+declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");} 
 ;
 
 parametros: '(' listaDeParametros ')'
@@ -183,24 +187,24 @@ listaDeParametros:   parametro
                     | listaDeParametros ',' parametro
 ;
 
-parametro:     TIPO_DATO     {printf("Se encontró un parámetro de tipo %s \n", $1); }
-               | TIPO_DATO IDENTIFICADOR  {printf("Se encontró un parámetro de tipo %s de nombre %s \n", $<cadena>1, $<cadena>2); }
-               | ERROR IDENTIFICADOR  {printf("error al declarar el tipo de dato del parámetro"); }   
-               | TIPODATO ERROR {printf("error al definir el identificador del parámetro"); }
+parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s \n", $<cadena>1); }
+               | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s de nombre %s \n", $<cadena>1, $<cadena>2); }
+               | error IDENTIFICADOR            {printf("error al declarar el tipo de dato del parámetro"); flag_error=1;};}  
+               | TIPODATO error                 {printf("error al definir el identificador del parámetro"); flag_error=1;};}
 ;
 
-cuerpo:  ';'    {}                       
-         | sentenciaCompuesta    {printf("función definida correctamente");}             
-         | '{' ERROR '}' {yyerror; printf("error al definir la función");}               
-         | ERROR  {yyerror; printf("error al definir la función");}
+cuerpo:  ';'                    {if(flag_error==0) printf("función definida correctamente");}                       
+         | sentenciaCompuesta   {if(flag_error==0) (printf("función definida correctamente");}             
+         | '{' error '}'        {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};}              
+         | error                {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};} 
 ;
 
-definicionDeFuncion:   TIPODATO IDENTIFICADOR parametros cuerpo     {printf("Se declaró correctamente la funcion %s \n", $<cadena>2;}    
-                        | error IDENTIFICADOR parametros cuerpo     {yyerror; printf("Error al definir el tipo de dato de la funcion\n");}
-                        | TIPODATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion\n");}                                                         
+definicionDeFuncion:   TIPODATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", $<cadena>2;}    
+                        | error IDENTIFICADOR parametros cuerpo     {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;};} 
+                        | TIPODATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;};}                                                        
 ;
 
-sentencia: sentenciaCompuesta 
+sentencia: sentenciaCompuesta                       //printf de cada tipo de sentencia
          | sentenciaExpresion
          | sentenciaSeleccion
          | sentenciaIteracion
@@ -247,16 +251,10 @@ sentenciaSalto: CONTINUE ';'
               | BREAK ';'                   
               | RETURN expOP ';'             
               | GOTO IDENTIFICADOR ';'     
-
-/*La sentencia continue solo debe aparecer dentro del cuerpo de un ciclo. La sentencia
-break solo debe aparecer dentro de un switch o en el cuerpo de un ciclo. La
-sentencia return con una expresión no puede aparecer en una función void.
-*/
-
 ;
         
 %%
-%%
+
 void yyerror (char const *s)
 {
   fprintf(stderr, "Error Sintactico en la linea %d = %s \n", lineno,s);
