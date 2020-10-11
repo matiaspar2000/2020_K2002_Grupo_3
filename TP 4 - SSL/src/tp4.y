@@ -73,8 +73,8 @@ line:   '\n'
         | error '\n'
 ;
 
-exp: expGeneral      {if(flag_error==0) printf("Expresion definida correctamente");}  //printf de cada expresion
-    | error                              {printf("Error al declarar una expresion\n"); flag_error=1;};} 
+exp: expGeneral                {if(flag_error==0) printf("Expresion definida correctamente");}  //printf de cada expresion
+    | error                    {printf("Error al declarar una expresion\n"); flag_error=1;};} 
 ;
 
 expGeneral: expUnaria        
@@ -83,11 +83,11 @@ expGeneral: expUnaria
 ;
 
 
-operador :    '=' | MASIGUAL                                      {printf("Se encontro una exprecion de asignacion \n");}// operadores asignacion
-            | OR | AND | IGUALIGUAL | DISTINTO                   {printf("Se encontro una exprecion logica \n");}// operadores logicos
-            | '<' | '>' | MASIGUAL | MENORIGUAL                 {printf("Se encontro una exprecion relacional \n");}// operadores relacionales
-            | '+' | '-'                                        {printf("Se encontro una exprecion aditiva \n");}// operadores aditivos
-            | '*' | '/' | '%'                                 {printf("Se encontro una exprecion multiplicativa \n");}// operadores multiplicativos
+operador :    '=' | MASIGUAL                                  {if(flag_error==0) printf("Se encontro una exprecion de asignacion \n");}// operadores asignacion
+            | OR | AND | IGUALIGUAL | DISTINTO                {if(flag_error==0) printf("Se encontro una exprecion logica \n");}// operadores logicos
+            | '<' | '>' | MASIGUAL | MENORIGUAL               {if(flag_error==0) printf("Se encontro una exprecion relacional \n");}// operadores relacionales
+            | '+' | '-'                                       {if(flag_error==0) printf("Se encontro una exprecion aditiva \n");}// operadores aditivos
+            | '*' | '/' | '%'                                 {if(flag_error==0) printf("Se encontro una exprecion multiplicativa \n");}// operadores multiplicativos
  ;            
 
 expUnaria: expSufijo 
@@ -98,7 +98,7 @@ expUnaria: expSufijo
            | SIZEOF '(' TIPO_DATO ')'
 ;
 
-operadorUnario: '&' |'*' |'!'                                   {printf("Se encontro una exprecion unaria \n");}
+operadorUnario: '&' |'*' |'!'                                   {if(flag_error==0) printf("Se encontro una exprecion unaria \n");}
                
                
 ;
@@ -122,7 +122,7 @@ expresionPrimaria: IDENTIFICADOR          {printf("Se encontro el identificador 
                   |STRING                 {printf ( "Se encontro la palabra %s \n " , $<cadena>1);}
                   |NUM                    {printf("Se encontro un numero %d \n", $<entero>1);}
                   |'(' exp ')'
-                  |error                  {printf("Error al declarar una expresion \n"); flag_error=1;};} 
+                  |error                  {yyerror; if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;};} 
 ;
 
 declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");} 
