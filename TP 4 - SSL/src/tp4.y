@@ -87,11 +87,11 @@ expGeneral: expUnaria
 ;
 
 
-operador :    '=' | MASIGUAL                                      {printf("Se encontro una exprecion de asignacion \n";);}// operadores asignacion
-            | OR | AND | IGUALIGUAL | DISTINTO                   {printf("Se encontro una exprecion logica \n";);}// operadores logicos
-            | '<' | '>' | MASIGUAL | MENORIGUAL                 {printf("Se encontro una exprecion relacional \n";);}// operadores relacionales
-            | '+' | '-'                                        {printf("Se encontro una exprecion aditiva \n";);}// operadores aditivos
-            | '*' | '/' | '%'                                 {printf("Se encontro una exprecion multiplicativa \n";);}// operadores multiplicativos
+operador :    '=' | MASIGUAL                                      {printf("Se encontro una exprecion de asignacion \n");}// operadores asignacion
+            | OR | AND | IGUALIGUAL | DISTINTO                   {printf("Se encontro una exprecion logica \n");}// operadores logicos
+            | '<' | '>' | MASIGUAL | MENORIGUAL                 {printf("Se encontro una exprecion relacional \n");}// operadores relacionales
+            | '+' | '-'                                        {printf("Se encontro una exprecion aditiva \n");}// operadores aditivos
+            | '*' | '/' | '%'                                 {printf("Se encontro una exprecion multiplicativa \n");}// operadores multiplicativos
  ;            
 
 expUnaria: expSufijo 
@@ -102,7 +102,7 @@ expUnaria: expSufijo
            | SIZEOF '(' TIPO_DATO ')'
 ;
 
-operadorUnario: '&' |'*' |'!'                                   {printf("Se encontro una exprecion unaria \n";);}
+operadorUnario: '&' |'*' |'!'                                   {printf("Se encontro una exprecion unaria \n");}
                
                
 ;
@@ -122,7 +122,7 @@ listaArgumentos: exp
 ;
 
 expresionPrimaria: IDENTIFICADOR          {printf("Se encontro el identificador %s \n" , $<cadena>1);}
-                  |CCARACTER              {printf(" Se encontro el caracter %c \n" , $<caracter>1)}
+                  |CCARACTER              {printf(" Se encontro el caracter %c \n" , $<caracter>1);}
                   |STRING                 {printf ( "Se encontro la palabra %s \n " , $<cadena>1);}
                   |NUM                    {printf("Se encontro un numero %d \n", $<entero>1);}
                   |'(' exp ')'
