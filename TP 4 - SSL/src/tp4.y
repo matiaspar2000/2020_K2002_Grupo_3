@@ -15,10 +15,6 @@ int yywrap(){
 	return(1);
 }
 
-void yyerror (char const *s) {
-   fprintf (stderr, "%s\n", s);
-}  
-
 %}
 
 %union {
