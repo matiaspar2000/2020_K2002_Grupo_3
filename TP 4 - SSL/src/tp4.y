@@ -153,11 +153,11 @@ definicionDeFuncion:   TIPODATO IDENTIFICADOR parametros cuerpo     {if(flag_err
                         | TIPODATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;};}                                                        
 ;
 
-sentencia: sentenciaCompuesta                       //printf de cada tipo de sentencia
-         | sentenciaExpresion
-         | sentenciaSeleccion
-         | sentenciaIteracion
-         | sentenciaSalto
+sentencia: sentenciaCompuesta                       {printf("Se encontró una sentencia compuesta.\n");}
+         | sentenciaExpresion                       {printf("Se encontró una sentencia expresión.\n");}
+         | sentenciaSeleccion                       {printf("Se encontró una sentencia selección.\n");}
+         | sentenciaIteracion                       {printf("Se encontró una sentencia iteración.\n");}
+         | sentenciaSalto                           {printf("Se encontró una sentencia salto.\n");}
 ;
 
 sentenciaCompuesta: '{' listaDeDeclaracionesOP listaSentenciasOP '}'
@@ -168,7 +168,7 @@ listaDeDeclaracionesOP: /* vacio */
 ;
 
 listaDeDeclaraciones: declaracion
-                    | listaDeDeclaraciones declaracion
+                    | listaDeDeclaraciones declaracion     {printf("Se encontró una lista de declaraciones.\n");}
 ;
 
 listaSentenciasOP: /* vacio */
@@ -176,7 +176,7 @@ listaSentenciasOP: /* vacio */
 ;
 
 listaSentencias: sentencia
-               | listaSentencias sentencia
+               | listaSentencias sentencia                 {printf("Se encontró una lista de sentencias.\n");}
 ;
 
 sentenciaExpresion: expOP ';'      
@@ -186,20 +186,20 @@ expOP: /* vacio */
        | exp
 ;
 
-sentenciaSeleccion: IF '(' exp ')' sentencia                                    
-                  | IF '(' exp ')' sentencia ELSE sentencia         
-                  | SWITCH '(' entero ')' sentencia                                  
+sentenciaSeleccion: IF '(' exp ')' sentencia                    {printf("Se encontró una sentencia if.\n");}
+                  | IF '(' exp ')' sentencia ELSE sentencia     {printf("Se encontró una sentencia if-else.\n");}
+                  | SWITCH '(' entero ')' sentencia             {printf("Se encontró una sentencia switch.\n");}
 ;
 
-sentenciaIteracion: WHILE '(' exp ')' sentencia                                  
-                  | DO sentencia WHILE '(' exp ')'                   
-                  | FOR '(' expOP ';' expOP ';' expOP ')' sentencia               
+sentenciaIteracion: WHILE '(' exp ')' sentencia                           {printf("Se encontró una sentencia while.\n");}                    
+                  | DO sentencia WHILE '(' exp ')'                        {printf("Se encontró una sentencia do-while.\n");}     
+                  | FOR '(' expOP ';' expOP ';' expOP ')' sentencia       {printf("Se encontró una sentencia for.\n");}     
 ;
 
-sentenciaSalto: CONTINUE ';'                   
-              | BREAK ';'                   
-              | RETURN expOP ';'             
-              | GOTO IDENTIFICADOR ';'     
+sentenciaSalto: CONTINUE ';'                    {printf("Se encontró una sentencia continue.\n");}       
+              | BREAK ';'                       {printf("Se encontró una sentencia break.\n");}
+              | RETURN expOP ';'                {printf("Se encontró una sentencia return.\n");}
+              | GOTO IDENTIFICADOR ';'          {printf("Se encontró una sentencia goto.\n");}
 ;
         
 %%
