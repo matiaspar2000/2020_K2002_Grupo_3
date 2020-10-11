@@ -61,7 +61,7 @@ void yyerror (char const *s) {
 
 
 %left '.' FLECHA '*' '%' '/' '+' '-'  '>' '<' MAYORIGUAL MENORIGUAL '&' '|' AND OR  IGUALIGUAL DISTINTO ',' 
-%right '(' ')''[' ']' '&' '!' '*' '?' ':' '='    SIZEOF MASIGUAL INCREMENTO DECREMENTO 
+%right '(' ')''[' ']' '&' '!' '*' '='    SIZEOF MASIGUAL INCREMENTO DECREMENTO 
 
 %% /* reglas gramaticales y acciones */
 
@@ -77,70 +77,22 @@ line:   '\n'
         | error '\n'
 ;
 
-exp: expAsignacion      //printf de cada expresion
+exp: expGeneral      {if(flag_error==0) printf("Expresion definida correctamente");}  //printf de cada expresion
+    | error                              {printf("Error al declarar una expresion\n"); flag_error=1;};} 
 ;
 
-expAsignacion: expCondicional 
-               | expUnaria operadorAsignacion expAsignacion   
+expGeneral: expUnaria        
+               | expUnaria operador expGeneral 
+             
 ;
 
-operadorAsignacion: '='
-                    |MASIGUAL
-;
 
-expCondicional:  expOLogico
-                | expOLogico '?' exp ':' expCondicional  
-
-;
-expORLogico: expANDLogico
-           | expORLogico OR expANDLogico 
-;
-
-expANDLogico: expORInclusivo
-             |expANDLogico AND expORInclusivo 
-;
-
-expORInclusivo: expANDLogico  
-                | expORInclusivo '|' expAND
-;
-
-expAND: expIgualdad
-        |expAND '&' expIgualdad
-;
-
-expIgualdad: expRelacional
-             | expIgualdad operadorIgualdad expRelacional
-;
-
-operadorIgualdad: IGUALIGUAL
-                 |DISTINTO
-;
-
-expRelacional: expRelacional operadorRelacional expAditiva
-;
-
-operadorRelacional: '<'
-                   |'>'
-                   |MAYORIGUAL
-                   |MENORIGUAL
-;
-
-expAditiva:  expMultiplicativa
-            | expAditiva operadorAditividad expMultiplicativa
-;
-
-operadorAditividad: '+'
-                   |'-'
-;
-
-expMultiplicativa: expUnaria 
-                  | expMultiplicativa operadorMultiplicativo expUnaria
-;
-
-operadorMultiplicativo: '/'
-                  |'%'
-                  |'*'
-;
+operador :    '=' | MASIGUAL                                      {printf("Se encontro una exprecion de asignacion \n";);}// operadores asignacion
+            | OR | AND | IGUALIGUAL | DISTINTO                   {printf("Se encontro una exprecion logica \n";);}// operadores logicos
+            | '<' | '>' | MASIGUAL | MENORIGUAL                 {printf("Se encontro una exprecion relacional \n";);}// operadores relacionales
+            | '+' | '-'                                        {printf("Se encontro una exprecion aditiva \n";);}// operadores aditivos
+            | '*' | '/' | '%'                                 {printf("Se encontro una exprecion multiplicativa \n";);}// operadores multiplicativos
+ ;            
 
 expUnaria: expSufijo 
            | INCREMENTO expUnaria
@@ -150,9 +102,9 @@ expUnaria: expSufijo
            | SIZEOF '(' TIPO_DATO ')'
 ;
 
-operadorUnario: '&'
-               |'*'
-               |'!'
+operadorUnario: '&' |'*' |'!'                                   {printf("Se encontro una exprecion unaria \n";);}
+               
+               
 ;
 
 expSufijo: expPrimaria
@@ -166,14 +118,15 @@ expSufijo: expPrimaria
 
 listaArgumentos: exp
                 |listaArgumentos ',' exp
+                |/*vacio*/
 ;
 
-expresionPrimaria: IDENTIFICADOR
-                  |CONSTANTE_REAL
-                  |STRING
-                  |NUM
+expresionPrimaria: IDENTIFICADOR          {printf("Se encontro el identificador %s \n" , $<cadena>1);}
+                  |CCARACTER              {printf(" Se encontro el caracter %c \n" , $<caracter>1)}
+                  |STRING                 {printf ( "Se encontro la palabra %s \n " , $<cadena>1);}
+                  |NUM                    {printf("Se encontro un numero %d \n", $<entero>1);}
                   |'(' exp ')'
-                  |error  {printf("Error el declarar una expresion\n"); flag_error=1;};} 
+                  |error                  {printf("Error al declarar una expresion \n"); flag_error=1;};} 
 ;
 
 declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");} 
