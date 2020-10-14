@@ -51,13 +51,13 @@ int yywrap(){
 %token <cadena> CONTINUE
 %token <cadena> BREAK
 %token <cadena> RETURN
+%token <cadena> FOR
 %token <cadena> GOTO
 %token <entero> error 
 
 
-
-%left '.' FLECHA '*' '%' '/' '+' '-'  '>' '<' MAYORIGUAL MENORIGUAL '&' '|' AND OR  IGUALIGUAL DISTINTO ',' 
-%right '(' ')''[' ']' '&' '!' '*' '='    SIZEOF MASIGUAL INCREMENTO DECREMENTO 
+//%left '.' FLECHA '*' '%' '/' '+' '-'  '>' '<' MAYORIGUAL MENORIGUAL '&' '|' AND OR  IGUALIGUAL DISTINTO ',' 
+//%right '(' ')' '[' ']' '&' '!' '*' '='    SIZEOF MASIGUAL INCREMENTO DECREMENTO 
 
 %% /* reglas gramaticales y acciones */
 
@@ -74,7 +74,7 @@ line:   '\n'
 ;
 
 exp: expGeneral                {if(flag_error==0) printf("Expresion definida correctamente");}  //printf de cada expresion
-    | error                    {printf("Error al declarar una expresion\n"); flag_error=1;};} 
+    | error                    {printf("Error al declarar una expresion\n"); flag_error=1;} 
 ;
 
 expGeneral: expUnaria        
@@ -83,11 +83,11 @@ expGeneral: expUnaria
 ;
 
 
-operador :    '=' | MASIGUAL                                  {if(flag_error==0) printf("Se encontro una exprecion de asignacion \n");}// operadores asignacion
-            | OR | AND | IGUALIGUAL | DISTINTO                {if(flag_error==0) printf("Se encontro una exprecion logica \n");}// operadores logicos
-            | '<' | '>' | MASIGUAL | MENORIGUAL               {if(flag_error==0) printf("Se encontro una exprecion relacional \n");}// operadores relacionales
-            | '+' | '-'                                       {if(flag_error==0) printf("Se encontro una exprecion aditiva \n");}// operadores aditivos
-            | '*' | '/' | '%'                                 {if(flag_error==0) printf("Se encontro una exprecion multiplicativa \n");}// operadores multiplicativos
+operador :    '=' | MASIGUAL                                  {if(flag_error==0) printf("Se encontro una expresion de asignacion \n");}// operadores asignacion
+            | OR | AND | IGUALIGUAL | DISTINTO                {if(flag_error==0) printf("Se encontro una expresion logica \n");}// operadores logicos
+            | '<' | '>' | MASIGUAL | MENORIGUAL               {if(flag_error==0) printf("Se encontro una expresion relacional \n");}// operadores relacionales
+            | '+' | '-'                                       {if(flag_error==0) printf("Se encontro una expresion aditiva \n");}// operadores aditivos
+            | '*' | '/' | '%'                                 {if(flag_error==0) printf("Se encontro una expresion multiplicativa \n");}// operadores multiplicativos
  ;            
 
 expUnaria: expSufijo 
@@ -98,7 +98,7 @@ expUnaria: expSufijo
            | SIZEOF '(' TIPO_DATO ')'
 ;
 
-operadorUnario: '&' |'*' |'!'                                   {if(flag_error==0) printf("Se encontro una exprecion unaria \n");}
+operadorUnario: '&' |'*' |'!'                                   {if(flag_error==0) printf("Se encontro una expresion unaria \n");}
                
                
 ;
@@ -117,12 +117,12 @@ listaArgumentos: exp
                 |/*vacio*/
 ;
 
-expresionPrimaria: IDENTIFICADOR          {printf("Se encontro el identificador %s \n" , $<cadena>1);}
+expPrimaria: IDENTIFICADOR          {printf("Se encontro el identificador %s \n" , $<cadena>1);}
                   |CCARACTER              {printf(" Se encontro el caracter %c \n" , $<caracter>1);}
                   |STRING                 {printf ( "Se encontro la palabra %s \n " , $<cadena>1);}
                   |NUM                    {printf("Se encontro un numero %d \n", $<entero>1);}
                   |'(' exp ')'
-                  |error                  {yyerror; if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;};} 
+                  |error                  {yyerror; if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;} 
 ;
 
 declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");} 
@@ -138,8 +138,8 @@ listaDeParametros:   parametro
 
 parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s \n", $<cadena>1); }
                | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s de nombre %s \n", $<cadena>1, $<cadena>2); }
-               | error IDENTIFICADOR            {printf("error al declarar el tipo de dato del parámetro"); flag_error=1;};}  
-               | TIPODATO error                 {printf("error al definir el identificador del parámetro"); flag_error=1;};}
+               | error IDENTIFICADOR            {printf("error al declarar el tipo de dato del parámetro"); flag_error=1;}  
+               | TIPO_DATO error                 {printf("error al definir el identificador del parámetro"); flag_error=1;}
 ;
 
 cuerpo:  ';'                    {if(flag_error==0) printf("función definida correctamente");}                       
@@ -148,9 +148,9 @@ cuerpo:  ';'                    {if(flag_error==0) printf("función definida cor
          | error                {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};} 
 ;
 
-definicionDeFuncion:   TIPODATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", $<cadena>2;}    
-                        | error IDENTIFICADOR parametros cuerpo     {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;};} 
-                        | TIPODATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;};}                                                        
+definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", $<cadena>2;}    
+                        | error IDENTIFICADOR parametros cuerpo     {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;} 
+                        | TIPO_DATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;}                                                        
 ;
 
 sentencia: sentenciaCompuesta                       {printf("Se encontró una sentencia compuesta.\n");}
@@ -188,7 +188,7 @@ expOP: /* vacio */
 
 sentenciaSeleccion: IF '(' exp ')' sentencia                    {printf("Se encontró una sentencia if.\n");}
                   | IF '(' exp ')' sentencia ELSE sentencia     {printf("Se encontró una sentencia if-else.\n");}
-                  | SWITCH '(' entero ')' sentencia             {printf("Se encontró una sentencia switch.\n");}
+                  | SWITCH '(' IDENTIFICADOR ')' sentencia             {printf("Se encontró una sentencia switch.\n");}
 ;
 
 sentenciaIteracion: WHILE '(' exp ')' sentencia                           {printf("Se encontró una sentencia while.\n");}                    

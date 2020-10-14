@@ -25,6 +25,7 @@ if {strcpy(yylval.cadena,yytext); return IF;}
 else {strcpy(yylval.cadena,yytext); return ELSE;}
 switch {strcpy(yylval.cadena,yytext); return SWITCH;}
 while {strcpy(yylval.cadena,yytext); return WHILE;}
+for {strcpy(yylval.cadena,yytext); return FOR;}
 do {strcpy(yylval.cadena,yytext); return DO;}
 continue {strcpy(yylval.cadena,yytext); return CONTINUE;}
 break {strcpy(yylval.cadena,yytext); return BREAK;}
