@@ -1666,7 +1666,7 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 129 "../src/tp4.y"
-    {yyerror(); if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;;}
+    {yyerror; if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;;}
     break;
 
   case 53:

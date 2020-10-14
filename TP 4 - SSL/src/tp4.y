@@ -77,13 +77,12 @@ line:   '\n'
         | error '\n'
 ;
 
-exp: expGeneral                {if(flag_error==0) printf("Expresion definida correctamente");}  //printf de cada expresion
+exp: expGeneral                {if(flag_error==0) printf("Expresion definida correctamente");} 
     | error                    {printf("Error al declarar una expresion\n"); flag_error=1;} 
 ;
 
 expGeneral: expUnaria        
-               | expUnaria operador expGeneral 
-             
+            | expUnaria operador expGeneral             
 ;
 
 
@@ -102,9 +101,8 @@ expUnaria: expSufijo
            | SIZEOF '(' TIPO_DATO ')'
 ;
 
-operadorUnario: '&' |'*' |'!'                                   {if(flag_error==0) printf("Se encontro una expresion unaria \n");}
-               
-               
+operadorUnario: '&' |'*' |'!'        {if(flag_error==0) printf("Se encontro una expresion unaria \n");}
+                            
 ;
 
 expSufijo: expPrimaria
@@ -126,7 +124,7 @@ expPrimaria: IDENTIFICADOR          {printf("Se encontro el identificador %s \n"
                   |STRING                 {printf ( "Se encontro la palabra %s \n " , $<cadena>1);}
                   |NUM                    {printf("Se encontro un numero %d \n", $<entero>1);}
                   |'(' exp ')'
-                  |error                  {yyerror(); if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;} 
+                  |error                  {yyerror; if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;} 
 ;
 
 declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");} 
