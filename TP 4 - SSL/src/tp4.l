@@ -1,4 +1,5 @@
 %{
+#include "tp4.tab.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -48,7 +49,7 @@ volatile|extern|static|auto|register|sizeof {strcpy(yylval.cadena,yytext); retur
 ";"     {return ';';}  //agregar algun simbolo si llegara a faltar
 ","     {return ',';}
 "&"     {return '&';}
-"|"     {return '|'}
+"|"     {return '|';}
 "!"     {return '!';}
 "%"     {return '%';}
 "/"     {return '/';}
@@ -56,24 +57,19 @@ volatile|extern|static|auto|register|sizeof {strcpy(yylval.cadena,yytext); retur
 ">"     {return '>';}
 "?"     {return '?';}
 ":"     {return ':';}
+\<\=     {strcpy(yylval.cadena,yytext); return MAYORIGUAL;}
+\=\=     {strcpy(yylval.cadena,yytext); return IGUALIGUAL;}
+\!\=     {strcpy(yylval.cadena,yytext); return DISTINTO;}
+\+\=     {strcpy(yylval.cadena,yytext); return MASIGUAL;}
+\+\+     {strcpy(yylval.cadena,yytext); return INCREMENTO;}
+\-\-     {strcpy(yylval.cadena,yytext); return DECREMENTO;}
+\-\>     {strcpy(yylval.cadena,yytext); return FLECHA;}
+\|\|     {return 'O';}
+\&\&     {return 'Y';}
+sizeof   {strcpy(yylval.cadena,yytext); return SIZEOF;}
 "("     {return '(';} 
 ")"     {return ')';} 
 "{"     {return '{';} 
 "}"     {return '}';} 
-
-"<="     {return 'MAYORIGUAL';}
-"=="     {return 'IGUALIGUAL';}
-"!="     {return 'DISTINTO';}
-"+="     {return 'MASIGUAL';}
-"++"     {return 'INCREMENTO';}
-"--"     {return 'DECREMENTO';}
-"->"     {return 'FLECHA';} 
-"||"     {return 'O';}
-"&&"     {return 'Y';}
-"sizeof" {return 'sizeof';}
-
-
-\+\+|\*|\+|\&|\!|sizeof|\/|\%|\<|\<\=|\=\=|\!\=|\&\&|\|\||\?\:|\=|\+\=|\(|\)|\{|\}|\,|\;|\[|\] {return 'yytext';}
-
 
 %%

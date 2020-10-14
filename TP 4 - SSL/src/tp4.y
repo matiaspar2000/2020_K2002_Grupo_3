@@ -11,8 +11,12 @@ extern int lineno;
 extern FILE* yyin;
 
 int yylex();
+
 int yywrap(){
 	return(1);
+}
+void yyerror (char const *s){
+  fprintf(stderr, "%s\n", s);
 }
 
 %}
@@ -28,7 +32,7 @@ int yywrap(){
 %token <entero> NUM 
 %token <cadena> IDENTIFICADOR
 %token <cadena> TIPO_DATO
-%token <cadena> PALABRA_RESERVADA //Ver si realmente es necesario usar el resto de las palabras reservadas
+%token <cadena> PALABRA_RESERVADA 
 %token <cadena> STRING 
 %token <caracter> CCARACTER
 %token <real> CONSTANTE_REAL
@@ -59,7 +63,7 @@ int yywrap(){
 //%left '.' FLECHA '*' '%' '/' '+' '-'  '>' '<' MAYORIGUAL MENORIGUAL '&' '|' AND OR  IGUALIGUAL DISTINTO ',' 
 //%right '(' ')' '[' ']' '&' '!' '*' '='    SIZEOF MASIGUAL INCREMENTO DECREMENTO 
 
-%% /* reglas gramaticales y acciones */
+%% 
 
 input:  /* vacio */
         | input line
@@ -85,7 +89,7 @@ expGeneral: expUnaria
 
 operador :    '=' | MASIGUAL                                  {if(flag_error==0) printf("Se encontro una expresion de asignacion \n");}// operadores asignacion
             | OR | AND | IGUALIGUAL | DISTINTO                {if(flag_error==0) printf("Se encontro una expresion logica \n");}// operadores logicos
-            | '<' | '>' | MASIGUAL | MENORIGUAL               {if(flag_error==0) printf("Se encontro una expresion relacional \n");}// operadores relacionales
+            | '<' | '>' | MENORIGUAL               {if(flag_error==0) printf("Se encontro una expresion relacional \n");}// operadores relacionales
             | '+' | '-'                                       {if(flag_error==0) printf("Se encontro una expresion aditiva \n");}// operadores aditivos
             | '*' | '/' | '%'                                 {if(flag_error==0) printf("Se encontro una expresion multiplicativa \n");}// operadores multiplicativos
  ;            
@@ -122,7 +126,7 @@ expPrimaria: IDENTIFICADOR          {printf("Se encontro el identificador %s \n"
                   |STRING                 {printf ( "Se encontro la palabra %s \n " , $<cadena>1);}
                   |NUM                    {printf("Se encontro un numero %d \n", $<entero>1);}
                   |'(' exp ')'
-                  |error                  {yyerror; if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;} 
+                  |error                  {yyerror(); if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;} 
 ;
 
 declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");} 
@@ -143,12 +147,12 @@ parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se en
 ;
 
 cuerpo:  ';'                    {if(flag_error==0) printf("función definida correctamente");}                       
-         | sentenciaCompuesta   {if(flag_error==0) (printf("función definida correctamente");}             
+         | sentenciaCompuesta   {if(flag_error==0) (printf("función definida correctamente"));}             
          | '{' error '}'        {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};}              
          | error                {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};} 
 ;
 
-definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", $<cadena>2;}    
+definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", $<cadena>2);}    
                         | error IDENTIFICADOR parametros cuerpo     {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;} 
                         | TIPO_DATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;}                                                        
 ;
@@ -203,12 +207,6 @@ sentenciaSalto: CONTINUE ';'                    {printf("Se encontró una senten
 ;
         
 %%
-
-void yyerror (char const *s)
-{
-  fprintf(stderr, "Error Sintactico en la linea %d = %s \n", lineno,s);
-  exit(1);
-}
 
 int main (int argc, char *argv[])
 {
