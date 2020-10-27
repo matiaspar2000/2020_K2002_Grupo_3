@@ -1,9 +1,10 @@
 %{
-#include "tp4.tab.h"
+#include "tpINT.tab.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include "funcionesDeListas.c"
 #define YYDEBUG1
 
 extern FILE* yyin;

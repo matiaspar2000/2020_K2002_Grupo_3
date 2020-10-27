@@ -68,12 +68,13 @@
 /* Copy the first part of user declarations.  */
 
 /* Line 189 of yacc.c  */
-#line 2 "../src/tp4.y"
+#line 2 "../src/tpINT.y"
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include "funcionesDeListas.c"
 #define YYDEBUG1
 
 int flag_error=0;
@@ -92,7 +93,7 @@ void yyerror (char const *s){
 
 
 /* Line 189 of yacc.c  */
-#line 96 "tp4.tab.c"
+#line 97 "tpINT.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -157,7 +158,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 24 "../src/tp4.y"
+#line 25 "../src/tpINT.y"
 
         char cadena[50];
         int entero;
@@ -168,7 +169,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 172 "tp4.tab.c"
+#line 173 "tpINT.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -180,7 +181,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 184 "tp4.tab.c"
+#line 185 "tpINT.tab.c"
 
 #ifdef short
 # undef short
@@ -501,16 +502,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    68,    68,    69,    72,    73,    74,    75,    76,    77,
-      80,    81,    84,    85,    89,    89,    90,    90,    90,    90,
-      91,    91,    91,    92,    92,    93,    93,    93,    96,    97,
-      98,    99,   100,   101,   104,   104,   104,   108,   109,   110,
-     111,   112,   113,   114,   117,   118,   119,   122,   123,   124,
-     125,   126,   127,   130,   133,   134,   137,   138,   141,   142,
-     143,   144,   147,   148,   149,   150,   153,   154,   155,   158,
-     159,   160,   161,   162,   165,   168,   169,   172,   173,   176,
-     177,   180,   181,   184,   187,   188,   191,   192,   193,   196,
-     197,   198,   201,   202,   203,   204
+       0,    69,    69,    70,    73,    74,    75,    76,    77,    78,
+      81,    82,    85,    86,    90,    90,    91,    91,    91,    91,
+      92,    92,    92,    93,    93,    94,    94,    94,    97,    98,
+      99,   100,   101,   102,   105,   105,   105,   109,   110,   111,
+     112,   113,   114,   115,   118,   119,   120,   123,   124,   125,
+     126,   127,   128,   131,   134,   135,   138,   139,   142,   143,
+     144,   145,   148,   149,   150,   151,   154,   155,   156,   159,
+     160,   161,   162,   163,   166,   169,   170,   173,   174,   177,
+     178,   181,   182,   185,   188,   189,   192,   193,   194,   197,
+     198,   199,   202,   203,   204,   205
 };
 #endif
 
@@ -1581,301 +1582,301 @@ yyreduce:
         case 10:
 
 /* Line 1455 of yacc.c  */
-#line 80 "../src/tp4.y"
+#line 81 "../src/tpINT.y"
     {if(flag_error==0) printf("Expresion definida correctamente");;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 81 "../src/tp4.y"
+#line 82 "../src/tpINT.y"
     {printf("Error al declarar una expresion\n"); flag_error=1;;}
     break;
 
   case 15:
 
 /* Line 1455 of yacc.c  */
-#line 89 "../src/tp4.y"
+#line 90 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion de asignacion \n");;}
     break;
 
   case 19:
 
 /* Line 1455 of yacc.c  */
-#line 90 "../src/tp4.y"
+#line 91 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion logica \n");;}
     break;
 
   case 22:
 
 /* Line 1455 of yacc.c  */
-#line 91 "../src/tp4.y"
+#line 92 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion relacional \n");;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 92 "../src/tp4.y"
+#line 93 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion aditiva \n");;}
     break;
 
   case 27:
 
 /* Line 1455 of yacc.c  */
-#line 93 "../src/tp4.y"
+#line 94 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion multiplicativa \n");;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 104 "../src/tp4.y"
+#line 105 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion unaria \n");;}
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 122 "../src/tp4.y"
+#line 123 "../src/tpINT.y"
     {printf("Se encontro el identificador %s \n" , (yyvsp[(1) - (1)].cadena));;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 123 "../src/tp4.y"
+#line 124 "../src/tpINT.y"
     {printf(" Se encontro el caracter %c \n" , (yyvsp[(1) - (1)].caracter));;}
     break;
 
   case 49:
 
 /* Line 1455 of yacc.c  */
-#line 124 "../src/tp4.y"
+#line 125 "../src/tpINT.y"
     {printf ( "Se encontro la palabra %s \n " , (yyvsp[(1) - (1)].cadena));;}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 125 "../src/tp4.y"
+#line 126 "../src/tpINT.y"
     {printf("Se encontro un numero %d \n", (yyvsp[(1) - (1)].entero));;}
     break;
 
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 127 "../src/tp4.y"
+#line 128 "../src/tpINT.y"
     {yyerror; if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;;}
     break;
 
   case 53:
 
 /* Line 1455 of yacc.c  */
-#line 130 "../src/tp4.y"
+#line 131 "../src/tpINT.y"
     {if(flag_error==0) printf("función declarada correctamente");;}
     break;
 
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 141 "../src/tp4.y"
+#line 142 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontró un parámetro de tipo %s \n", (yyvsp[(1) - (1)].cadena)); ;}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 142 "../src/tp4.y"
+#line 143 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontró un parámetro de tipo %s de nombre %s \n", (yyvsp[(1) - (2)].cadena), (yyvsp[(2) - (2)].cadena)); ;}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 143 "../src/tp4.y"
+#line 144 "../src/tpINT.y"
     {printf("error al declarar el tipo de dato del parámetro"); flag_error=1;;}
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 144 "../src/tp4.y"
+#line 145 "../src/tpINT.y"
     {printf("error al definir el identificador del parámetro"); flag_error=1;;}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 147 "../src/tp4.y"
+#line 148 "../src/tpINT.y"
     {if(flag_error==0) printf("función definida correctamente");;}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 148 "../src/tp4.y"
+#line 149 "../src/tpINT.y"
     {if(flag_error==0) (printf("función definida correctamente"));;}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 149 "../src/tp4.y"
+#line 150 "../src/tpINT.y"
     {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};;}
     break;
 
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 150 "../src/tp4.y"
+#line 151 "../src/tpINT.y"
     {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};;}
     break;
 
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 153 "../src/tp4.y"
+#line 154 "../src/tpINT.y"
     {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", (yyvsp[(2) - (4)].cadena));;}
     break;
 
   case 67:
 
 /* Line 1455 of yacc.c  */
-#line 154 "../src/tp4.y"
+#line 155 "../src/tpINT.y"
     {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;;}
     break;
 
   case 68:
 
 /* Line 1455 of yacc.c  */
-#line 155 "../src/tp4.y"
+#line 156 "../src/tpINT.y"
     {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;;}
     break;
 
   case 69:
 
 /* Line 1455 of yacc.c  */
-#line 158 "../src/tp4.y"
+#line 159 "../src/tpINT.y"
     {printf("Se encontró una sentencia compuesta.\n");;}
     break;
 
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 159 "../src/tp4.y"
+#line 160 "../src/tpINT.y"
     {printf("Se encontró una sentencia expresión.\n");;}
     break;
 
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 160 "../src/tp4.y"
+#line 161 "../src/tpINT.y"
     {printf("Se encontró una sentencia selección.\n");;}
     break;
 
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 161 "../src/tp4.y"
+#line 162 "../src/tpINT.y"
     {printf("Se encontró una sentencia iteración.\n");;}
     break;
 
   case 73:
 
 /* Line 1455 of yacc.c  */
-#line 162 "../src/tp4.y"
+#line 163 "../src/tpINT.y"
     {printf("Se encontró una sentencia salto.\n");;}
     break;
 
   case 78:
 
 /* Line 1455 of yacc.c  */
-#line 173 "../src/tp4.y"
+#line 174 "../src/tpINT.y"
     {printf("Se encontró una lista de declaraciones.\n");;}
     break;
 
   case 82:
 
 /* Line 1455 of yacc.c  */
-#line 181 "../src/tp4.y"
+#line 182 "../src/tpINT.y"
     {printf("Se encontró una lista de sentencias.\n");;}
     break;
 
   case 86:
 
 /* Line 1455 of yacc.c  */
-#line 191 "../src/tp4.y"
+#line 192 "../src/tpINT.y"
     {printf("Se encontró una sentencia if.\n");;}
     break;
 
   case 87:
 
 /* Line 1455 of yacc.c  */
-#line 192 "../src/tp4.y"
+#line 193 "../src/tpINT.y"
     {printf("Se encontró una sentencia if-else.\n");;}
     break;
 
   case 88:
 
 /* Line 1455 of yacc.c  */
-#line 193 "../src/tp4.y"
+#line 194 "../src/tpINT.y"
     {printf("Se encontró una sentencia switch.\n");;}
     break;
 
   case 89:
 
 /* Line 1455 of yacc.c  */
-#line 196 "../src/tp4.y"
+#line 197 "../src/tpINT.y"
     {printf("Se encontró una sentencia while.\n");;}
     break;
 
   case 90:
 
 /* Line 1455 of yacc.c  */
-#line 197 "../src/tp4.y"
+#line 198 "../src/tpINT.y"
     {printf("Se encontró una sentencia do-while.\n");;}
     break;
 
   case 91:
 
 /* Line 1455 of yacc.c  */
-#line 198 "../src/tp4.y"
+#line 199 "../src/tpINT.y"
     {printf("Se encontró una sentencia for.\n");;}
     break;
 
   case 92:
 
 /* Line 1455 of yacc.c  */
-#line 201 "../src/tp4.y"
+#line 202 "../src/tpINT.y"
     {printf("Se encontró una sentencia continue.\n");;}
     break;
 
   case 93:
 
 /* Line 1455 of yacc.c  */
-#line 202 "../src/tp4.y"
+#line 203 "../src/tpINT.y"
     {printf("Se encontró una sentencia break.\n");;}
     break;
 
   case 94:
 
 /* Line 1455 of yacc.c  */
-#line 203 "../src/tp4.y"
+#line 204 "../src/tpINT.y"
     {printf("Se encontró una sentencia return.\n");;}
     break;
 
   case 95:
 
 /* Line 1455 of yacc.c  */
-#line 204 "../src/tp4.y"
+#line 205 "../src/tpINT.y"
     {printf("Se encontró una sentencia goto.\n");;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1879 "tp4.tab.c"
+#line 1880 "tpINT.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2087,7 +2088,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 207 "../src/tp4.y"
+#line 208 "../src/tpINT.y"
 
 
 int main (int argc, char *argv[])

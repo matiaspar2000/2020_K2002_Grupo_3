@@ -572,18 +572,19 @@ goto find_rule; \
 #define YY_MORE_ADJ 0
 #define YY_RESTORE_YY_MORE_OFFSET
 char *yytext;
-#line 1 "../src/tp4.l"
+#line 1 "../src/tpINT.l"
 #define INITIAL 0
-#line 2 "../src/tp4.l"
-#include "tp4.tab.h"
+#line 2 "../src/tpINT.l"
+#include "tpINT.tab.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include "funcionesDeListas.c"
 #define YYDEBUG1
 
 extern FILE* yyin;
-#line 587 "lex.yy.c"
+#line 588 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -734,10 +735,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 18 "../src/tp4.l"
+#line 19 "../src/tpINT.l"
 
 
-#line 741 "lex.yy.c"
+#line 742 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -830,290 +831,290 @@ do_action:	/* This label is used only to access EOF actions. */
 	{ /* beginning of action switch */
 case 1:
 YY_RULE_SETUP
-#line 20 "../src/tp4.l"
+#line 21 "../src/tpINT.l"
 {yylval.entero = atoi(yytext); return NUM;}                       
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 21 "../src/tp4.l"
+#line 22 "../src/tpINT.l"
 {yylval.entero = strtol(yytext, NULL, 0); return NUM;} 
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 22 "../src/tp4.l"
+#line 23 "../src/tpINT.l"
 {yylval.entero = strtol(yytext, NULL, 0); return NUM;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 23 "../src/tp4.l"
+#line 24 "../src/tpINT.l"
 {yylval.real=atof(yytext); return CONSTANTE_REAL;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 24 "../src/tp4.l"
+#line 25 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return TIPO_DATO;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 25 "../src/tp4.l"
+#line 26 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return PALABRA_RESERVADA;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 26 "../src/tp4.l"
+#line 27 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return IF;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 27 "../src/tp4.l"
+#line 28 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return ELSE;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 28 "../src/tp4.l"
+#line 29 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return SWITCH;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 29 "../src/tp4.l"
+#line 30 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return WHILE;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 30 "../src/tp4.l"
+#line 31 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return FOR;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 31 "../src/tp4.l"
+#line 32 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return DO;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 32 "../src/tp4.l"
+#line 33 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return CONTINUE;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 33 "../src/tp4.l"
+#line 34 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return BREAK;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 34 "../src/tp4.l"
+#line 35 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return RETURN;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 35 "../src/tp4.l"
+#line 36 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return GOTO;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 36 "../src/tp4.l"
+#line 37 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return PALABRA_RESERVADA;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 37 "../src/tp4.l"
+#line 38 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 38 "../src/tp4.l"
+#line 39 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return CCARACTER;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 39 "../src/tp4.l"
+#line 40 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return STRING;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 40 "../src/tp4.l"
+#line 41 "../src/tpINT.l"
 {} //comentario largo
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 41 "../src/tp4.l"
+#line 42 "../src/tpINT.l"
 {} //comentario corto
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 42 "../src/tp4.l"
+#line 43 "../src/tpINT.l"
 {return '+';}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 43 "../src/tp4.l"
+#line 44 "../src/tpINT.l"
 {return '-';}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 44 "../src/tp4.l"
+#line 45 "../src/tpINT.l"
 {return '*';}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 45 "../src/tp4.l"
+#line 46 "../src/tpINT.l"
 {return '/';}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 46 "../src/tp4.l"
+#line 47 "../src/tpINT.l"
 {return '^';} 
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 47 "../src/tp4.l"
+#line 48 "../src/tpINT.l"
 {return '[';} 
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 48 "../src/tp4.l"
+#line 49 "../src/tpINT.l"
 {return ']';} 
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 49 "../src/tp4.l"
+#line 50 "../src/tpINT.l"
 {return '=';} 
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 50 "../src/tp4.l"
+#line 51 "../src/tpINT.l"
 {return ';';}  //agregar algun simbolo si llegara a faltar
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 51 "../src/tp4.l"
+#line 52 "../src/tpINT.l"
 {return ',';}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 52 "../src/tp4.l"
+#line 53 "../src/tpINT.l"
 {return '&';}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 53 "../src/tp4.l"
+#line 54 "../src/tpINT.l"
 {return '|';}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 54 "../src/tp4.l"
+#line 55 "../src/tpINT.l"
 {return '!';}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 55 "../src/tp4.l"
+#line 56 "../src/tpINT.l"
 {return '%';}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 56 "../src/tp4.l"
+#line 57 "../src/tpINT.l"
 {return '/';}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 57 "../src/tp4.l"
+#line 58 "../src/tpINT.l"
 {return '<';}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 58 "../src/tp4.l"
+#line 59 "../src/tpINT.l"
 {return '>';}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 59 "../src/tp4.l"
+#line 60 "../src/tpINT.l"
 {return '?';}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 60 "../src/tp4.l"
+#line 61 "../src/tpINT.l"
 {return ':';}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 61 "../src/tp4.l"
+#line 62 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return MAYORIGUAL;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 62 "../src/tp4.l"
+#line 63 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return IGUALIGUAL;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 63 "../src/tp4.l"
+#line 64 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return DISTINTO;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 64 "../src/tp4.l"
+#line 65 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return MASIGUAL;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 65 "../src/tp4.l"
+#line 66 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return INCREMENTO;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 66 "../src/tp4.l"
+#line 67 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return DECREMENTO;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 67 "../src/tp4.l"
+#line 68 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return FLECHA;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 68 "../src/tp4.l"
+#line 69 "../src/tpINT.l"
 {return 'O';}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 69 "../src/tp4.l"
+#line 70 "../src/tpINT.l"
 {return 'Y';}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 70 "../src/tp4.l"
+#line 71 "../src/tpINT.l"
 {strcpy(yylval.cadena,yytext); return SIZEOF;}
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 71 "../src/tp4.l"
+#line 72 "../src/tpINT.l"
 {return '(';} 
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 72 "../src/tp4.l"
+#line 73 "../src/tpINT.l"
 {return ')';} 
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 73 "../src/tp4.l"
+#line 74 "../src/tpINT.l"
 {return '{';} 
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 74 "../src/tp4.l"
+#line 75 "../src/tpINT.l"
 {return '}';} 
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 75 "../src/tp4.l"
+#line 76 "../src/tpINT.l"
 {printf("ERROR LEXICO: Se encontró la cadena desconocida %s en la linea %d \n",yytext,yylineno);}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 77 "../src/tp4.l"
+#line 78 "../src/tpINT.l"
 ECHO;
 	YY_BREAK
-#line 1117 "lex.yy.c"
+#line 1118 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1997,4 +1998,4 @@ int main()
 	return 0;
 	}
 #endif
-#line 77 "../src/tp4.l"
+#line 78 "../src/tpINT.l"
