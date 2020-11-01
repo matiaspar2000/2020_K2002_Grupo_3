@@ -11,6 +11,9 @@ int flag_error=0;
 extern int lineno;
 extern FILE* yyin;
 
+struct listaDeVariables TSVar;
+struct listaDeFunciones TSFunc;
+
 int yylex();
 
 int yywrap(){
@@ -120,7 +123,7 @@ listaArgumentos: exp
                 |/*vacio*/
 ;
 
-expPrimaria: IDENTIFICADOR          {printf("Se encontro el identificador %s \n" , $<cadena>1);}
+expPrimaria:      |IDENTIFICADOR          {printf("Se encontro el identificador %s \n" , $<cadena>1);}
                   |CCARACTER              {printf(" Se encontro el caracter %c \n" , $<caracter>1);}
                   |STRING                 {printf ( "Se encontro la palabra %s \n " , $<cadena>1);}
                   |NUM                    {printf("Se encontro un numero %d \n", $<entero>1);}
@@ -128,7 +131,8 @@ expPrimaria: IDENTIFICADOR          {printf("Se encontro el identificador %s \n"
                   |error                  {yyerror; if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;} 
 ;
 
-declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");} 
+declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");}
+
 ;
 
 parametros: '(' listaDeParametros ')'
