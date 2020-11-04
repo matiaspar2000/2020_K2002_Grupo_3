@@ -48,7 +48,7 @@ volatile|extern|static|auto|register|sizeof {strcpy(yylval.cadena,yytext); retur
 "["     {return '[';} 
 "]"     {return ']';} 
 "="     {return '=';} 
-";"     {return ';';}  //agregar algun simbolo si llegara a faltar
+";"     {return ';';}  
 ","     {return ',';}
 "&"     {return '&';}
 "|"     {return '|';}

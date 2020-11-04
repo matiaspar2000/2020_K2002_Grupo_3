@@ -77,7 +77,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 25 "../src/tpINT.y"
+#line 31 "../src/tpINT.y"
 
         char cadena[50];
         int entero;
