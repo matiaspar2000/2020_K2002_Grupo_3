@@ -74,7 +74,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "funcionesDeListas.c"
+#include "../src/funcionesDeListas.c"
 #define YYDEBUG1
 
 int flag_error=0;

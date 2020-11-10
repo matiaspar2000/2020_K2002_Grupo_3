@@ -580,7 +580,7 @@ char *yytext;
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-#include "funcionesDeListas.c"
+
 #define YYDEBUG1
 
 extern FILE* yyin;
