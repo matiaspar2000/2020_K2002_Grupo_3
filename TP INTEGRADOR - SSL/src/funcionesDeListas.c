@@ -45,38 +45,51 @@ void reportarFuncionesDeclaradas(listaDeFunciones *TSFunc){
 }
 
 int insertarVariableUnica(listaDeVariables *nueva, listaDeVariables *TS){
-  while (TS->siguiente != NULL){
+   while (TS->siguiente != NULL){
         if(TS->nombreV == nueva->nombreV){
-            printf("ERROR SEMANTICO: Ya existe una variable con este nombre \n");
+            printf("ERROR SEMANTICO: Ya existe una variable declarada con este nombre \n");
             return -1;
         }
         TS = TS->siguiente;
    }
-   TS->siguiente = nueva;
+   if(nueva->valor != NULL){
+        if(nueva->tipoDeDato == detectarTipoDeDatoVariableNoDeclarada(nueva->valor)){ //si tiene un valor asignado controlo el tipo antes de insertar
+                TS->siguiente = nueva;
+                printf("Variable insertada correctamente en tabla de simbolos \n");
+                return 0;
+        }else{
+                printf("ERROR SEMANTICO: Error al asignar el valor %s a una variable de tipo %s \n", nueva->valor, nueva->tipoDeDato);
+                return -1
+        }
+   }else{ //si no tiene valor asignado la inserto directamente
+        printf("Variable insertada correctamente en tabla de simbolos (sin valor asignado) \n");
+        TS->siguiente = nueva;
+   }
    return 0;
 }  
 
 int insertarFuncionUnica(listaDeFunciones *nueva, listaDeFunciones *TS){
   while (TS->siguiente != NULL){
         if(TS->nombreF == nueva->nombreF){
-            printf("ERROR SEMANTICO: Ya existe una funcion con este nombre \n");
+            printf("ERROR SEMANTICO: Ya existe una funcion declarada con este nombre \n");
             return -1;
         }
         TS = TS->siguiente;
    }
    TS->siguiente = nueva;
+   printf("Funcion insertada correctamente en tabla de simbolos \n");
    return 0;
 }  
 
 char* detectarTipoDeDatoVariableDeclarada(char nombreVariable[20], listaDeVariables *TS){
   while (TS->siguiente != NULL){
-        if(TS->nombreV == nombreVariable){
+        if(TS->nombreV == nombreVariable && TS->nombreV != NULL){
             printf("La variable es de tipo %s \n", TS->tipoDeDato);
             return TS->tipoDeDato;
         }
         TS = TS->siguiente;
    };
-   printf("ERROR SEMANTICO: La variable no fue declarada todavia");
+   printf("ERROR SEMANTICO: La variable no fue declarada o definida todavia");
    return "noDeclarado";
 }
 
@@ -87,22 +100,22 @@ char* detectarTipoDeDatoVariableNoDeclarada(char valor[20]){
         i++;
     };
     if (longitudValor==i){
-        printf("La variable es de tipo INT %s \n");
-        return "int";
+        printf("Se encontro un INT %s \n"); // esto no es para variables, seria por ejemplo si quiero sumar 1 + 2 
+        return "int";                       // que controle que ambos sean del mismo tipo de dato
     }else if(valor[i] = "."){
-        printf("La variable es de tipo FLOAT %s \n");
+        printf("Se encontro un FLOAT %s \n");
         return "float";
-    }else if(longitudValor = 1 && isdigit(valor[i])==0){
-        printf("La variable es de tipo CHAR %s \n");
+    }else if(longitudValor >= 1 && isdigit(valor[i])==0){
+        printf("Se encontro un CHAR %s \n");
         return "char";
-    }else if(longitudValor > 1 && isdigit(valor[i])==0){
+    /*}else if(longitudValor > 1 && isdigit(valor[i])==0){
         longitudValor = 1;
         printf("La variable es de tipo STRING %s \n");
         return "string";
-    };
+    };   esto no va xq no existe el tipo de dato string*/ 
 }
 
-char* detectarTipoDeDato(char variableOvalor[]){
+char* detectarTipoDeDato(char variableOvalor[20]){
     char tipoDeDato = detectarTipoDeDatoVariableDeclarada(variableOvalor,TS);
     if(tipoDeDato = "noDeclarado"){
         tipoDeDato = detectarTipoDeDatoVariableNoDeclarada(variableOvalor);
