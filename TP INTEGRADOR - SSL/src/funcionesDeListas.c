@@ -88,17 +88,17 @@ char* detectarTipoDeDatoVariableNoDeclarada(char valor[20]){
     };
     if (longitudValor==i){
         printf("La variable es de tipo INT %s \n");
-        return "INT";
+        return "int";
     }else if(valor[i] = "."){
         printf("La variable es de tipo FLOAT %s \n");
-        return "FLOAT";
+        return "float";
     }else if(longitudValor = 1 && isdigit(valor[i])==0){
         printf("La variable es de tipo CHAR %s \n");
-        return "CHAR";
+        return "char";
     }else if(longitudValor > 1 && isdigit(valor[i])==0){
         longitudValor = 1;
         printf("La variable es de tipo STRING %s \n");
-        return "STRING";
+        return "string";
     };
 }
 
