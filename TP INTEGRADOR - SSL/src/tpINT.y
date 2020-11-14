@@ -29,11 +29,14 @@ void yyerror (char const *s){
 %}
 
 %union {
+        struct yylval_struct
+  {
         char cadena[50];
         int entero;
         int tipo;
         char caracter;
         float real;      
+        }miestructura;
 }
 
 %token <entero> NUM 
@@ -91,10 +94,31 @@ expGeneral: expUnaria
 
 operador :    '=' | MASIGUAL                                  {if(flag_error==0) printf("Se encontro una expresion de asignacion \n");}// operadores asignacion
             | OR | AND | IGUALIGUAL | DISTINTO                {if(flag_error==0) printf("Se encontro una expresion logica \n");}// operadores logicos
-            | '<' | '>' | MENORIGUAL               {if(flag_error==0) printf("Se encontro una expresion relacional \n");}// operadores relacionales
-            | '+' | '-'                                       {if(flag_error==0) printf("Se encontro una expresion aditiva \n");}// operadores aditivos
+            | '<' | '>' | MENORIGUAL                          {if(flag_error==0) printf("Se encontro una expresion relacional \n");}// operadores relacionales
+            | '+' | '-'                                       {if(flag_error==0) printf("Se encontro una expresion aditiva \n"); if($<miestructura>1.tipo==$<miestructura>3.tipo)
+    
+         { 
+                if($<miestructura>1.tipo==1)
+                 {
+                 $<miestructura>$.entero=$<miestructura>1.entero+$<miestructura>3.entero;
+                 }
+        
+                 else
+                 {
+                $<miestructura>$.real=$<miestructura>1.real+$<miestructura>3.real;
+                         }
+        }
+        
+                 else
+                 {
+                 printf("Los operandos son de distinto tipo \n");
+                        }
+        
+                }// operadores aditivos con validacion de tipos
             | '*' | '/' | '%'                                 {if(flag_error==0) printf("Se encontro una expresion multiplicativa \n");}// operadores multiplicativos
- ;            
+
+
+;            
 
 expUnaria: expSufijo 
            | INCREMENTO expUnaria
