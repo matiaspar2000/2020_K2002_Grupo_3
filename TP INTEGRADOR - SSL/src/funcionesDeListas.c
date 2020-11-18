@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "../src/tpINT.y"
+
 typedef struct listaDeVariables {
     char tipoDeDato[20];
     char nombreV[20];
@@ -52,7 +52,7 @@ int insertarVariableUnica(listaDeVariables *nueva, listaDeVariables *TS){
         }
         TS = TS->siguiente;
    }
-   if(nueva->valor != NULL){
+   /*if(nueva->valor != NULL){
         if(nueva->tipoDeDato == detectarTipoDeDatoVariableNoDeclarada(nueva->valor)){ //si tiene un valor asignado controlo el tipo antes de insertar
                 TS->siguiente = nueva;
                 printf("Variable insertada correctamente en tabla de simbolos \n");
@@ -60,11 +60,11 @@ int insertarVariableUnica(listaDeVariables *nueva, listaDeVariables *TS){
         }else{
                 printf("ERROR SEMANTICO: Error al asignar el valor %s a una variable de tipo %s \n", nueva->valor, nueva->tipoDeDato);
                 return -1
-        }
-   }else{ //si no tiene valor asignado la inserto directamente
+        };
+   }else{ //si no tiene valor asignado la inserto directamente*/
         printf("Variable insertada correctamente en tabla de simbolos (sin valor asignado) \n");
         TS->siguiente = nueva;
-   }
+   //}
    return 0;
 }  
 
@@ -80,7 +80,7 @@ int insertarFuncionUnica(listaDeFunciones *nueva, listaDeFunciones *TS){
    printf("Funcion insertada correctamente en tabla de simbolos \n");
    return 0;
 }  
-
+/*
 char* detectarTipoDeDatoVariableDeclarada(char nombreVariable[20], listaDeVariables *TS){
   while (TS->siguiente != NULL){
         if(TS->nombreV == nombreVariable && TS->nombreV != NULL){
@@ -112,7 +112,7 @@ char* detectarTipoDeDatoVariableNoDeclarada(char valor[20]){
         longitudValor = 1;
         printf("La variable es de tipo STRING %s \n");
         return "string";
-    };   esto no va xq no existe el tipo de dato string*/ 
+    };   esto no va xq no existe el tipo de dato string 
 }
 
 char* detectarTipoDeDato(char variableOvalor[20]){
@@ -124,3 +124,4 @@ char* detectarTipoDeDato(char variableOvalor[20]){
         return tipoDeDato;
     }   
 }
+*/

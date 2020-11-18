@@ -79,16 +79,19 @@ typedef union YYSTYPE
 /* Line 1676 of yacc.c  */
 #line 31 "../src/tpINT.y"
 
+        struct yylval_struct
+  {
         char cadena[50];
         int entero;
         int tipo;
         char caracter;
         float real;      
+        }miestructura;
 
 
 
 /* Line 1676 of yacc.c  */
-#line 92 "tpINT.tab.h"
+#line 95 "tpINT.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

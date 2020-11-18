@@ -8,32 +8,35 @@
 #define YYDEBUG1
 
 int flag_error=0;
+
 extern int lineno;
 extern FILE* yyin;
 
 struct listaDeVariables *TSVar;
 struct listaDeFunciones *TSFunc;
-
 struct listaDeVariables *unaVar;
 struct listaDeFunciones *unaFunc;
 
 int yylex();
-
 int yywrap(){
 	return(1);
 }
+
 void yyerror (char const *s){
-  fprintf(stderr, "%s\n", s);
+  fprintf(stderr, " ERROR SINTACTICO encontrado %s\n", s);
 }
 
 %}
 
 %union {
+        struct yylval_struct
+  {
         char cadena[50];
         int entero;
         int tipo;
         char caracter;
         float real;      
+        }miestructura;
 }
 
 %token <entero> NUM 
@@ -79,18 +82,30 @@ line:   '\n'
         | sentencia '\n' 
 ;
 
-expGeneral: expUnaria                           {if(flag_error==0) printf("Expresion definida correctamente");} 
-            | expUnaria operador expGeneral     {if(flag_error==0) printf("Expresion definida correctamente");}            
-            | error                             {printf("Error al declarar una expresion\n"); flag_error=1;} 
+expGeneral: expUnaria        
+            | expUnaria operador expGeneral  
+            | expUnaria '+' expGeneral   {if(flag_error==0) printf("Se encontro una expresion aditiva \n"); 
+
+                                        if($<miestructura>1.tipo == $<miestructura>3.tipo){ 
+                                               if($<miestructura>1.tipo==1){
+                                                        $<miestructura>$.entero=$<miestructura>1.entero+$<miestructura>3.entero;
+                                                        printf("CONTROL DE TIPOS EXITOSO, los operandos son del mismo tipo \n" );
+                                               }else{
+                                                        $<miestructura>$.real=$<miestructura>1.real+$<miestructura>3.real;
+                                                        printf("CONTROL DE TIPOS EXITOSO, Los operandos son del mismo tipo \n");
+                                               }
+                                        }else{
+                                                printf("ERROR SEMANTICO - Los operandos son de distinto tipo \n");
+                                        }}// operadores aditivos con validacion de tipos       
 ;
 
 
-operador :    '=' | MASIGUAL                                  {if(flag_error==0) printf("Se encontro una expresion de asignacion \n");}// operadores asignacion
+operador:    '=' | MASIGUAL                                  {if(flag_error==0) printf("Se encontro una expresion de asignacion \n");}// operadores asignacion
             | OR | AND | IGUALIGUAL | DISTINTO                {if(flag_error==0) printf("Se encontro una expresion logica \n");}// operadores logicos
-            | '<' | '>' | MENORIGUAL               {if(flag_error==0) printf("Se encontro una expresion relacional \n");}// operadores relacionales
-            | '+' | '-'                                       {if(flag_error==0) printf("Se encontro una expresion aditiva \n");}// operadores aditivos
+            | '<' | '>' | MENORIGUAL                          {if(flag_error==0) printf("Se encontro una expresion relacional \n");}// operadores relacionales
+            | '-'                                              {if(flag_error==0) printf("Se encontro una expresion de sustraccion \n");}
             | '*' | '/' | '%'                                 {if(flag_error==0) printf("Se encontro una expresion multiplicativa \n");}// operadores multiplicativos
- ;            
+;            
 
 expUnaria: expSufijo 
            | INCREMENTO expUnaria
@@ -126,8 +141,8 @@ expPrimaria:      |IDENTIFICADOR          {printf("Se encontro el identificador 
 ;
 
 declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");
-                                                strcpy(unaFunc->nombreF, $<cadena>2);   
-                                                strcpy(unaFunc->tipoDeDatoSalida, $<cadena>1);
+                                                strcpy(unaFunc->nombreF, $<miestructura>2.cadena);   
+                                                strcpy(unaFunc->tipoDeDatoSalida, $<miestructura>1.cadena);
                                                 insertarFuncionUnica(unaFunc,TSFunc);
                                                 }  
 ;
@@ -140,13 +155,13 @@ listaDeParametros:   parametro
                     | listaDeParametros ',' parametro
 ;
 
-parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s \n", $<cadena>1); 
-                                                  strcpy(unaVar->tipoDeDato, $<cadena>1);
+parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s \n", $<miestructura>1.cadena); 
+                                                  strcpy(unaVar->tipoDeDato, $<miestructura>1.cadena);
                                                   strcpy(unaVar->nombreV, " sin definir");
                                                   insertarVariableUnica(unaVar,*unaFunc->parametros)}
-               | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s de nombre %s \n", $<cadena>1, $<cadena>2); 
-                                                  strcpy(unaVar->tipoDeDato, $<cadena>1);
-                                                  strcpy(unaVar->nombreV, $<cadena>2);
+               | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s de nombre %s \n", $<miestructura>1.cadena, $<miestructura>2.cadena); 
+                                                  strcpy(unaVar->tipoDeDato, $<miestructura>1.cadena);
+                                                  strcpy(unaVar->nombreV, $<miestructura>2.cadena);
                                                   insertarVariableUnica(unaVar,*unaFunc->parametros);}
                | error IDENTIFICADOR            {printf("error al declarar el tipo de dato del parámetro"); flag_error=1;}  
                | TIPO_DATO error                {printf("error al definir el identificador del parámetro"); flag_error=1;}
@@ -158,12 +173,12 @@ cuerpo:  ';'                    {if(flag_error==0) printf("función definida cor
          | error                {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};} 
 ;
 
-definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", $<cadena>2);
-                                                                        strcpy(unaFunc->nombreF, $<cadena>2);   
-                                                                        strcpy(unaFunc->tipoDeDatoSalida, $<cadena>1);
+definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", $<miestructura>2.cadena);
+                                                                        strcpy(unaFunc->nombreF, $<miestructura>2.cadena);   
+                                                                        strcpy(unaFunc->tipoDeDatoSalida, $<miestructura>1.cadena);
                                                                         insertarFuncionUnica(unaFunc,TSFunc);
                                                                         }    
-                        | error IDENTIFICADOR parametros cuerpo     {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;} 
+                        | error IDENTIFICADOR parametros cuerpo      {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;} 
                         | TIPO_DATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;}                                                        
 ;
 

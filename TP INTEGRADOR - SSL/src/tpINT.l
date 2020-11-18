@@ -17,26 +17,26 @@ LETRA [a-zA-Z]
 
 %%
 
-[1-9]{DIGITO_DECIMAL}* {yylval.entero = atoi(yytext); return NUM;}                       
-0{DIGITO_OCTAL}* {yylval.entero = strtol(yytext, NULL, 0); return NUM;} 
-0[xX]{DIGITO_HEXADECIMAL}+ {yylval.entero = strtol(yytext, NULL, 0); return NUM;}
-{DIGITO_DECIMAL}*(\.){DIGITO_DECIMAL}+([eE]([\+\-]?){DIGITO_DECIMAL}+)? {yylval.real=atof(yytext); return CONSTANTE_REAL;}
-char|int|float|double|long|short|signed|unsigned|void|enum|struct|typedef|union  {strcpy(yylval.cadena,yytext); return TIPO_DATO;}
-case|default|fo {strcpy(yylval.cadena,yytext); return PALABRA_RESERVADA;}
-if {strcpy(yylval.cadena,yytext); return IF;}
-else {strcpy(yylval.cadena,yytext); return ELSE;}
-switch {strcpy(yylval.cadena,yytext); return SWITCH;}
-while {strcpy(yylval.cadena,yytext); return WHILE;}
-for {strcpy(yylval.cadena,yytext); return FOR;}
-do {strcpy(yylval.cadena,yytext); return DO;}
-continue {strcpy(yylval.cadena,yytext); return CONTINUE;}
-break {strcpy(yylval.cadena,yytext); return BREAK;}
-return {strcpy(yylval.cadena,yytext); return RETURN;}
-goto {strcpy(yylval.cadena,yytext); return GOTO;}
-volatile|extern|static|auto|register|sizeof {strcpy(yylval.cadena,yytext); return PALABRA_RESERVADA;}
-[a-zA-Z_][a-zA-Z0-9_]* {strcpy(yylval.cadena,yytext); return IDENTIFICADOR;}
-\'(.|"\n")\' {strcpy(yylval.cadena,yytext); return CCARACTER;}
-\"(.|"\n")*\" {strcpy(yylval.cadena,yytext); return STRING;}
+[1-9]{DIGITO_DECIMAL}* {yylval.miestructura.entero = atoi(yytext);yylval.miestructura.tipo=1; return NUM;}                       
+0{DIGITO_OCTAL}* {yylval.miestructura.entero = strtol(yytext, NULL, 0); yylval.miestructura.tipo=1; return NUM;} 
+0[xX]{DIGITO_HEXADECIMAL}+ {yylval.miestructura.entero = strtol(yytext, NULL, 0); yylval.miestructura.tipo=1; return NUM;}
+{DIGITO_DECIMAL}*(\.){DIGITO_DECIMAL}+([eE]([\+\-]?){DIGITO_DECIMAL}+)? {yylval.miestructura.real=atof(yytext); yylval.miestructura.tipo=3; return CONSTANTE_REAL;}
+char|"int"|float|double|long|short|signed|unsigned|void|enum|struct|typedef|union  {strcpy(yylval.miestructura.cadena,yytext); return TIPO_DATO;}
+case|default|fo {strcpy(yylval.miestructura.cadena,yytext); return PALABRA_RESERVADA;}
+if {strcpy(yylval.miestructura.cadena,yytext); return IF;}
+else {strcpy(yylval.miestructura.cadena,yytext); return ELSE;}
+switch {strcpy(yylval.miestructura.cadena,yytext); return SWITCH;}
+while {strcpy(yylval.miestructura.cadena,yytext); return WHILE;}
+for {strcpy(yylval.miestructura.cadena,yytext); return FOR;}
+do {strcpy(yylval.miestructura.cadena,yytext); return DO;}
+continue {strcpy(yylval.miestructura.cadena,yytext); return CONTINUE;}
+break {strcpy(yylval.miestructura.cadena,yytext); return BREAK;}
+return {strcpy(yylval.miestructura.cadena,yytext); return RETURN;}
+goto {strcpy(yylval.miestructura.cadena,yytext); return GOTO;}
+volatile|extern|static|auto|register|sizeof {strcpy(yylval.miestructura.cadena,yytext); return PALABRA_RESERVADA;}
+[a-zA-Z_][a-zA-Z0-9_]* {strcpy(yylval.miestructura.cadena,yytext); return IDENTIFICADOR;}
+\'(.|"\n")\' {strcpy(yylval.miestructura.cadena,yytext);yylval.miestructura.tipo=2; return CCARACTER;}
+\"(.|"\n")*\" {strcpy(yylval.miestructura.cadena,yytext);yylval.miestructura.tipo=4; return STRING;}
 \/\*(\*+[^\*\/]|[^\*])*\*+\/ {} //comentario largo
 \/\/(.)* {} //comentario corto
 "+"     {return '+';}
@@ -58,16 +58,16 @@ volatile|extern|static|auto|register|sizeof {strcpy(yylval.cadena,yytext); retur
 ">"     {return '>';}
 "?"     {return '?';}
 ":"     {return ':';}
-\<\=     {strcpy(yylval.cadena,yytext); return MAYORIGUAL;}
-\=\=     {strcpy(yylval.cadena,yytext); return IGUALIGUAL;}
-\!\=     {strcpy(yylval.cadena,yytext); return DISTINTO;}
-\+\=     {strcpy(yylval.cadena,yytext); return MASIGUAL;}
-\+\+     {strcpy(yylval.cadena,yytext); return INCREMENTO;}
-\-\-     {strcpy(yylval.cadena,yytext); return DECREMENTO;}
-\-\>     {strcpy(yylval.cadena,yytext); return FLECHA;}
+\<\=     {strcpy(yylval.miestructura.cadena,yytext); return MAYORIGUAL;}
+\=\=     {strcpy(yylval.miestructura.cadena,yytext); return IGUALIGUAL;}
+\!\=     {strcpy(yylval.miestructura.cadena,yytext); return DISTINTO;}
+\+\=     {strcpy(yylval.miestructura.cadena,yytext); return MASIGUAL;}
+\+\+     {strcpy(yylval.miestructura.cadena,yytext); return INCREMENTO;}
+\-\-     {strcpy(yylval.miestructura.cadena,yytext); return DECREMENTO;}
+\-\>     {strcpy(yylval.miestructura.cadena,yytext); return FLECHA;}
 \|\|     {return 'O';}
 \&\&     {return 'Y';}
-sizeof   {strcpy(yylval.cadena,yytext); return SIZEOF;}
+sizeof   {strcpy(yylval.miestructura.cadena,yytext); return SIZEOF;}
 "("     {return '(';} 
 ")"     {return ')';} 
 "{"     {return '{';} 
