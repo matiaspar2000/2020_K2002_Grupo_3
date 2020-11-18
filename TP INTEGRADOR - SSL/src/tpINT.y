@@ -73,19 +73,15 @@ input:  /* vacio */
 ;
 
 line:   '\n'
-        | exp '\n'    
+        | expGeneral '\n'    
         | declaracion '\n' 
         | definicionDeFuncion '\n' 
         | sentencia '\n' 
-        | error '\n'
 ;
 
-exp: expGeneral                {if(flag_error==0) printf("Expresion definida correctamente");} 
-    | error                    {printf("Error al declarar una expresion\n"); flag_error=1;} 
-;
-
-expGeneral: expUnaria        
-            | expUnaria operador expGeneral             
+expGeneral: expUnaria                           {if(flag_error==0) printf("Expresion definida correctamente");} 
+            | expUnaria operador expGeneral     {if(flag_error==0) printf("Expresion definida correctamente");}            
+            | error                             {printf("Error al declarar una expresion\n"); flag_error=1;} 
 ;
 
 
@@ -126,7 +122,7 @@ expPrimaria:      |IDENTIFICADOR          {printf("Se encontro el identificador 
                   |STRING                 {printf ( "Se encontro la palabra %s \n " , $<cadena>1);}
                   |NUM                    {printf("Se encontro un numero %d \n", $<entero>1);}
                   |'(' exp ')'
-                  |error                  {yyerror; if(flag_error==0) printf("Error al declarar una expresion \n"); flag_error=1;} 
+                  |otro tipo de dato       
 ;
 
 declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");
@@ -134,7 +130,6 @@ declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("funci
                                                 strcpy(unaFunc->tipoDeDatoSalida, $<cadena>1);
                                                 insertarFuncionUnica(unaFunc,TSFunc);
                                                 }  
-
 ;
 
 parametros: '(' listaDeParametros ')'
@@ -202,16 +197,16 @@ sentenciaExpresion: expOP ';'
 ;
 
 expOP: /* vacio */
-       | exp
+       | expGeneral
 ;
 
-sentenciaSeleccion: IF '(' exp ')' sentencia                    {printf("Se encontró una sentencia if.\n");}
-                  | IF '(' exp ')' sentencia ELSE sentencia     {printf("Se encontró una sentencia if-else.\n");}
+sentenciaSeleccion: IF '(' expGeneral ')' sentencia                    {printf("Se encontró una sentencia if.\n");}
+                  | IF '(' expGeneral ')' sentencia ELSE sentencia     {printf("Se encontró una sentencia if-else.\n");}
                   | SWITCH '(' IDENTIFICADOR ')' sentencia             {printf("Se encontró una sentencia switch.\n");}
 ;
 
-sentenciaIteracion: WHILE '(' exp ')' sentencia                           {printf("Se encontró una sentencia while.\n");}                    
-                  | DO sentencia WHILE '(' exp ')'                        {printf("Se encontró una sentencia do-while.\n");}     
+sentenciaIteracion: WHILE '(' expGeneral ')' sentencia                           {printf("Se encontró una sentencia while.\n");}                    
+                  | DO sentencia WHILE '(' expGeneral ')'                        {printf("Se encontró una sentencia do-while.\n");}     
                   | FOR '(' expOP ';' expOP ';' expOP ')' sentencia       {printf("Se encontró una sentencia for.\n");}     
 ;
 
