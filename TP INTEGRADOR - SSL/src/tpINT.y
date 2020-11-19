@@ -119,7 +119,7 @@ operadorUnario: '&' |'*' |'!'        {if(flag_error==0) printf("Se encontro una 
 ;
 
 expSufijo: expPrimaria
-          | expSufijo '[' exp ']' 
+          | expSufijo '[' expGeneral ']' 
           | expSufijo '(' listaArgumentos ')'
           | expSufijo '.' IDENTIFICADOR
           | expSufijo FLECHA IDENTIFICADOR
@@ -127,8 +127,8 @@ expSufijo: expPrimaria
           | expSufijo DECREMENTO
 ;
 
-listaArgumentos: exp
-                |listaArgumentos ',' exp
+listaArgumentos: expGeneral
+                |listaArgumentos ',' expGeneral
                 |/*vacio*/
 ;
 
@@ -136,7 +136,7 @@ expPrimaria:      |IDENTIFICADOR          {printf("Se encontro el identificador 
                   |CCARACTER              {printf(" Se encontro el caracter %c \n" , $<caracter>1);}
                   |STRING                 {printf ( "Se encontro la palabra %s \n " , $<cadena>1);}
                   |NUM                    {printf("Se encontro un numero %d \n", $<entero>1);}
-                  |'(' exp ')'
+                  |'(' expGeneral ')'
                   |otro tipo de dato       
 ;
 
