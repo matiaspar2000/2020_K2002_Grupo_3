@@ -16,6 +16,7 @@ struct listaDeVariables *TSVar;
 struct listaDeFunciones *TSFunc;
 struct listaDeVariables *unaVar;
 struct listaDeFunciones *unaFunc;
+struct parametrosAlInvocar *misParametros;
 
 int yylex();
 int yywrap(){

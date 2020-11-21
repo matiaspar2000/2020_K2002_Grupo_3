@@ -141,6 +141,14 @@ int contarParametrosInvocacion(parametrosAlInvocar *parametros){
     return contador;
 }
 
+void insertarTipoParametro(parametrosAlInvocar *lista, int nuevo){
+    while (lista->siguiente != NULL){
+        lista = lista->siguiente;
+   }
+   lista->siguiente->tipo = nuevo;
+   lista->siguiente->siguiente = NULL;
+}
+
 listaDeFunciones* buscarFuncion(listaDeFunciones *TSFunc, char* buscada){
     while(TSFunc->siguiente != buscada){
         TSFunc = TSFunc->siguiente;
@@ -165,32 +173,37 @@ int tipoDeParametro(listaDeVariables *parametros){
 }
 
 //control de cantidad y tipo de dato al invocar funciones
-
 /*
-invocada = buscarFuncion(TSFunc, <$1>)
-parametros = invocada->listaDeParametros
-misParametros = lista de ints que saco de hacer $<miestructura>1.tipo de cada uno de los parametros y guardarlos en un struct a definir
 
-while(parametros->siguiente != NULL && misParametros->siguiente != NULL){
-    if(misParametros->tipo != tipoDeParametro(parametros->tipoDeDato)){
-        printf("ERROR SEMANTICO: no coincide el tipo de dato pasado con el requerido por la funcion");
-        break;
+invocada = buscarFuncion(TSFunc, <$1>)
+parametros = fInvocada->listaDeParametros
+misParametros = lista de ints que saco de hacer $<miestructura>1.tipo de cada uno de los parametros y guardarlos en un struct a definir
+*/
+
+
+int controlDeParametrosDeInvocacion(parametrosAlInvocar *misParametros, listaDeVariables *parametros){
+    if(contarParametrosInvocacion(misParametros) <= contarparametros(parametros)){
+        printf("ERROR SEMANTICO: faltan parametros al invocar la funcion");
+        return -1;
+    }else if(contarParametrosInvocacion(misParametros) >= contarparametros(parametros)){
+        printf("ERROR SEMANTICO: sobran parametros al invocar la funcion");
+        return -1;
     }else{
-        parametros = parametros->sig;
-        misparametros = misparametros->sig;
+        printf("Funcion declarada correctamente");
+        return -1;
+    }
+
+    while(parametros->siguiente != NULL && misParametros->siguiente != NULL){
+        if(misParametros->tipo != tipoDeParametro(parametros->tipoDeDato)){
+            printf("ERROR SEMANTICO: no coincide el tipo de dato pasado con el requerido por la funcion");
+            break;
+        }else{
+            parametros = parametros->siguiente;
+            misParametros = misParametros->siguiente;
+        }
+    }
+    if(parametros->siguiente == NULL && misParametros->siguiente == NULL){
+        printf("Fin de la lista de parametros, todos son del tipo de dato correcto");
     }
 }
-if(parametros->siguiente == NULL && misParametros->siguiente == NULL){
-    printf("Fin de la lista de parametros, no se encontro ninguno que no coincidiera con el tipo de dato establecido al declarar la funcion")
-}
 
-if(contarParametrosInvocacion(misparametros) =< contarparametros(parametros)){
-    printf("ERROR SEMANTICO: faltan parametros al invocar la funcion")
-}else if(contarParametrosInvocacion(misparametros) >= contarparametros(parametros)){
-    printf("ERROR SEMANTICO: sobran parametros al invocar la funcion")
-}else{
-    printf("Funcion declarada correctamente")
-}
-
-
-*/
