@@ -146,10 +146,12 @@ declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("funci
                                                 strcpy(unaFunc->nombreF, $<miestructura>2.cadena);   
                                                 strcpy(unaFunc->tipoDeDatoSalida, $<miestructura>1.cadena);
                                                 insertarFuncionUnica(unaFunc,TSFunc);
+                                                }  
+            |TIPO_DATO IDENTIFICADOR expGeneral {if(flag_error==0) printf("Variable declarada correctamente");
                                                 strcpy(unaVar->nombreV, $<miestructura>2.cadena);   
                                                 strcpy(unaVar->tipoDeDato, $<miestructura>1.cadena); 
                                                 insertarVariableUnica(unaVar, TSVar); 
-                                                }  
+                                                }
 ;
 
 parametros: '(' listaDeParametros ')'
