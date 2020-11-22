@@ -69,6 +69,7 @@ void yyerror (char const *s){
 %token <cadena> FOR
 %token <cadena> GOTO
 %token <entero> error 
+%token <cadena> Funcion
 
 %% 
 
@@ -137,14 +138,17 @@ expPrimaria:      |IDENTIFICADOR          {printf("Se encontro el identificador 
                   |CCARACTER              {printf(" Se encontro el caracter %c \n" , $<caracter>1);}
                   |STRING                 {printf ( "Se encontro la palabra %s \n " , $<cadena>1);}
                   |NUM                    {printf("Se encontro un numero %d \n", $<entero>1);}
-                  |'(' expGeneral ')'
-                  |otro tipo de dato       
+                  |'(' expGeneral ')'       
+                  |otro tipo de dato 
 ;
 
 declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");
                                                 strcpy(unaFunc->nombreF, $<miestructura>2.cadena);   
                                                 strcpy(unaFunc->tipoDeDatoSalida, $<miestructura>1.cadena);
                                                 insertarFuncionUnica(unaFunc,TSFunc);
+                                                strcpy(unaVar->nombreV, $<miestructura>2.cadena);   
+                                                strcpy(unaVar->tipoDeDato, $<miestructura>1.cadena); 
+                                                insertarVariableUnica(unaVar, TSVar); 
                                                 }  
 ;
 
@@ -178,6 +182,7 @@ definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_er
                                                                         strcpy(unaFunc->nombreF, $<miestructura>2.cadena);   
                                                                         strcpy(unaFunc->tipoDeDatoSalida, $<miestructura>1.cadena);
                                                                         insertarFuncionUnica(unaFunc,TSFunc);
+                
                                                                         }    
                         | error IDENTIFICADOR parametros cuerpo      {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;} 
                         | TIPO_DATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;}                                                        
@@ -250,3 +255,9 @@ int main (int argc, char *argv[])
     return flag;
 //
 }
+//control de parametros
+/*                 if(buscarFuncion(TSFunc, unaFunc)){
+                            controlDeParametrosDeInvocacion(misParametros, unaVar)
+                            }else{
+                                    printf("ERROR SEMANTICO - funcion no declarada");
+                            }*/

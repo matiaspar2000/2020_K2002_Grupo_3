@@ -17,7 +17,7 @@ typedef struct listaDeFunciones{
 }listaDeFunciones;
 
 
-int contarParametros(listaDeVariables *parametros){
+int contarParametros(listaDeVariables *parametros){//cantidad de parametros de la lista de variables 
     int contador = 0;
     while (parametros->siguiente != NULL){
         contador = contador + 1;
@@ -26,7 +26,7 @@ int contarParametros(listaDeVariables *parametros){
     return contador;
 }
 
-void reportarVariablesDeclaradas(listaDeVariables *TSVar){
+void reportarVariablesDeclaradas(listaDeVariables *TSVar){ //me dice el nombre y tipo de cada variable 
     while(TSVar->siguiente != NULL){
         printf("Variable declarada: %s - ", TSVar->nombreV);
         printf("Tipo: %s \n", TSVar->tipoDeDato);
@@ -155,8 +155,9 @@ listaDeFunciones* buscarFuncion(listaDeFunciones *TSFunc, char* buscada){
     }    
     if(TSFunc->siguiente == buscada){
         return TSFunc;
-    }else{
+    /*}else{
         printf("ERROR SEMANTICO: funcion no declarada");
+    }*/
     }
 }
 
@@ -189,7 +190,7 @@ int controlDeParametrosDeInvocacion(parametrosAlInvocar *misParametros, listaDeV
         printf("ERROR SEMANTICO: sobran parametros al invocar la funcion");
         return -1;
     }else{
-        printf("Funcion declarada correctamente");
+        printf("Funcion invocada correctamente");
         return -1;
     }
 
