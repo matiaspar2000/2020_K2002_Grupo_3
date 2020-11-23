@@ -184,27 +184,27 @@ misParametros = lista de ints que saco de hacer $<miestructura>1.tipo de cada un
 
 int controlDeParametrosDeInvocacion(parametrosAlInvocar *misParametros, listaDeVariables *parametros){
     if(contarParametrosInvocacion(misParametros) <= contarparametros(parametros)){
-        printf("ERROR SEMANTICO: faltan parametros al invocar la funcion");
-        return -1;
+        printf("ERROR SEMANTICO: faltan parametros al invocar la funcion \n");
+        return 0;
     }else if(contarParametrosInvocacion(misParametros) >= contarparametros(parametros)){
-        printf("ERROR SEMANTICO: sobran parametros al invocar la funcion");
-        return -1;
+        printf("ERROR SEMANTICO: sobran parametros al invocar la funcion \n");
+        return 0;
     }else{
-        printf("Funcion invocada correctamente");
-        return -1;
+        printf("Funcion invocada correctamente \n");
+        return 0;
     }
 
     while(parametros->siguiente != NULL && misParametros->siguiente != NULL){
         if(misParametros->tipo != tipoDeParametro(parametros->tipoDeDato)){
-            printf("ERROR SEMANTICO: no coincide el tipo de dato pasado con el requerido por la funcion");
-            break;
+            printf("ERROR SEMANTICO: no coincide el tipo de dato pasado con el requerido por la funcion \n");
+            return 0;
         }else{
             parametros = parametros->siguiente;
             misParametros = misParametros->siguiente;
         }
     }
     if(parametros->siguiente == NULL && misParametros->siguiente == NULL){
-        printf("Fin de la lista de parametros, todos son del tipo de dato correcto");
+        return 1;
     }
 }
 

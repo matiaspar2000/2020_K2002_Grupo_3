@@ -16,6 +16,7 @@ struct listaDeVariables *TSVar;
 struct listaDeFunciones *TSFunc;
 struct listaDeVariables *unaVar;
 struct listaDeFunciones *unaFunc;
+struct listaDeVariables *listaAux;
 struct parametrosAlInvocar *misParametros;
 
 int yylex();
@@ -74,7 +75,7 @@ void yyerror (char const *s){
 %% 
 
 input:  /* vacio */
-        | input line
+        | input line {flag_error=0;}
 ;
 
 line:   '\n'
@@ -122,14 +123,19 @@ operadorUnario: '&' |'*' |'!'        {if(flag_error==0) printf("Se encontro una 
 
 expSufijo: expPrimaria
           | expSufijo '[' expGeneral ']' 
-          | expSufijo '(' listaArgumentos ')'
+          | expSufijo '(' listaArgumentos ')'  {struct listaDeFunciones *fInvocada = buscarFuncion(TSFunc, $<miestructura>1.cadena);
+                                                struct listaDeVariables *parametros = fInvocada->listaDeParametros;
+                                                if(controlDeParametrosDeInvocacion(*misParametros,*parametros)){
+                                                        printf("Fin de la lista de parametros, todos son del tipo de dato correcto \n'")
+                                                };
+                                                }
           | expSufijo '.' IDENTIFICADOR
           | expSufijo FLECHA IDENTIFICADOR
           | expSufijo INCREMENTO
           | expSufijo DECREMENTO
 ;
 
-listaArgumentos: expGeneral
+listaArgumentos: expGeneral                      {insertarTipoParametro(misParametros,$<miestructura>1.cadena)}
                 |listaArgumentos ',' expGeneral
                 |/*vacio*/
 ;
@@ -145,9 +151,10 @@ expPrimaria:      |IDENTIFICADOR          {printf("Se encontro el identificador 
 declaracion: TIPO_DATO IDENTIFICADOR parametros {if(flag_error==0) printf("función declarada correctamente");
                                                 strcpy(unaFunc->nombreF, $<miestructura>2.cadena);   
                                                 strcpy(unaFunc->tipoDeDatoSalida, $<miestructura>1.cadena);
+                                                TSFunc->parametros = listaAux;
                                                 insertarFuncionUnica(unaFunc,TSFunc);
                                                 }  
-            |TIPO_DATO IDENTIFICADOR expGeneral {if(flag_error==0) printf("Variable declarada correctamente");
+            |TIPO_DATO IDENTIFICADOR '=' expGeneral {if(flag_error==0) printf("Variable declarada correctamente");
                                                 strcpy(unaVar->nombreV, $<miestructura>2.cadena);   
                                                 strcpy(unaVar->tipoDeDato, $<miestructura>1.cadena); 
                                                 insertarVariableUnica(unaVar, TSVar); 
@@ -158,18 +165,18 @@ parametros: '(' listaDeParametros ')'
             | '(' ')'
 ;
 
-listaDeParametros:   parametro
+listaDeParametros:   parametro                          
                     | listaDeParametros ',' parametro
 ;
 
 parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s \n", $<miestructura>1.cadena); 
                                                   strcpy(unaVar->tipoDeDato, $<miestructura>1.cadena);
                                                   strcpy(unaVar->nombreV, " sin definir");
-                                                  insertarVariableUnica(unaVar,*unaFunc->parametros)}
+                                                  insertarVariableUnica(unaVar,*listaAux)}
                | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s de nombre %s \n", $<miestructura>1.cadena, $<miestructura>2.cadena); 
                                                   strcpy(unaVar->tipoDeDato, $<miestructura>1.cadena);
                                                   strcpy(unaVar->nombreV, $<miestructura>2.cadena);
-                                                  insertarVariableUnica(unaVar,*unaFunc->parametros);}
+                                                  insertarVariableUnica(unaVar,*listaAux);}
                | error IDENTIFICADOR            {printf("error al declarar el tipo de dato del parámetro"); flag_error=1;}  
                | TIPO_DATO error                {printf("error al definir el identificador del parámetro"); flag_error=1;}
 ;
@@ -245,7 +252,7 @@ int main (int argc, char *argv[])
 {
     int flag;
  
-    yyin=fopen("archivoFuente.c","r");
+    yyin=fopen("archivoFuente.txt","r");
  
     flag=yyparse();
  
