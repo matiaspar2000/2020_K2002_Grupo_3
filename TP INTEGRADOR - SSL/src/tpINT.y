@@ -12,7 +12,6 @@ int flag_error=0;
 extern int lineno;
 extern FILE* yyin;
 
-
 struct listaDeVariables *TSVar;
 struct listaDeFunciones *TSFunc;
 struct listaDeVariables unaVar;
@@ -35,7 +34,7 @@ void yyerror (char const *s){
 
 %union {
         struct yylval_struct
-  {
+{
         char cadena[50];
         int entero;
         int tipo;
@@ -102,7 +101,7 @@ expGeneral: expUnaria
                                                }
                                         }else{
                                                 printf("ERROR SEMANTICO - Los operandos son de distinto tipo \n");
-                                        }}// operadores aditivos con validacion de tipos       
+                                        }} // operadores aditivos con validacion de tipos       
 ;
 
 
@@ -136,7 +135,7 @@ expSufijo: expPrimaria
           | expSufijo DECREMENTO
 ;
 
-listaArgumentos: expGeneral                      {insertarTipoParametro(misParametros,$<miestructura>1.entero)}
+listaArgumentos: expGeneral                      {insertarTipoParametro(misParametros,$<miestructura>1.tipo)}
                 |listaArgumentos ',' expGeneral
                 |/*vacio*/
 ;
@@ -269,11 +268,4 @@ int main (int argc, char *argv[])
     reportarFuncionesDeclaradas(TSFunc);
    
     return flag;
-//
 }
-//control de parametros
-/*                 if(buscarFuncion(TSFunc, unaFunc)){
-                            controlDeParametrosDeInvocacion(misParametros, unaVar)
-                            }else{
-                                    printf("ERROR SEMANTICO - funcion no declarada");
-                            }*/

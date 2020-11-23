@@ -49,18 +49,13 @@ void reportarFuncionesDeclaradas(listaDeFunciones *TSFunc){
 
 int insertarVariableUnica(listaDeVariables insertada, listaDeVariables *TS){
    struct listaDeVariables *nueva = &insertada;
-   printf(" 1\n");
    while(TS->siguiente != NULL){
-        printf(" 2 \n");
         if(TS->nombreV == nueva->nombreV){
-               printf(" 3 \n");
             printf("ERROR SEMANTICO: Ya existe una variable declarada con este nombre \n");
             return -1;
         }
-        printf(" 4 \n");
         TS = TS->siguiente;
    }
-   printf(" 5 \n");
    TS->siguiente = nueva;
    printf("Variable insertada correctamente en tabla de simbolos \n");
    return 0;
