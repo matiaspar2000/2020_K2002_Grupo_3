@@ -3,44 +3,45 @@ Terminals unused in grammar
    PALABRA_RESERVADA
    CONSTANTE_REAL
    MAYORIGUAL
+   Funcion
 
 
 Rules useless in parser due to conflicts
 
-   84 expOP: /* vacío */
+   81 expOP: /* vacío */
 
 
 Estado 1 conflictos: 5 desplazamiento/reducción, 1 reducción/reducción
-Estado 3 conflictos: 1 desplazamiento/reducción, 2 reducción/reducción
-Estado 9 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 10 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 11 conflictos: 4 desplazamiento(s)/reducción(ones)
+Estado 9 conflictos: 11 desplazamiento(s)/reducción(ones)
+Estado 10 conflictos: 11 desplazamiento(s)/reducción(ones)
+Estado 11 conflictos: 11 desplazamiento(s)/reducción(ones)
 Estado 15 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
 Estado 18 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
 Estado 23 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 31 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 50 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 52 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 54 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 55 conflictos: 4 reducción(ones)/reducción(ones)
-Estado 61 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
-Estado 66 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
-Estado 75 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 83 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 88 conflictos: 4 desplazamiento/reducción, 2 reducción/reducción
-Estado 89 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 111 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
-Estado 127 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 29 conflictos: 14 desplazamiento(s)/reducción(ones)
+Estado 30 conflictos: 11 desplazamiento(s)/reducción(ones)
+Estado 31 conflictos: 6 desplazamiento(s)/reducción(ones)
+Estado 47 conflictos: 4 desplazamiento(s)/reducción(ones)
+Estado 49 conflictos: 4 desplazamiento(s)/reducción(ones)
+Estado 51 conflictos: 4 desplazamiento(s)/reducción(ones)
+Estado 57 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
+Estado 62 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
+Estado 71 conflictos: 11 desplazamiento(s)/reducción(ones)
+Estado 79 conflictos: 11 desplazamiento(s)/reducción(ones)
+Estado 84 conflictos: 4 desplazamiento/reducción, 2 reducción/reducción
+Estado 85 conflictos: 4 desplazamiento(s)/reducción(ones)
+Estado 94 conflictos: 11 desplazamiento(s)/reducción(ones)
+Estado 108 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
+Estado 131 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
+Estado 132 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
 Estado 133 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
-Estado 134 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
+Estado 134 conflictos: 4 desplazamiento(s)/reducción(ones)
 Estado 135 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
-Estado 136 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 137 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
-Estado 142 conflictos: 4 desplazamiento(s)/reducción(ones)
-Estado 150 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 140 conflictos: 4 desplazamiento(s)/reducción(ones)
+Estado 148 conflictos: 1 desplazamiento(s)/reducción(ones)
+Estado 156 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
 Estado 158 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
-Estado 160 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
-Estado 163 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
+Estado 161 conflictos: 4 desplazamiento/reducción, 1 reducción/reducción
 
 
 Gramática
@@ -51,242 +52,237 @@ Gramática
     2      | input line
 
     3 line: '\n'
-    4     | exp '\n'
+    4     | expGeneral '\n'
     5     | declaracion '\n'
     6     | definicionDeFuncion '\n'
     7     | sentencia '\n'
-    8     | error '\n'
 
-    9 exp: expGeneral
-   10    | error
+    8 expGeneral: expUnaria
+    9           | expUnaria operador expGeneral
+   10           | expUnaria '+' expGeneral
 
-   11 expGeneral: expUnaria
-   12           | expUnaria operador expGeneral
-   13           | expUnaria '+' expGeneral
+   11 operador: '='
+   12         | MASIGUAL
+   13         | OR
+   14         | AND
+   15         | IGUALIGUAL
+   16         | DISTINTO
+   17         | '<'
+   18         | '>'
+   19         | MENORIGUAL
+   20         | '-'
+   21         | '*'
+   22         | '/'
+   23         | '%'
 
-   14 operador: '='
-   15         | MASIGUAL
-   16         | OR
-   17         | AND
-   18         | IGUALIGUAL
-   19         | DISTINTO
-   20         | '<'
-   21         | '>'
-   22         | MENORIGUAL
-   23         | '-'
-   24         | '*'
-   25         | '/'
-   26         | '%'
+   24 expUnaria: expSufijo
+   25          | INCREMENTO expUnaria
+   26          | DECREMENTO expUnaria
+   27          | operadorUnario expUnaria
+   28          | SIZEOF expUnaria
+   29          | SIZEOF '(' TIPO_DATO ')'
 
-   27 expUnaria: expSufijo
-   28          | INCREMENTO expUnaria
-   29          | DECREMENTO expUnaria
-   30          | operadorUnario expUnaria
-   31          | SIZEOF expUnaria
-   32          | SIZEOF '(' TIPO_DATO ')'
+   30 operadorUnario: '&'
+   31               | '*'
+   32               | '!'
 
-   33 operadorUnario: '&'
-   34               | '*'
-   35               | '!'
+   33 expSufijo: expPrimaria
+   34          | expSufijo '[' expGeneral ']'
+   35          | expSufijo '(' listaArgumentos ')'
+   36          | expSufijo '.' IDENTIFICADOR
+   37          | expSufijo FLECHA IDENTIFICADOR
+   38          | expSufijo INCREMENTO
+   39          | expSufijo DECREMENTO
 
-   36 expSufijo: expPrimaria
-   37          | expSufijo '[' exp ']'
-   38          | expSufijo '(' listaArgumentos ')'
-   39          | expSufijo '.' IDENTIFICADOR
-   40          | expSufijo FLECHA IDENTIFICADOR
-   41          | expSufijo INCREMENTO
-   42          | expSufijo DECREMENTO
+   40 listaArgumentos: expGeneral
+   41                | listaArgumentos ',' expGeneral
+   42                | /* vacío */
 
-   43 listaArgumentos: exp
-   44                | listaArgumentos ',' exp
-   45                | /* vacío */
+   43 expPrimaria: /* vacío */
+   44            | IDENTIFICADOR
+   45            | CCARACTER
+   46            | STRING
+   47            | NUM
+   48            | '(' expGeneral ')'
 
-   46 expPrimaria: /* vacío */
-   47            | IDENTIFICADOR
-   48            | CCARACTER
-   49            | STRING
-   50            | NUM
-   51            | '(' exp ')'
-   52            | error
+   49 declaracion: TIPO_DATO IDENTIFICADOR parametros
+   50            | TIPO_DATO IDENTIFICADOR '=' expGeneral
 
-   53 declaracion: TIPO_DATO IDENTIFICADOR parametros
+   51 parametros: '(' listaDeParametros ')'
+   52           | '(' ')'
 
-   54 parametros: '(' listaDeParametros ')'
-   55           | '(' ')'
+   53 listaDeParametros: parametro
+   54                  | listaDeParametros ',' parametro
 
-   56 listaDeParametros: parametro
-   57                  | listaDeParametros ',' parametro
+   55 parametro: TIPO_DATO
+   56          | TIPO_DATO IDENTIFICADOR
+   57          | error IDENTIFICADOR
+   58          | TIPO_DATO error
 
-   58 parametro: TIPO_DATO
-   59          | TIPO_DATO IDENTIFICADOR
-   60          | error IDENTIFICADOR
-   61          | TIPO_DATO error
+   59 cuerpo: ';'
+   60       | sentenciaCompuesta
+   61       | '{' error '}'
+   62       | error
 
-   62 cuerpo: ';'
-   63       | sentenciaCompuesta
-   64       | '{' error '}'
-   65       | error
+   63 definicionDeFuncion: TIPO_DATO IDENTIFICADOR parametros cuerpo
+   64                    | error IDENTIFICADOR parametros cuerpo
+   65                    | TIPO_DATO error parametros cuerpo
 
-   66 definicionDeFuncion: TIPO_DATO IDENTIFICADOR parametros cuerpo
-   67                    | error IDENTIFICADOR parametros cuerpo
-   68                    | TIPO_DATO error parametros cuerpo
+   66 sentencia: sentenciaCompuesta
+   67          | sentenciaExpresion
+   68          | sentenciaSeleccion
+   69          | sentenciaIteracion
+   70          | sentenciaSalto
 
-   69 sentencia: sentenciaCompuesta
-   70          | sentenciaExpresion
-   71          | sentenciaSeleccion
-   72          | sentenciaIteracion
-   73          | sentenciaSalto
+   71 sentenciaCompuesta: '{' listaDeDeclaracionesOP listaSentenciasOP '}'
 
-   74 sentenciaCompuesta: '{' listaDeDeclaracionesOP listaSentenciasOP '}'
+   72 listaDeDeclaracionesOP: /* vacío */
+   73                       | listaDeDeclaraciones
 
-   75 listaDeDeclaracionesOP: /* vacío */
-   76                       | listaDeDeclaraciones
+   74 listaDeDeclaraciones: declaracion
+   75                     | listaDeDeclaraciones declaracion
 
-   77 listaDeDeclaraciones: declaracion
-   78                     | listaDeDeclaraciones declaracion
+   76 listaSentenciasOP: /* vacío */
+   77                  | listaSentencias
 
-   79 listaSentenciasOP: /* vacío */
-   80                  | listaSentencias
+   78 listaSentencias: sentencia
+   79                | listaSentencias sentencia
 
-   81 listaSentencias: sentencia
-   82                | listaSentencias sentencia
+   80 sentenciaExpresion: expOP ';'
 
-   83 sentenciaExpresion: expOP ';'
+   81 expOP: /* vacío */
+   82      | expGeneral
 
-   84 expOP: /* vacío */
-   85      | exp
+   83 sentenciaSeleccion: IF '(' expGeneral ')' sentencia
+   84                   | IF '(' expGeneral ')' sentencia ELSE sentencia
+   85                   | SWITCH '(' IDENTIFICADOR ')' sentencia
 
-   86 sentenciaSeleccion: IF '(' exp ')' sentencia
-   87                   | IF '(' exp ')' sentencia ELSE sentencia
-   88                   | SWITCH '(' IDENTIFICADOR ')' sentencia
+   86 sentenciaIteracion: WHILE '(' expGeneral ')' sentencia
+   87                   | DO sentencia WHILE '(' expGeneral ')'
+   88                   | FOR '(' expOP ';' expOP ';' expOP ')' sentencia
 
-   89 sentenciaIteracion: WHILE '(' exp ')' sentencia
-   90                   | DO sentencia WHILE '(' exp ')'
-   91                   | FOR '(' expOP ';' expOP ';' expOP ')' sentencia
-
-   92 sentenciaSalto: CONTINUE ';'
-   93               | BREAK ';'
-   94               | RETURN expOP ';'
-   95               | GOTO IDENTIFICADOR ';'
+   89 sentenciaSalto: CONTINUE ';'
+   90               | BREAK ';'
+   91               | RETURN expOP ';'
+   92               | GOTO IDENTIFICADOR ';'
 
 
 Terminales con las reglas donde aparecen
 
 $end (0) 0
-'\n' (10) 3 4 5 6 7 8
-'!' (33) 35
-'%' (37) 26
-'&' (38) 33
-'(' (40) 32 38 51 54 55 86 87 88 89 90 91
-')' (41) 32 38 51 54 55 86 87 88 89 90 91
-'*' (42) 24 34
-'+' (43) 13
-',' (44) 44 57
-'-' (45) 23
-'.' (46) 39
-'/' (47) 25
-';' (59) 62 83 91 92 93 94 95
-'<' (60) 20
-'=' (61) 14
-'>' (62) 21
-'[' (91) 37
-']' (93) 37
-'{' (123) 64 74
-'}' (125) 64 74
-error (256) 8 10 52 60 61 64 65 67 68
-NUM (258) 50
-IDENTIFICADOR (259) 39 40 47 53 59 60 66 67 88 95
-TIPO_DATO (260) 32 53 58 59 61 66 68
+'\n' (10) 3 4 5 6 7
+'!' (33) 32
+'%' (37) 23
+'&' (38) 30
+'(' (40) 29 35 48 51 52 83 84 85 86 87 88
+')' (41) 29 35 48 51 52 83 84 85 86 87 88
+'*' (42) 21 31
+'+' (43) 10
+',' (44) 41 54
+'-' (45) 20
+'.' (46) 36
+'/' (47) 22
+';' (59) 59 80 88 89 90 91 92
+'<' (60) 17
+'=' (61) 11 50
+'>' (62) 18
+'[' (91) 34
+']' (93) 34
+'{' (123) 61 71
+'}' (125) 61 71
+error (256) 57 58 61 62 64 65
+NUM (258) 47
+IDENTIFICADOR (259) 36 37 44 49 50 56 57 63 64 85 92
+TIPO_DATO (260) 29 49 50 55 56 58 63 65
 PALABRA_RESERVADA (261)
-STRING (262) 49
-CCARACTER (263) 48
+STRING (262) 46
+CCARACTER (263) 45
 CONSTANTE_REAL (264)
 MAYORIGUAL (265)
-MENORIGUAL (266) 22
-IGUALIGUAL (267) 18
-DISTINTO (268) 19
-INCREMENTO (269) 28 41
-DECREMENTO (270) 29 42
-FLECHA (271) 40
-OR (272) 16
-AND (273) 17
-MASIGUAL (274) 15
-SIZEOF (275) 31 32
-IF (276) 86 87
-ELSE (277) 87
-SWITCH (278) 88
-WHILE (279) 89 90
-DO (280) 90
-CONTINUE (281) 92
-BREAK (282) 93
-RETURN (283) 94
-FOR (284) 91
-GOTO (285) 95
+MENORIGUAL (266) 19
+IGUALIGUAL (267) 15
+DISTINTO (268) 16
+INCREMENTO (269) 25 38
+DECREMENTO (270) 26 39
+FLECHA (271) 37
+OR (272) 13
+AND (273) 14
+MASIGUAL (274) 12
+SIZEOF (275) 28 29
+IF (276) 83 84
+ELSE (277) 84
+SWITCH (278) 85
+WHILE (279) 86 87
+DO (280) 87
+CONTINUE (281) 89
+BREAK (282) 90
+RETURN (283) 91
+FOR (284) 88
+GOTO (285) 92
+Funcion (286)
 
 
 No terminales con las reglas donde aparecen
 
-$accept (51)
+$accept (52)
     en la izquierda: 0
-input (52)
+input (53)
     en la izquierda: 1 2, en la derecha: 0 2
-line (53)
-    en la izquierda: 3 4 5 6 7 8, en la derecha: 2
-exp (54)
-    en la izquierda: 9 10, en la derecha: 4 37 43 44 51 85 86 87 89
-    90
+line (54)
+    en la izquierda: 3 4 5 6 7, en la derecha: 2
 expGeneral (55)
-    en la izquierda: 11 12 13, en la derecha: 9 12 13
+    en la izquierda: 8 9 10, en la derecha: 4 9 10 34 40 41 48 50 82
+    83 84 86 87
 operador (56)
-    en la izquierda: 14 15 16 17 18 19 20 21 22 23 24 25 26, en la derecha:
-    12
+    en la izquierda: 11 12 13 14 15 16 17 18 19 20 21 22 23, en la derecha:
+    9
 expUnaria (57)
-    en la izquierda: 27 28 29 30 31 32, en la derecha: 11 12 13 28
-    29 30 31
+    en la izquierda: 24 25 26 27 28 29, en la derecha: 8 9 10 25 26
+    27 28
 operadorUnario (58)
-    en la izquierda: 33 34 35, en la derecha: 30
+    en la izquierda: 30 31 32, en la derecha: 27
 expSufijo (59)
-    en la izquierda: 36 37 38 39 40 41 42, en la derecha: 27 37 38
-    39 40 41 42
+    en la izquierda: 33 34 35 36 37 38 39, en la derecha: 24 34 35
+    36 37 38 39
 listaArgumentos (60)
-    en la izquierda: 43 44 45, en la derecha: 38 44
+    en la izquierda: 40 41 42, en la derecha: 35 41
 expPrimaria (61)
-    en la izquierda: 46 47 48 49 50 51 52, en la derecha: 36
+    en la izquierda: 43 44 45 46 47 48, en la derecha: 33
 declaracion (62)
-    en la izquierda: 53, en la derecha: 5 77 78
+    en la izquierda: 49 50, en la derecha: 5 74 75
 parametros (63)
-    en la izquierda: 54 55, en la derecha: 53 66 67 68
+    en la izquierda: 51 52, en la derecha: 49 63 64 65
 listaDeParametros (64)
-    en la izquierda: 56 57, en la derecha: 54 57
+    en la izquierda: 53 54, en la derecha: 51 54
 parametro (65)
-    en la izquierda: 58 59 60 61, en la derecha: 56 57
+    en la izquierda: 55 56 57 58, en la derecha: 53 54
 cuerpo (66)
-    en la izquierda: 62 63 64 65, en la derecha: 66 67 68
+    en la izquierda: 59 60 61 62, en la derecha: 63 64 65
 definicionDeFuncion (67)
-    en la izquierda: 66 67 68, en la derecha: 6
+    en la izquierda: 63 64 65, en la derecha: 6
 sentencia (68)
-    en la izquierda: 69 70 71 72 73, en la derecha: 7 81 82 86 87 88
-    89 90 91
+    en la izquierda: 66 67 68 69 70, en la derecha: 7 78 79 83 84 85
+    86 87 88
 sentenciaCompuesta (69)
-    en la izquierda: 74, en la derecha: 63 69
+    en la izquierda: 71, en la derecha: 60 66
 listaDeDeclaracionesOP (70)
-    en la izquierda: 75 76, en la derecha: 74
+    en la izquierda: 72 73, en la derecha: 71
 listaDeDeclaraciones (71)
-    en la izquierda: 77 78, en la derecha: 76 78
+    en la izquierda: 74 75, en la derecha: 73 75
 listaSentenciasOP (72)
-    en la izquierda: 79 80, en la derecha: 74
+    en la izquierda: 76 77, en la derecha: 71
 listaSentencias (73)
-    en la izquierda: 81 82, en la derecha: 80 82
+    en la izquierda: 78 79, en la derecha: 77 79
 sentenciaExpresion (74)
-    en la izquierda: 83, en la derecha: 70
+    en la izquierda: 80, en la derecha: 67
 expOP (75)
-    en la izquierda: 84 85, en la derecha: 83 91 94
+    en la izquierda: 81 82, en la derecha: 80 88 91
 sentenciaSeleccion (76)
-    en la izquierda: 86 87 88, en la derecha: 71
+    en la izquierda: 83 84 85, en la derecha: 68
 sentenciaIteracion (77)
-    en la izquierda: 89 90 91, en la derecha: 72
+    en la izquierda: 86 87 88, en la derecha: 69
 sentenciaSalto (78)
-    en la izquierda: 92 93 94 95, en la derecha: 73
+    en la izquierda: 89 90 91 92, en la derecha: 70
 
 
 estado 0
@@ -329,46 +325,45 @@ estado 1
     '!'            desplazar e ir al estado 25
     '{'            desplazar e ir al estado 26
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '\n'        [reduce usando la regla 46 (expPrimaria)]
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
+    MENORIGUAL  reduce usando la regla 43 (expPrimaria)
+    IGUALIGUAL  reduce usando la regla 43 (expPrimaria)
+    DISTINTO    reduce usando la regla 43 (expPrimaria)
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    FLECHA      reduce usando la regla 43 (expPrimaria)
+    OR          reduce usando la regla 43 (expPrimaria)
+    AND         reduce usando la regla 43 (expPrimaria)
+    MASIGUAL    reduce usando la regla 43 (expPrimaria)
+    '\n'        [reduce usando la regla 43 (expPrimaria)]
+    '+'         reduce usando la regla 43 (expPrimaria)
+    '='         reduce usando la regla 43 (expPrimaria)
+    '<'         reduce usando la regla 43 (expPrimaria)
+    '>'         reduce usando la regla 43 (expPrimaria)
+    '-'         reduce usando la regla 43 (expPrimaria)
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '/'         reduce usando la regla 43 (expPrimaria)
+    '%'         reduce usando la regla 43 (expPrimaria)
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    '['         reduce usando la regla 43 (expPrimaria)
+    '.'         reduce usando la regla 43 (expPrimaria)
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
 
     line                 ir al estado 27
-    exp                  ir al estado 28
-    expGeneral           ir al estado 29
-    expUnaria            ir al estado 30
-    operadorUnario       ir al estado 31
-    expSufijo            ir al estado 32
-    expPrimaria          ir al estado 33
-    declaracion          ir al estado 34
-    definicionDeFuncion  ir al estado 35
-    sentencia            ir al estado 36
-    sentenciaCompuesta   ir al estado 37
-    sentenciaExpresion   ir al estado 38
-    expOP                ir al estado 39
-    sentenciaSeleccion   ir al estado 40
-    sentenciaIteracion   ir al estado 41
-    sentenciaSalto       ir al estado 42
+    expGeneral           ir al estado 28
+    expUnaria            ir al estado 29
+    operadorUnario       ir al estado 30
+    expSufijo            ir al estado 31
+    expPrimaria          ir al estado 32
+    declaracion          ir al estado 33
+    definicionDeFuncion  ir al estado 34
+    sentencia            ir al estado 35
+    sentenciaCompuesta   ir al estado 36
+    sentenciaExpresion   ir al estado 37
+    expOP                ir al estado 38
+    sentenciaSeleccion   ir al estado 39
+    sentenciaIteracion   ir al estado 40
+    sentenciaSalto       ir al estado 41
 
 
 estado 2
@@ -380,64 +375,54 @@ estado 2
 
 estado 3
 
-    8 line: error . '\n'
-   10 exp: error .
-   52 expPrimaria: error .
-   67 definicionDeFuncion: error . IDENTIFICADOR parametros cuerpo
+   64 definicionDeFuncion: error . IDENTIFICADOR parametros cuerpo
 
-    IDENTIFICADOR  desplazar e ir al estado 43
-    '\n'           desplazar e ir al estado 44
-
-    '\n'      [reduce usando la regla 10 (exp)]
-    '\n'      [reduce usando la regla 52 (expPrimaria)]
-    ';'       reduce usando la regla 10 (exp)
-    ';'       [reduce usando la regla 52 (expPrimaria)]
-    $default  reduce usando la regla 52 (expPrimaria)
+    IDENTIFICADOR  desplazar e ir al estado 42
 
 
 estado 4
 
-   50 expPrimaria: NUM .
-
-    $default  reduce usando la regla 50 (expPrimaria)
-
-
-estado 5
-
-   47 expPrimaria: IDENTIFICADOR .
+   47 expPrimaria: NUM .
 
     $default  reduce usando la regla 47 (expPrimaria)
 
 
+estado 5
+
+   44 expPrimaria: IDENTIFICADOR .
+
+    $default  reduce usando la regla 44 (expPrimaria)
+
+
 estado 6
 
-   53 declaracion: TIPO_DATO . IDENTIFICADOR parametros
-   66 definicionDeFuncion: TIPO_DATO . IDENTIFICADOR parametros cuerpo
-   68                    | TIPO_DATO . error parametros cuerpo
+   49 declaracion: TIPO_DATO . IDENTIFICADOR parametros
+   50            | TIPO_DATO . IDENTIFICADOR '=' expGeneral
+   63 definicionDeFuncion: TIPO_DATO . IDENTIFICADOR parametros cuerpo
+   65                    | TIPO_DATO . error parametros cuerpo
 
-    error          desplazar e ir al estado 45
-    IDENTIFICADOR  desplazar e ir al estado 46
+    error          desplazar e ir al estado 43
+    IDENTIFICADOR  desplazar e ir al estado 44
 
 
 estado 7
 
-   49 expPrimaria: STRING .
+   46 expPrimaria: STRING .
 
-    $default  reduce usando la regla 49 (expPrimaria)
+    $default  reduce usando la regla 46 (expPrimaria)
 
 
 estado 8
 
-   48 expPrimaria: CCARACTER .
+   45 expPrimaria: CCARACTER .
 
-    $default  reduce usando la regla 48 (expPrimaria)
+    $default  reduce usando la regla 45 (expPrimaria)
 
 
 estado 9
 
-   28 expUnaria: INCREMENTO . expUnaria
+   25 expUnaria: INCREMENTO . expUnaria
 
-    error          desplazar e ir al estado 47
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -450,43 +435,29 @@ estado 9
     '&'            desplazar e ir al estado 24
     '!'            desplazar e ir al estado 25
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '\n'        reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    ']'         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ','         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
+    NUM            [reduce usando la regla 43 (expPrimaria)]
+    IDENTIFICADOR  [reduce usando la regla 43 (expPrimaria)]
+    STRING         [reduce usando la regla 43 (expPrimaria)]
+    CCARACTER      [reduce usando la regla 43 (expPrimaria)]
+    INCREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    SIZEOF         [reduce usando la regla 43 (expPrimaria)]
+    '*'            [reduce usando la regla 43 (expPrimaria)]
+    '('            [reduce usando la regla 43 (expPrimaria)]
+    '&'            [reduce usando la regla 43 (expPrimaria)]
+    '!'            [reduce usando la regla 43 (expPrimaria)]
+    $default       reduce usando la regla 43 (expPrimaria)
 
-    expUnaria       ir al estado 48
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
+    expUnaria       ir al estado 45
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
 
 
 estado 10
 
-   29 expUnaria: DECREMENTO . expUnaria
+   26 expUnaria: DECREMENTO . expUnaria
 
-    error          desplazar e ir al estado 47
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -499,44 +470,30 @@ estado 10
     '&'            desplazar e ir al estado 24
     '!'            desplazar e ir al estado 25
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '\n'        reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    ']'         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ','         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
+    NUM            [reduce usando la regla 43 (expPrimaria)]
+    IDENTIFICADOR  [reduce usando la regla 43 (expPrimaria)]
+    STRING         [reduce usando la regla 43 (expPrimaria)]
+    CCARACTER      [reduce usando la regla 43 (expPrimaria)]
+    INCREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    SIZEOF         [reduce usando la regla 43 (expPrimaria)]
+    '*'            [reduce usando la regla 43 (expPrimaria)]
+    '('            [reduce usando la regla 43 (expPrimaria)]
+    '&'            [reduce usando la regla 43 (expPrimaria)]
+    '!'            [reduce usando la regla 43 (expPrimaria)]
+    $default       reduce usando la regla 43 (expPrimaria)
 
-    expUnaria       ir al estado 49
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
+    expUnaria       ir al estado 46
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
 
 
 estado 11
 
-   31 expUnaria: SIZEOF . expUnaria
-   32          | SIZEOF . '(' TIPO_DATO ')'
+   28 expUnaria: SIZEOF . expUnaria
+   29          | SIZEOF . '(' TIPO_DATO ')'
 
-    error          desplazar e ir al estado 47
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -545,69 +502,55 @@ estado 11
     DECREMENTO     desplazar e ir al estado 10
     SIZEOF         desplazar e ir al estado 11
     '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 50
+    '('            desplazar e ir al estado 47
     '&'            desplazar e ir al estado 24
     '!'            desplazar e ir al estado 25
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '\n'        reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    ']'         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ','         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
+    NUM            [reduce usando la regla 43 (expPrimaria)]
+    IDENTIFICADOR  [reduce usando la regla 43 (expPrimaria)]
+    STRING         [reduce usando la regla 43 (expPrimaria)]
+    CCARACTER      [reduce usando la regla 43 (expPrimaria)]
+    INCREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    SIZEOF         [reduce usando la regla 43 (expPrimaria)]
+    '*'            [reduce usando la regla 43 (expPrimaria)]
+    '('            [reduce usando la regla 43 (expPrimaria)]
+    '&'            [reduce usando la regla 43 (expPrimaria)]
+    '!'            [reduce usando la regla 43 (expPrimaria)]
+    $default       reduce usando la regla 43 (expPrimaria)
 
-    expUnaria       ir al estado 51
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
+    expUnaria       ir al estado 48
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
 
 
 estado 12
 
-   86 sentenciaSeleccion: IF . '(' exp ')' sentencia
-   87                   | IF . '(' exp ')' sentencia ELSE sentencia
+   83 sentenciaSeleccion: IF . '(' expGeneral ')' sentencia
+   84                   | IF . '(' expGeneral ')' sentencia ELSE sentencia
 
-    '('  desplazar e ir al estado 52
+    '('  desplazar e ir al estado 49
 
 
 estado 13
 
-   88 sentenciaSeleccion: SWITCH . '(' IDENTIFICADOR ')' sentencia
+   85 sentenciaSeleccion: SWITCH . '(' IDENTIFICADOR ')' sentencia
 
-    '('  desplazar e ir al estado 53
+    '('  desplazar e ir al estado 50
 
 
 estado 14
 
-   89 sentenciaIteracion: WHILE . '(' exp ')' sentencia
+   86 sentenciaIteracion: WHILE . '(' expGeneral ')' sentencia
 
-    '('  desplazar e ir al estado 54
+    '('  desplazar e ir al estado 51
 
 
 estado 15
 
-   90 sentenciaIteracion: DO . sentencia WHILE '(' exp ')'
+   87 sentenciaIteracion: DO . sentencia WHILE '(' expGeneral ')'
 
-    error          desplazar e ir al estado 55
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -630,63 +573,46 @@ estado 15
     '!'            desplazar e ir al estado 25
     '{'            desplazar e ir al estado 26
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    $default    reduce usando la regla 43 (expPrimaria)
 
-    exp                 ir al estado 56
-    expGeneral          ir al estado 29
-    expUnaria           ir al estado 30
-    operadorUnario      ir al estado 31
-    expSufijo           ir al estado 32
-    expPrimaria         ir al estado 33
-    sentencia           ir al estado 57
-    sentenciaCompuesta  ir al estado 37
-    sentenciaExpresion  ir al estado 38
-    expOP               ir al estado 39
-    sentenciaSeleccion  ir al estado 40
-    sentenciaIteracion  ir al estado 41
-    sentenciaSalto      ir al estado 42
+    expGeneral          ir al estado 52
+    expUnaria           ir al estado 29
+    operadorUnario      ir al estado 30
+    expSufijo           ir al estado 31
+    expPrimaria         ir al estado 32
+    sentencia           ir al estado 53
+    sentenciaCompuesta  ir al estado 36
+    sentenciaExpresion  ir al estado 37
+    expOP               ir al estado 38
+    sentenciaSeleccion  ir al estado 39
+    sentenciaIteracion  ir al estado 40
+    sentenciaSalto      ir al estado 41
 
 
 estado 16
 
-   92 sentenciaSalto: CONTINUE . ';'
+   89 sentenciaSalto: CONTINUE . ';'
 
-    ';'  desplazar e ir al estado 58
+    ';'  desplazar e ir al estado 54
 
 
 estado 17
 
-   93 sentenciaSalto: BREAK . ';'
+   90 sentenciaSalto: BREAK . ';'
 
-    ';'  desplazar e ir al estado 59
+    ';'  desplazar e ir al estado 55
 
 
 estado 18
 
-   94 sentenciaSalto: RETURN . expOP ';'
+   91 sentenciaSalto: RETURN . expOP ';'
 
-    error          desplazar e ir al estado 55
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -699,50 +625,34 @@ estado 18
     '&'            desplazar e ir al estado 24
     '!'            desplazar e ir al estado 25
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    $default    reduce usando la regla 43 (expPrimaria)
 
-    exp             ir al estado 56
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
-    expOP           ir al estado 60
+    expGeneral      ir al estado 52
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
+    expOP           ir al estado 56
 
 
 estado 19
 
-   91 sentenciaIteracion: FOR . '(' expOP ';' expOP ';' expOP ')' sentencia
+   88 sentenciaIteracion: FOR . '(' expOP ';' expOP ';' expOP ')' sentencia
 
-    '('  desplazar e ir al estado 61
+    '('  desplazar e ir al estado 57
 
 
 estado 20
 
-   95 sentenciaSalto: GOTO . IDENTIFICADOR ';'
+   92 sentenciaSalto: GOTO . IDENTIFICADOR ';'
 
-    IDENTIFICADOR  desplazar e ir al estado 62
+    IDENTIFICADOR  desplazar e ir al estado 58
 
 
 estado 21
@@ -754,16 +664,15 @@ estado 21
 
 estado 22
 
-   34 operadorUnario: '*' .
+   31 operadorUnario: '*' .
 
-    $default  reduce usando la regla 34 (operadorUnario)
+    $default  reduce usando la regla 31 (operadorUnario)
 
 
 estado 23
 
-   51 expPrimaria: '(' . exp ')'
+   48 expPrimaria: '(' . expGeneral ')'
 
-    error          desplazar e ir al estado 55
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -776,61 +685,44 @@ estado 23
     '&'            desplazar e ir al estado 24
     '!'            desplazar e ir al estado 25
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    $default    reduce usando la regla 43 (expPrimaria)
 
-    exp             ir al estado 63
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
+    expGeneral      ir al estado 59
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
 
 
 estado 24
 
-   33 operadorUnario: '&' .
+   30 operadorUnario: '&' .
 
-    $default  reduce usando la regla 33 (operadorUnario)
+    $default  reduce usando la regla 30 (operadorUnario)
 
 
 estado 25
 
-   35 operadorUnario: '!' .
+   32 operadorUnario: '!' .
 
-    $default  reduce usando la regla 35 (operadorUnario)
+    $default  reduce usando la regla 32 (operadorUnario)
 
 
 estado 26
 
-   74 sentenciaCompuesta: '{' . listaDeDeclaracionesOP listaSentenciasOP '}'
+   71 sentenciaCompuesta: '{' . listaDeDeclaracionesOP listaSentenciasOP '}'
 
-    TIPO_DATO  desplazar e ir al estado 64
+    TIPO_DATO  desplazar e ir al estado 60
 
-    $default  reduce usando la regla 75 (listaDeDeclaracionesOP)
+    $default  reduce usando la regla 72 (listaDeDeclaracionesOP)
 
-    declaracion             ir al estado 65
-    listaDeDeclaracionesOP  ir al estado 66
-    listaDeDeclaraciones    ir al estado 67
+    declaracion             ir al estado 61
+    listaDeDeclaracionesOP  ir al estado 62
+    listaDeDeclaraciones    ir al estado 63
 
 
 estado 27
@@ -842,52 +734,58 @@ estado 27
 
 estado 28
 
-    4 line: exp . '\n'
-   85 expOP: exp .
+    4 line: expGeneral . '\n'
+   82 expOP: expGeneral .
 
-    '\n'  desplazar e ir al estado 68
+    '\n'  desplazar e ir al estado 64
 
-    $default  reduce usando la regla 85 (expOP)
+    $default  reduce usando la regla 82 (expOP)
 
 
 estado 29
 
-    9 exp: expGeneral .
+    8 expGeneral: expUnaria .
+    9           | expUnaria . operador expGeneral
+   10           | expUnaria . '+' expGeneral
 
-    $default  reduce usando la regla 9 (exp)
+    MENORIGUAL  desplazar e ir al estado 65
+    IGUALIGUAL  desplazar e ir al estado 66
+    DISTINTO    desplazar e ir al estado 67
+    OR          desplazar e ir al estado 68
+    AND         desplazar e ir al estado 69
+    MASIGUAL    desplazar e ir al estado 70
+    '+'         desplazar e ir al estado 71
+    '='         desplazar e ir al estado 72
+    '<'         desplazar e ir al estado 73
+    '>'         desplazar e ir al estado 74
+    '-'         desplazar e ir al estado 75
+    '*'         desplazar e ir al estado 76
+    '/'         desplazar e ir al estado 77
+    '%'         desplazar e ir al estado 78
+
+    MENORIGUAL  [reduce usando la regla 8 (expGeneral)]
+    IGUALIGUAL  [reduce usando la regla 8 (expGeneral)]
+    DISTINTO    [reduce usando la regla 8 (expGeneral)]
+    OR          [reduce usando la regla 8 (expGeneral)]
+    AND         [reduce usando la regla 8 (expGeneral)]
+    MASIGUAL    [reduce usando la regla 8 (expGeneral)]
+    '+'         [reduce usando la regla 8 (expGeneral)]
+    '='         [reduce usando la regla 8 (expGeneral)]
+    '<'         [reduce usando la regla 8 (expGeneral)]
+    '>'         [reduce usando la regla 8 (expGeneral)]
+    '-'         [reduce usando la regla 8 (expGeneral)]
+    '*'         [reduce usando la regla 8 (expGeneral)]
+    '/'         [reduce usando la regla 8 (expGeneral)]
+    '%'         [reduce usando la regla 8 (expGeneral)]
+    $default    reduce usando la regla 8 (expGeneral)
+
+    operador  ir al estado 79
 
 
 estado 30
 
-   11 expGeneral: expUnaria .
-   12           | expUnaria . operador expGeneral
-   13           | expUnaria . '+' expGeneral
+   27 expUnaria: operadorUnario . expUnaria
 
-    MENORIGUAL  desplazar e ir al estado 69
-    IGUALIGUAL  desplazar e ir al estado 70
-    DISTINTO    desplazar e ir al estado 71
-    OR          desplazar e ir al estado 72
-    AND         desplazar e ir al estado 73
-    MASIGUAL    desplazar e ir al estado 74
-    '+'         desplazar e ir al estado 75
-    '='         desplazar e ir al estado 76
-    '<'         desplazar e ir al estado 77
-    '>'         desplazar e ir al estado 78
-    '-'         desplazar e ir al estado 79
-    '*'         desplazar e ir al estado 80
-    '/'         desplazar e ir al estado 81
-    '%'         desplazar e ir al estado 82
-
-    $default  reduce usando la regla 11 (expGeneral)
-
-    operador  ir al estado 83
-
-
-estado 31
-
-   30 expUnaria: operadorUnario . expUnaria
-
-    error          desplazar e ir al estado 47
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -900,398 +798,308 @@ estado 31
     '&'            desplazar e ir al estado 24
     '!'            desplazar e ir al estado 25
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '\n'        reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    ']'         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ','         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
+    NUM            [reduce usando la regla 43 (expPrimaria)]
+    IDENTIFICADOR  [reduce usando la regla 43 (expPrimaria)]
+    STRING         [reduce usando la regla 43 (expPrimaria)]
+    CCARACTER      [reduce usando la regla 43 (expPrimaria)]
+    INCREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    SIZEOF         [reduce usando la regla 43 (expPrimaria)]
+    '*'            [reduce usando la regla 43 (expPrimaria)]
+    '('            [reduce usando la regla 43 (expPrimaria)]
+    '&'            [reduce usando la regla 43 (expPrimaria)]
+    '!'            [reduce usando la regla 43 (expPrimaria)]
+    $default       reduce usando la regla 43 (expPrimaria)
 
-    expUnaria       ir al estado 84
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
+    expUnaria       ir al estado 80
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
+
+
+estado 31
+
+   24 expUnaria: expSufijo .
+   34 expSufijo: expSufijo . '[' expGeneral ']'
+   35          | expSufijo . '(' listaArgumentos ')'
+   36          | expSufijo . '.' IDENTIFICADOR
+   37          | expSufijo . FLECHA IDENTIFICADOR
+   38          | expSufijo . INCREMENTO
+   39          | expSufijo . DECREMENTO
+
+    INCREMENTO  desplazar e ir al estado 81
+    DECREMENTO  desplazar e ir al estado 82
+    FLECHA      desplazar e ir al estado 83
+    '('         desplazar e ir al estado 84
+    '['         desplazar e ir al estado 85
+    '.'         desplazar e ir al estado 86
+
+    INCREMENTO  [reduce usando la regla 24 (expUnaria)]
+    DECREMENTO  [reduce usando la regla 24 (expUnaria)]
+    FLECHA      [reduce usando la regla 24 (expUnaria)]
+    '('         [reduce usando la regla 24 (expUnaria)]
+    '['         [reduce usando la regla 24 (expUnaria)]
+    '.'         [reduce usando la regla 24 (expUnaria)]
+    $default    reduce usando la regla 24 (expUnaria)
 
 
 estado 32
 
-   27 expUnaria: expSufijo .
-   37 expSufijo: expSufijo . '[' exp ']'
-   38          | expSufijo . '(' listaArgumentos ')'
-   39          | expSufijo . '.' IDENTIFICADOR
-   40          | expSufijo . FLECHA IDENTIFICADOR
-   41          | expSufijo . INCREMENTO
-   42          | expSufijo . DECREMENTO
+   33 expSufijo: expPrimaria .
 
-    INCREMENTO  desplazar e ir al estado 85
-    DECREMENTO  desplazar e ir al estado 86
-    FLECHA      desplazar e ir al estado 87
-    '('         desplazar e ir al estado 88
-    '['         desplazar e ir al estado 89
-    '.'         desplazar e ir al estado 90
-
-    $default  reduce usando la regla 27 (expUnaria)
+    $default  reduce usando la regla 33 (expSufijo)
 
 
 estado 33
 
-   36 expSufijo: expPrimaria .
+    5 line: declaracion . '\n'
 
-    $default  reduce usando la regla 36 (expSufijo)
+    '\n'  desplazar e ir al estado 87
 
 
 estado 34
 
-    5 line: declaracion . '\n'
+    6 line: definicionDeFuncion . '\n'
 
-    '\n'  desplazar e ir al estado 91
+    '\n'  desplazar e ir al estado 88
 
 
 estado 35
 
-    6 line: definicionDeFuncion . '\n'
+    7 line: sentencia . '\n'
 
-    '\n'  desplazar e ir al estado 92
+    '\n'  desplazar e ir al estado 89
 
 
 estado 36
 
-    7 line: sentencia . '\n'
+   66 sentencia: sentenciaCompuesta .
 
-    '\n'  desplazar e ir al estado 93
+    $default  reduce usando la regla 66 (sentencia)
 
 
 estado 37
 
-   69 sentencia: sentenciaCompuesta .
+   67 sentencia: sentenciaExpresion .
 
-    $default  reduce usando la regla 69 (sentencia)
+    $default  reduce usando la regla 67 (sentencia)
 
 
 estado 38
 
-   70 sentencia: sentenciaExpresion .
+   80 sentenciaExpresion: expOP . ';'
 
-    $default  reduce usando la regla 70 (sentencia)
+    ';'  desplazar e ir al estado 90
 
 
 estado 39
 
-   83 sentenciaExpresion: expOP . ';'
+   68 sentencia: sentenciaSeleccion .
 
-    ';'  desplazar e ir al estado 94
+    $default  reduce usando la regla 68 (sentencia)
 
 
 estado 40
 
-   71 sentencia: sentenciaSeleccion .
+   69 sentencia: sentenciaIteracion .
 
-    $default  reduce usando la regla 71 (sentencia)
+    $default  reduce usando la regla 69 (sentencia)
 
 
 estado 41
 
-   72 sentencia: sentenciaIteracion .
+   70 sentencia: sentenciaSalto .
 
-    $default  reduce usando la regla 72 (sentencia)
+    $default  reduce usando la regla 70 (sentencia)
 
 
 estado 42
 
-   73 sentencia: sentenciaSalto .
+   64 definicionDeFuncion: error IDENTIFICADOR . parametros cuerpo
 
-    $default  reduce usando la regla 73 (sentencia)
+    '('  desplazar e ir al estado 91
+
+    parametros  ir al estado 92
 
 
 estado 43
 
-   67 definicionDeFuncion: error IDENTIFICADOR . parametros cuerpo
+   65 definicionDeFuncion: TIPO_DATO error . parametros cuerpo
 
-    '('  desplazar e ir al estado 95
+    '('  desplazar e ir al estado 91
 
-    parametros  ir al estado 96
+    parametros  ir al estado 93
 
 
 estado 44
 
-    8 line: error '\n' .
+   49 declaracion: TIPO_DATO IDENTIFICADOR . parametros
+   50            | TIPO_DATO IDENTIFICADOR . '=' expGeneral
+   63 definicionDeFuncion: TIPO_DATO IDENTIFICADOR . parametros cuerpo
 
-    $default  reduce usando la regla 8 (line)
+    '='  desplazar e ir al estado 94
+    '('  desplazar e ir al estado 91
+
+    parametros  ir al estado 95
 
 
 estado 45
 
-   68 definicionDeFuncion: TIPO_DATO error . parametros cuerpo
+   25 expUnaria: INCREMENTO expUnaria .
 
-    '('  desplazar e ir al estado 95
-
-    parametros  ir al estado 97
+    $default  reduce usando la regla 25 (expUnaria)
 
 
 estado 46
 
-   53 declaracion: TIPO_DATO IDENTIFICADOR . parametros
-   66 definicionDeFuncion: TIPO_DATO IDENTIFICADOR . parametros cuerpo
+   26 expUnaria: DECREMENTO expUnaria .
 
-    '('  desplazar e ir al estado 95
-
-    parametros  ir al estado 98
+    $default  reduce usando la regla 26 (expUnaria)
 
 
 estado 47
 
-   52 expPrimaria: error .
+   29 expUnaria: SIZEOF '(' . TIPO_DATO ')'
+   48 expPrimaria: '(' . expGeneral ')'
 
-    $default  reduce usando la regla 52 (expPrimaria)
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    TIPO_DATO      desplazar e ir al estado 96
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral      ir al estado 59
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
 
 
 estado 48
 
-   28 expUnaria: INCREMENTO expUnaria .
+   28 expUnaria: SIZEOF expUnaria .
 
     $default  reduce usando la regla 28 (expUnaria)
 
 
 estado 49
 
-   29 expUnaria: DECREMENTO expUnaria .
+   83 sentenciaSeleccion: IF '(' . expGeneral ')' sentencia
+   84                   | IF '(' . expGeneral ')' sentencia ELSE sentencia
 
-    $default  reduce usando la regla 29 (expUnaria)
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral      ir al estado 97
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
 
 
 estado 50
 
-   32 expUnaria: SIZEOF '(' . TIPO_DATO ')'
-   51 expPrimaria: '(' . exp ')'
+   85 sentenciaSeleccion: SWITCH '(' . IDENTIFICADOR ')' sentencia
 
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    TIPO_DATO      desplazar e ir al estado 99
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-
-    exp             ir al estado 63
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
+    IDENTIFICADOR  desplazar e ir al estado 98
 
 
 estado 51
 
-   31 expUnaria: SIZEOF expUnaria .
+   86 sentenciaIteracion: WHILE '(' . expGeneral ')' sentencia
 
-    $default  reduce usando la regla 31 (expUnaria)
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral      ir al estado 99
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
 
 
 estado 52
 
-   86 sentenciaSeleccion: IF '(' . exp ')' sentencia
-   87                   | IF '(' . exp ')' sentencia ELSE sentencia
+   82 expOP: expGeneral .
 
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-
-    exp             ir al estado 100
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
+    $default  reduce usando la regla 82 (expOP)
 
 
 estado 53
 
-   88 sentenciaSeleccion: SWITCH '(' . IDENTIFICADOR ')' sentencia
+   87 sentenciaIteracion: DO sentencia . WHILE '(' expGeneral ')'
 
-    IDENTIFICADOR  desplazar e ir al estado 101
+    WHILE  desplazar e ir al estado 100
 
 
 estado 54
 
-   89 sentenciaIteracion: WHILE '(' . exp ')' sentencia
+   89 sentenciaSalto: CONTINUE ';' .
 
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-
-    exp             ir al estado 102
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
+    $default  reduce usando la regla 89 (sentenciaSalto)
 
 
 estado 55
 
-   10 exp: error .
-   52 expPrimaria: error .
+   90 sentenciaSalto: BREAK ';' .
 
-    ')'       reduce usando la regla 10 (exp)
-    ')'       [reduce usando la regla 52 (expPrimaria)]
-    ']'       reduce usando la regla 10 (exp)
-    ']'       [reduce usando la regla 52 (expPrimaria)]
-    ','       reduce usando la regla 10 (exp)
-    ','       [reduce usando la regla 52 (expPrimaria)]
-    ';'       reduce usando la regla 10 (exp)
-    ';'       [reduce usando la regla 52 (expPrimaria)]
-    $default  reduce usando la regla 52 (expPrimaria)
+    $default  reduce usando la regla 90 (sentenciaSalto)
 
 
 estado 56
 
-   85 expOP: exp .
+   91 sentenciaSalto: RETURN expOP . ';'
 
-    $default  reduce usando la regla 85 (expOP)
+    ';'  desplazar e ir al estado 101
 
 
 estado 57
 
-   90 sentenciaIteracion: DO sentencia . WHILE '(' exp ')'
+   88 sentenciaIteracion: FOR '(' . expOP ';' expOP ';' expOP ')' sentencia
 
-    WHILE  desplazar e ir al estado 103
-
-
-estado 58
-
-   92 sentenciaSalto: CONTINUE ';' .
-
-    $default  reduce usando la regla 92 (sentenciaSalto)
-
-
-estado 59
-
-   93 sentenciaSalto: BREAK ';' .
-
-    $default  reduce usando la regla 93 (sentenciaSalto)
-
-
-estado 60
-
-   94 sentenciaSalto: RETURN expOP . ';'
-
-    ';'  desplazar e ir al estado 104
-
-
-estado 61
-
-   91 sentenciaIteracion: FOR '(' . expOP ';' expOP ';' expOP ')' sentencia
-
-    error          desplazar e ir al estado 55
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -1304,71 +1112,55 @@ estado 61
     '&'            desplazar e ir al estado 24
     '!'            desplazar e ir al estado 25
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    $default    reduce usando la regla 43 (expPrimaria)
 
-    exp             ir al estado 56
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
-    expOP           ir al estado 105
+    expGeneral      ir al estado 52
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
+    expOP           ir al estado 102
+
+
+estado 58
+
+   92 sentenciaSalto: GOTO IDENTIFICADOR . ';'
+
+    ';'  desplazar e ir al estado 103
+
+
+estado 59
+
+   48 expPrimaria: '(' expGeneral . ')'
+
+    ')'  desplazar e ir al estado 104
+
+
+estado 60
+
+   49 declaracion: TIPO_DATO . IDENTIFICADOR parametros
+   50            | TIPO_DATO . IDENTIFICADOR '=' expGeneral
+
+    IDENTIFICADOR  desplazar e ir al estado 105
+
+
+estado 61
+
+   74 listaDeDeclaraciones: declaracion .
+
+    $default  reduce usando la regla 74 (listaDeDeclaraciones)
 
 
 estado 62
 
-   95 sentenciaSalto: GOTO IDENTIFICADOR . ';'
+   71 sentenciaCompuesta: '{' listaDeDeclaracionesOP . listaSentenciasOP '}'
 
-    ';'  desplazar e ir al estado 106
-
-
-estado 63
-
-   51 expPrimaria: '(' exp . ')'
-
-    ')'  desplazar e ir al estado 107
-
-
-estado 64
-
-   53 declaracion: TIPO_DATO . IDENTIFICADOR parametros
-
-    IDENTIFICADOR  desplazar e ir al estado 108
-
-
-estado 65
-
-   77 listaDeDeclaraciones: declaracion .
-
-    $default  reduce usando la regla 77 (listaDeDeclaraciones)
-
-
-estado 66
-
-   74 sentenciaCompuesta: '{' listaDeDeclaracionesOP . listaSentenciasOP '}'
-
-    error          desplazar e ir al estado 55
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -1391,1313 +1183,1210 @@ estado 66
     '!'            desplazar e ir al estado 25
     '{'            desplazar e ir al estado 26
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
-    '}'         reduce usando la regla 79 (listaSentenciasOP)
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    '}'         reduce usando la regla 76 (listaSentenciasOP)
+    $default    reduce usando la regla 43 (expPrimaria)
 
-    exp                 ir al estado 56
-    expGeneral          ir al estado 29
-    expUnaria           ir al estado 30
-    operadorUnario      ir al estado 31
-    expSufijo           ir al estado 32
-    expPrimaria         ir al estado 33
-    sentencia           ir al estado 109
-    sentenciaCompuesta  ir al estado 37
-    listaSentenciasOP   ir al estado 110
-    listaSentencias     ir al estado 111
-    sentenciaExpresion  ir al estado 38
-    expOP               ir al estado 39
-    sentenciaSeleccion  ir al estado 40
-    sentenciaIteracion  ir al estado 41
-    sentenciaSalto      ir al estado 42
+    expGeneral          ir al estado 52
+    expUnaria           ir al estado 29
+    operadorUnario      ir al estado 30
+    expSufijo           ir al estado 31
+    expPrimaria         ir al estado 32
+    sentencia           ir al estado 106
+    sentenciaCompuesta  ir al estado 36
+    listaSentenciasOP   ir al estado 107
+    listaSentencias     ir al estado 108
+    sentenciaExpresion  ir al estado 37
+    expOP               ir al estado 38
+    sentenciaSeleccion  ir al estado 39
+    sentenciaIteracion  ir al estado 40
+    sentenciaSalto      ir al estado 41
 
 
-estado 67
+estado 63
 
-   76 listaDeDeclaracionesOP: listaDeDeclaraciones .
-   78 listaDeDeclaraciones: listaDeDeclaraciones . declaracion
+   73 listaDeDeclaracionesOP: listaDeDeclaraciones .
+   75 listaDeDeclaraciones: listaDeDeclaraciones . declaracion
 
-    TIPO_DATO  desplazar e ir al estado 64
+    TIPO_DATO  desplazar e ir al estado 60
 
-    $default  reduce usando la regla 76 (listaDeDeclaracionesOP)
+    $default  reduce usando la regla 73 (listaDeDeclaracionesOP)
 
-    declaracion  ir al estado 112
+    declaracion  ir al estado 109
 
 
-estado 68
+estado 64
 
-    4 line: exp '\n' .
+    4 line: expGeneral '\n' .
 
     $default  reduce usando la regla 4 (line)
 
 
-estado 69
+estado 65
 
-   22 operador: MENORIGUAL .
-
-    $default  reduce usando la regla 22 (operador)
-
-
-estado 70
-
-   18 operador: IGUALIGUAL .
-
-    $default  reduce usando la regla 18 (operador)
-
-
-estado 71
-
-   19 operador: DISTINTO .
+   19 operador: MENORIGUAL .
 
     $default  reduce usando la regla 19 (operador)
 
 
-estado 72
+estado 66
 
-   16 operador: OR .
+   15 operador: IGUALIGUAL .
+
+    $default  reduce usando la regla 15 (operador)
+
+
+estado 67
+
+   16 operador: DISTINTO .
 
     $default  reduce usando la regla 16 (operador)
 
 
+estado 68
+
+   13 operador: OR .
+
+    $default  reduce usando la regla 13 (operador)
+
+
+estado 69
+
+   14 operador: AND .
+
+    $default  reduce usando la regla 14 (operador)
+
+
+estado 70
+
+   12 operador: MASIGUAL .
+
+    $default  reduce usando la regla 12 (operador)
+
+
+estado 71
+
+   10 expGeneral: expUnaria '+' . expGeneral
+
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    NUM            [reduce usando la regla 43 (expPrimaria)]
+    IDENTIFICADOR  [reduce usando la regla 43 (expPrimaria)]
+    STRING         [reduce usando la regla 43 (expPrimaria)]
+    CCARACTER      [reduce usando la regla 43 (expPrimaria)]
+    INCREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    SIZEOF         [reduce usando la regla 43 (expPrimaria)]
+    '*'            [reduce usando la regla 43 (expPrimaria)]
+    '('            [reduce usando la regla 43 (expPrimaria)]
+    '&'            [reduce usando la regla 43 (expPrimaria)]
+    '!'            [reduce usando la regla 43 (expPrimaria)]
+    $default       reduce usando la regla 43 (expPrimaria)
+
+    expGeneral      ir al estado 110
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
+
+
+estado 72
+
+   11 operador: '=' .
+
+    $default  reduce usando la regla 11 (operador)
+
+
 estado 73
 
-   17 operador: AND .
+   17 operador: '<' .
 
     $default  reduce usando la regla 17 (operador)
 
 
 estado 74
 
-   15 operador: MASIGUAL .
+   18 operador: '>' .
 
-    $default  reduce usando la regla 15 (operador)
+    $default  reduce usando la regla 18 (operador)
 
 
 estado 75
 
-   13 expGeneral: expUnaria '+' . expGeneral
-
-    error          desplazar e ir al estado 47
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '\n'        reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    ']'         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ','         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-
-    expGeneral      ir al estado 113
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
-
-
-estado 76
-
-   14 operador: '=' .
-
-    $default  reduce usando la regla 14 (operador)
-
-
-estado 77
-
-   20 operador: '<' .
+   20 operador: '-' .
 
     $default  reduce usando la regla 20 (operador)
 
 
-estado 78
+estado 76
 
-   21 operador: '>' .
+   21 operador: '*' .
 
     $default  reduce usando la regla 21 (operador)
 
 
-estado 79
+estado 77
 
-   23 operador: '-' .
+   22 operador: '/' .
+
+    $default  reduce usando la regla 22 (operador)
+
+
+estado 78
+
+   23 operador: '%' .
 
     $default  reduce usando la regla 23 (operador)
 
 
+estado 79
+
+    9 expGeneral: expUnaria operador . expGeneral
+
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    NUM            [reduce usando la regla 43 (expPrimaria)]
+    IDENTIFICADOR  [reduce usando la regla 43 (expPrimaria)]
+    STRING         [reduce usando la regla 43 (expPrimaria)]
+    CCARACTER      [reduce usando la regla 43 (expPrimaria)]
+    INCREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    SIZEOF         [reduce usando la regla 43 (expPrimaria)]
+    '*'            [reduce usando la regla 43 (expPrimaria)]
+    '('            [reduce usando la regla 43 (expPrimaria)]
+    '&'            [reduce usando la regla 43 (expPrimaria)]
+    '!'            [reduce usando la regla 43 (expPrimaria)]
+    $default       reduce usando la regla 43 (expPrimaria)
+
+    expGeneral      ir al estado 111
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
+
+
 estado 80
 
-   24 operador: '*' .
+   27 expUnaria: operadorUnario expUnaria .
 
-    $default  reduce usando la regla 24 (operador)
+    $default  reduce usando la regla 27 (expUnaria)
 
 
 estado 81
 
-   25 operador: '/' .
+   38 expSufijo: expSufijo INCREMENTO .
 
-    $default  reduce usando la regla 25 (operador)
+    $default  reduce usando la regla 38 (expSufijo)
 
 
 estado 82
 
-   26 operador: '%' .
+   39 expSufijo: expSufijo DECREMENTO .
 
-    $default  reduce usando la regla 26 (operador)
+    $default  reduce usando la regla 39 (expSufijo)
 
 
 estado 83
 
-   12 expGeneral: expUnaria operador . expGeneral
+   37 expSufijo: expSufijo FLECHA . IDENTIFICADOR
 
-    error          desplazar e ir al estado 47
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '\n'        reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    ']'         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ','         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-
-    expGeneral      ir al estado 114
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
+    IDENTIFICADOR  desplazar e ir al estado 112
 
 
 estado 84
 
-   30 expUnaria: operadorUnario expUnaria .
+   35 expSufijo: expSufijo '(' . listaArgumentos ')'
 
-    $default  reduce usando la regla 30 (expUnaria)
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ')'         reduce usando la regla 42 (listaArgumentos)
+    ')'         [reduce usando la regla 43 (expPrimaria)]
+    ','         reduce usando la regla 42 (listaArgumentos)
+    ','         [reduce usando la regla 43 (expPrimaria)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral       ir al estado 113
+    expUnaria        ir al estado 29
+    operadorUnario   ir al estado 30
+    expSufijo        ir al estado 31
+    listaArgumentos  ir al estado 114
+    expPrimaria      ir al estado 32
 
 
 estado 85
 
-   41 expSufijo: expSufijo INCREMENTO .
+   34 expSufijo: expSufijo '[' . expGeneral ']'
 
-    $default  reduce usando la regla 41 (expSufijo)
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral      ir al estado 115
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
 
 
 estado 86
 
-   42 expSufijo: expSufijo DECREMENTO .
+   36 expSufijo: expSufijo '.' . IDENTIFICADOR
 
-    $default  reduce usando la regla 42 (expSufijo)
+    IDENTIFICADOR  desplazar e ir al estado 116
 
 
 estado 87
-
-   40 expSufijo: expSufijo FLECHA . IDENTIFICADOR
-
-    IDENTIFICADOR  desplazar e ir al estado 115
-
-
-estado 88
-
-   38 expSufijo: expSufijo '(' . listaArgumentos ')'
-
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 45 (listaArgumentos)
-    ')'         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ','         reduce usando la regla 45 (listaArgumentos)
-    ','         [reduce usando la regla 46 (expPrimaria)]
-
-    exp              ir al estado 116
-    expGeneral       ir al estado 29
-    expUnaria        ir al estado 30
-    operadorUnario   ir al estado 31
-    expSufijo        ir al estado 32
-    listaArgumentos  ir al estado 117
-    expPrimaria      ir al estado 33
-
-
-estado 89
-
-   37 expSufijo: expSufijo '[' . exp ']'
-
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    ']'         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-
-    exp             ir al estado 118
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
-
-
-estado 90
-
-   39 expSufijo: expSufijo '.' . IDENTIFICADOR
-
-    IDENTIFICADOR  desplazar e ir al estado 119
-
-
-estado 91
 
     5 line: declaracion '\n' .
 
     $default  reduce usando la regla 5 (line)
 
 
-estado 92
+estado 88
 
     6 line: definicionDeFuncion '\n' .
 
     $default  reduce usando la regla 6 (line)
 
 
-estado 93
+estado 89
 
     7 line: sentencia '\n' .
 
     $default  reduce usando la regla 7 (line)
 
 
+estado 90
+
+   80 sentenciaExpresion: expOP ';' .
+
+    $default  reduce usando la regla 80 (sentenciaExpresion)
+
+
+estado 91
+
+   51 parametros: '(' . listaDeParametros ')'
+   52           | '(' . ')'
+
+    error      desplazar e ir al estado 117
+    TIPO_DATO  desplazar e ir al estado 118
+    ')'        desplazar e ir al estado 119
+
+    listaDeParametros  ir al estado 120
+    parametro          ir al estado 121
+
+
+estado 92
+
+   64 definicionDeFuncion: error IDENTIFICADOR parametros . cuerpo
+
+    error  desplazar e ir al estado 122
+    ';'    desplazar e ir al estado 123
+    '{'    desplazar e ir al estado 124
+
+    cuerpo              ir al estado 125
+    sentenciaCompuesta  ir al estado 126
+
+
+estado 93
+
+   65 definicionDeFuncion: TIPO_DATO error parametros . cuerpo
+
+    error  desplazar e ir al estado 122
+    ';'    desplazar e ir al estado 123
+    '{'    desplazar e ir al estado 124
+
+    cuerpo              ir al estado 127
+    sentenciaCompuesta  ir al estado 126
+
+
 estado 94
 
-   83 sentenciaExpresion: expOP ';' .
+   50 declaracion: TIPO_DATO IDENTIFICADOR '=' . expGeneral
 
-    $default  reduce usando la regla 83 (sentenciaExpresion)
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    NUM            [reduce usando la regla 43 (expPrimaria)]
+    IDENTIFICADOR  [reduce usando la regla 43 (expPrimaria)]
+    STRING         [reduce usando la regla 43 (expPrimaria)]
+    CCARACTER      [reduce usando la regla 43 (expPrimaria)]
+    INCREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO     [reduce usando la regla 43 (expPrimaria)]
+    SIZEOF         [reduce usando la regla 43 (expPrimaria)]
+    '*'            [reduce usando la regla 43 (expPrimaria)]
+    '('            [reduce usando la regla 43 (expPrimaria)]
+    '&'            [reduce usando la regla 43 (expPrimaria)]
+    '!'            [reduce usando la regla 43 (expPrimaria)]
+    $default       reduce usando la regla 43 (expPrimaria)
+
+    expGeneral      ir al estado 128
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
 
 
 estado 95
 
-   54 parametros: '(' . listaDeParametros ')'
-   55           | '(' . ')'
+   49 declaracion: TIPO_DATO IDENTIFICADOR parametros .
+   63 definicionDeFuncion: TIPO_DATO IDENTIFICADOR parametros . cuerpo
 
-    error      desplazar e ir al estado 120
-    TIPO_DATO  desplazar e ir al estado 121
-    ')'        desplazar e ir al estado 122
+    error  desplazar e ir al estado 122
+    ';'    desplazar e ir al estado 123
+    '{'    desplazar e ir al estado 124
 
-    listaDeParametros  ir al estado 123
-    parametro          ir al estado 124
+    '\n'  reduce usando la regla 49 (declaracion)
+
+    cuerpo              ir al estado 129
+    sentenciaCompuesta  ir al estado 126
 
 
 estado 96
 
-   67 definicionDeFuncion: error IDENTIFICADOR parametros . cuerpo
+   29 expUnaria: SIZEOF '(' TIPO_DATO . ')'
 
-    error  desplazar e ir al estado 125
-    ';'    desplazar e ir al estado 126
-    '{'    desplazar e ir al estado 127
-
-    cuerpo              ir al estado 128
-    sentenciaCompuesta  ir al estado 129
+    ')'  desplazar e ir al estado 130
 
 
 estado 97
 
-   68 definicionDeFuncion: TIPO_DATO error parametros . cuerpo
+   83 sentenciaSeleccion: IF '(' expGeneral . ')' sentencia
+   84                   | IF '(' expGeneral . ')' sentencia ELSE sentencia
 
-    error  desplazar e ir al estado 125
-    ';'    desplazar e ir al estado 126
-    '{'    desplazar e ir al estado 127
-
-    cuerpo              ir al estado 130
-    sentenciaCompuesta  ir al estado 129
+    ')'  desplazar e ir al estado 131
 
 
 estado 98
 
-   53 declaracion: TIPO_DATO IDENTIFICADOR parametros .
-   66 definicionDeFuncion: TIPO_DATO IDENTIFICADOR parametros . cuerpo
-
-    error  desplazar e ir al estado 125
-    ';'    desplazar e ir al estado 126
-    '{'    desplazar e ir al estado 127
-
-    '\n'  reduce usando la regla 53 (declaracion)
-
-    cuerpo              ir al estado 131
-    sentenciaCompuesta  ir al estado 129
-
-
-estado 99
-
-   32 expUnaria: SIZEOF '(' TIPO_DATO . ')'
+   85 sentenciaSeleccion: SWITCH '(' IDENTIFICADOR . ')' sentencia
 
     ')'  desplazar e ir al estado 132
 
 
-estado 100
+estado 99
 
-   86 sentenciaSeleccion: IF '(' exp . ')' sentencia
-   87                   | IF '(' exp . ')' sentencia ELSE sentencia
+   86 sentenciaIteracion: WHILE '(' expGeneral . ')' sentencia
 
     ')'  desplazar e ir al estado 133
 
 
+estado 100
+
+   87 sentenciaIteracion: DO sentencia WHILE . '(' expGeneral ')'
+
+    '('  desplazar e ir al estado 134
+
+
 estado 101
 
-   88 sentenciaSeleccion: SWITCH '(' IDENTIFICADOR . ')' sentencia
+   91 sentenciaSalto: RETURN expOP ';' .
 
-    ')'  desplazar e ir al estado 134
+    $default  reduce usando la regla 91 (sentenciaSalto)
 
 
 estado 102
 
-   89 sentenciaIteracion: WHILE '(' exp . ')' sentencia
+   88 sentenciaIteracion: FOR '(' expOP . ';' expOP ';' expOP ')' sentencia
 
-    ')'  desplazar e ir al estado 135
+    ';'  desplazar e ir al estado 135
 
 
 estado 103
 
-   90 sentenciaIteracion: DO sentencia WHILE . '(' exp ')'
+   92 sentenciaSalto: GOTO IDENTIFICADOR ';' .
 
-    '('  desplazar e ir al estado 136
+    $default  reduce usando la regla 92 (sentenciaSalto)
 
 
 estado 104
 
-   94 sentenciaSalto: RETURN expOP ';' .
+   48 expPrimaria: '(' expGeneral ')' .
 
-    $default  reduce usando la regla 94 (sentenciaSalto)
+    $default  reduce usando la regla 48 (expPrimaria)
 
 
 estado 105
 
-   91 sentenciaIteracion: FOR '(' expOP . ';' expOP ';' expOP ')' sentencia
+   49 declaracion: TIPO_DATO IDENTIFICADOR . parametros
+   50            | TIPO_DATO IDENTIFICADOR . '=' expGeneral
 
-    ';'  desplazar e ir al estado 137
+    '='  desplazar e ir al estado 94
+    '('  desplazar e ir al estado 91
+
+    parametros  ir al estado 136
 
 
 estado 106
 
-   95 sentenciaSalto: GOTO IDENTIFICADOR ';' .
+   78 listaSentencias: sentencia .
 
-    $default  reduce usando la regla 95 (sentenciaSalto)
+    $default  reduce usando la regla 78 (listaSentencias)
 
 
 estado 107
 
-   51 expPrimaria: '(' exp ')' .
+   71 sentenciaCompuesta: '{' listaDeDeclaracionesOP listaSentenciasOP . '}'
 
-    $default  reduce usando la regla 51 (expPrimaria)
+    '}'  desplazar e ir al estado 137
 
 
 estado 108
 
-   53 declaracion: TIPO_DATO IDENTIFICADOR . parametros
+   77 listaSentenciasOP: listaSentencias .
+   79 listaSentencias: listaSentencias . sentencia
 
-    '('  desplazar e ir al estado 95
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    IF             desplazar e ir al estado 12
+    SWITCH         desplazar e ir al estado 13
+    WHILE          desplazar e ir al estado 14
+    DO             desplazar e ir al estado 15
+    CONTINUE       desplazar e ir al estado 16
+    BREAK          desplazar e ir al estado 17
+    RETURN         desplazar e ir al estado 18
+    FOR            desplazar e ir al estado 19
+    GOTO           desplazar e ir al estado 20
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+    '{'            desplazar e ir al estado 26
 
-    parametros  ir al estado 138
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    '}'         reduce usando la regla 77 (listaSentenciasOP)
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral          ir al estado 52
+    expUnaria           ir al estado 29
+    operadorUnario      ir al estado 30
+    expSufijo           ir al estado 31
+    expPrimaria         ir al estado 32
+    sentencia           ir al estado 138
+    sentenciaCompuesta  ir al estado 36
+    sentenciaExpresion  ir al estado 37
+    expOP               ir al estado 38
+    sentenciaSeleccion  ir al estado 39
+    sentenciaIteracion  ir al estado 40
+    sentenciaSalto      ir al estado 41
 
 
 estado 109
 
-   81 listaSentencias: sentencia .
+   75 listaDeDeclaraciones: listaDeDeclaraciones declaracion .
 
-    $default  reduce usando la regla 81 (listaSentencias)
+    $default  reduce usando la regla 75 (listaDeDeclaraciones)
 
 
 estado 110
 
-   74 sentenciaCompuesta: '{' listaDeDeclaracionesOP listaSentenciasOP . '}'
+   10 expGeneral: expUnaria '+' expGeneral .
 
-    '}'  desplazar e ir al estado 139
+    $default  reduce usando la regla 10 (expGeneral)
 
 
 estado 111
 
-   80 listaSentenciasOP: listaSentencias .
-   82 listaSentencias: listaSentencias . sentencia
+    9 expGeneral: expUnaria operador expGeneral .
 
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    IF             desplazar e ir al estado 12
-    SWITCH         desplazar e ir al estado 13
-    WHILE          desplazar e ir al estado 14
-    DO             desplazar e ir al estado 15
-    CONTINUE       desplazar e ir al estado 16
-    BREAK          desplazar e ir al estado 17
-    RETURN         desplazar e ir al estado 18
-    FOR            desplazar e ir al estado 19
-    GOTO           desplazar e ir al estado 20
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-    '{'            desplazar e ir al estado 26
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
-    '}'         reduce usando la regla 80 (listaSentenciasOP)
-
-    exp                 ir al estado 56
-    expGeneral          ir al estado 29
-    expUnaria           ir al estado 30
-    operadorUnario      ir al estado 31
-    expSufijo           ir al estado 32
-    expPrimaria         ir al estado 33
-    sentencia           ir al estado 140
-    sentenciaCompuesta  ir al estado 37
-    sentenciaExpresion  ir al estado 38
-    expOP               ir al estado 39
-    sentenciaSeleccion  ir al estado 40
-    sentenciaIteracion  ir al estado 41
-    sentenciaSalto      ir al estado 42
+    $default  reduce usando la regla 9 (expGeneral)
 
 
 estado 112
 
-   78 listaDeDeclaraciones: listaDeDeclaraciones declaracion .
-
-    $default  reduce usando la regla 78 (listaDeDeclaraciones)
-
-
-estado 113
-
-   13 expGeneral: expUnaria '+' expGeneral .
-
-    $default  reduce usando la regla 13 (expGeneral)
-
-
-estado 114
-
-   12 expGeneral: expUnaria operador expGeneral .
-
-    $default  reduce usando la regla 12 (expGeneral)
-
-
-estado 115
-
-   40 expSufijo: expSufijo FLECHA IDENTIFICADOR .
-
-    $default  reduce usando la regla 40 (expSufijo)
-
-
-estado 116
-
-   43 listaArgumentos: exp .
-
-    $default  reduce usando la regla 43 (listaArgumentos)
-
-
-estado 117
-
-   38 expSufijo: expSufijo '(' listaArgumentos . ')'
-   44 listaArgumentos: listaArgumentos . ',' exp
-
-    ')'  desplazar e ir al estado 141
-    ','  desplazar e ir al estado 142
-
-
-estado 118
-
-   37 expSufijo: expSufijo '[' exp . ']'
-
-    ']'  desplazar e ir al estado 143
-
-
-estado 119
-
-   39 expSufijo: expSufijo '.' IDENTIFICADOR .
-
-    $default  reduce usando la regla 39 (expSufijo)
-
-
-estado 120
-
-   60 parametro: error . IDENTIFICADOR
-
-    IDENTIFICADOR  desplazar e ir al estado 144
-
-
-estado 121
-
-   58 parametro: TIPO_DATO .
-   59          | TIPO_DATO . IDENTIFICADOR
-   61          | TIPO_DATO . error
-
-    error          desplazar e ir al estado 145
-    IDENTIFICADOR  desplazar e ir al estado 146
-
-    ')'  reduce usando la regla 58 (parametro)
-    ','  reduce usando la regla 58 (parametro)
-
-
-estado 122
-
-   55 parametros: '(' ')' .
-
-    $default  reduce usando la regla 55 (parametros)
-
-
-estado 123
-
-   54 parametros: '(' listaDeParametros . ')'
-   57 listaDeParametros: listaDeParametros . ',' parametro
-
-    ')'  desplazar e ir al estado 147
-    ','  desplazar e ir al estado 148
-
-
-estado 124
-
-   56 listaDeParametros: parametro .
-
-    $default  reduce usando la regla 56 (listaDeParametros)
-
-
-estado 125
-
-   65 cuerpo: error .
-
-    $default  reduce usando la regla 65 (cuerpo)
-
-
-estado 126
-
-   62 cuerpo: ';' .
-
-    $default  reduce usando la regla 62 (cuerpo)
-
-
-estado 127
-
-   64 cuerpo: '{' . error '}'
-   74 sentenciaCompuesta: '{' . listaDeDeclaracionesOP listaSentenciasOP '}'
-
-    error      desplazar e ir al estado 149
-    TIPO_DATO  desplazar e ir al estado 64
-
-    error          [reduce usando la regla 75 (listaDeDeclaracionesOP)]
-    NUM            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    IDENTIFICADOR  reduce usando la regla 75 (listaDeDeclaracionesOP)
-    STRING         reduce usando la regla 75 (listaDeDeclaracionesOP)
-    CCARACTER      reduce usando la regla 75 (listaDeDeclaracionesOP)
-    MENORIGUAL     reduce usando la regla 75 (listaDeDeclaracionesOP)
-    IGUALIGUAL     reduce usando la regla 75 (listaDeDeclaracionesOP)
-    DISTINTO       reduce usando la regla 75 (listaDeDeclaracionesOP)
-    INCREMENTO     reduce usando la regla 75 (listaDeDeclaracionesOP)
-    DECREMENTO     reduce usando la regla 75 (listaDeDeclaracionesOP)
-    FLECHA         reduce usando la regla 75 (listaDeDeclaracionesOP)
-    OR             reduce usando la regla 75 (listaDeDeclaracionesOP)
-    AND            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    MASIGUAL       reduce usando la regla 75 (listaDeDeclaracionesOP)
-    SIZEOF         reduce usando la regla 75 (listaDeDeclaracionesOP)
-    IF             reduce usando la regla 75 (listaDeDeclaracionesOP)
-    SWITCH         reduce usando la regla 75 (listaDeDeclaracionesOP)
-    WHILE          reduce usando la regla 75 (listaDeDeclaracionesOP)
-    DO             reduce usando la regla 75 (listaDeDeclaracionesOP)
-    CONTINUE       reduce usando la regla 75 (listaDeDeclaracionesOP)
-    BREAK          reduce usando la regla 75 (listaDeDeclaracionesOP)
-    RETURN         reduce usando la regla 75 (listaDeDeclaracionesOP)
-    FOR            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    GOTO           reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '+'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '='            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '<'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '>'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '-'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '*'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '/'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '%'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '('            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '&'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '!'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '['            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '.'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    ';'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '{'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-    '}'            reduce usando la regla 75 (listaDeDeclaracionesOP)
-
-    declaracion             ir al estado 65
-    listaDeDeclaracionesOP  ir al estado 66
-    listaDeDeclaraciones    ir al estado 67
-
-
-estado 128
-
-   67 definicionDeFuncion: error IDENTIFICADOR parametros cuerpo .
-
-    $default  reduce usando la regla 67 (definicionDeFuncion)
-
-
-estado 129
-
-   63 cuerpo: sentenciaCompuesta .
-
-    $default  reduce usando la regla 63 (cuerpo)
-
-
-estado 130
-
-   68 definicionDeFuncion: TIPO_DATO error parametros cuerpo .
-
-    $default  reduce usando la regla 68 (definicionDeFuncion)
-
-
-estado 131
-
-   66 definicionDeFuncion: TIPO_DATO IDENTIFICADOR parametros cuerpo .
-
-    $default  reduce usando la regla 66 (definicionDeFuncion)
-
-
-estado 132
-
-   32 expUnaria: SIZEOF '(' TIPO_DATO ')' .
-
-    $default  reduce usando la regla 32 (expUnaria)
-
-
-estado 133
-
-   86 sentenciaSeleccion: IF '(' exp ')' . sentencia
-   87                   | IF '(' exp ')' . sentencia ELSE sentencia
-
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    IF             desplazar e ir al estado 12
-    SWITCH         desplazar e ir al estado 13
-    WHILE          desplazar e ir al estado 14
-    DO             desplazar e ir al estado 15
-    CONTINUE       desplazar e ir al estado 16
-    BREAK          desplazar e ir al estado 17
-    RETURN         desplazar e ir al estado 18
-    FOR            desplazar e ir al estado 19
-    GOTO           desplazar e ir al estado 20
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-    '{'            desplazar e ir al estado 26
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
-
-    exp                 ir al estado 56
-    expGeneral          ir al estado 29
-    expUnaria           ir al estado 30
-    operadorUnario      ir al estado 31
-    expSufijo           ir al estado 32
-    expPrimaria         ir al estado 33
-    sentencia           ir al estado 150
-    sentenciaCompuesta  ir al estado 37
-    sentenciaExpresion  ir al estado 38
-    expOP               ir al estado 39
-    sentenciaSeleccion  ir al estado 40
-    sentenciaIteracion  ir al estado 41
-    sentenciaSalto      ir al estado 42
-
-
-estado 134
-
-   88 sentenciaSeleccion: SWITCH '(' IDENTIFICADOR ')' . sentencia
-
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    IF             desplazar e ir al estado 12
-    SWITCH         desplazar e ir al estado 13
-    WHILE          desplazar e ir al estado 14
-    DO             desplazar e ir al estado 15
-    CONTINUE       desplazar e ir al estado 16
-    BREAK          desplazar e ir al estado 17
-    RETURN         desplazar e ir al estado 18
-    FOR            desplazar e ir al estado 19
-    GOTO           desplazar e ir al estado 20
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-    '{'            desplazar e ir al estado 26
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
-
-    exp                 ir al estado 56
-    expGeneral          ir al estado 29
-    expUnaria           ir al estado 30
-    operadorUnario      ir al estado 31
-    expSufijo           ir al estado 32
-    expPrimaria         ir al estado 33
-    sentencia           ir al estado 151
-    sentenciaCompuesta  ir al estado 37
-    sentenciaExpresion  ir al estado 38
-    expOP               ir al estado 39
-    sentenciaSeleccion  ir al estado 40
-    sentenciaIteracion  ir al estado 41
-    sentenciaSalto      ir al estado 42
-
-
-estado 135
-
-   89 sentenciaIteracion: WHILE '(' exp ')' . sentencia
-
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    IF             desplazar e ir al estado 12
-    SWITCH         desplazar e ir al estado 13
-    WHILE          desplazar e ir al estado 14
-    DO             desplazar e ir al estado 15
-    CONTINUE       desplazar e ir al estado 16
-    BREAK          desplazar e ir al estado 17
-    RETURN         desplazar e ir al estado 18
-    FOR            desplazar e ir al estado 19
-    GOTO           desplazar e ir al estado 20
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-    '{'            desplazar e ir al estado 26
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
-
-    exp                 ir al estado 56
-    expGeneral          ir al estado 29
-    expUnaria           ir al estado 30
-    operadorUnario      ir al estado 31
-    expSufijo           ir al estado 32
-    expPrimaria         ir al estado 33
-    sentencia           ir al estado 152
-    sentenciaCompuesta  ir al estado 37
-    sentenciaExpresion  ir al estado 38
-    expOP               ir al estado 39
-    sentenciaSeleccion  ir al estado 40
-    sentenciaIteracion  ir al estado 41
-    sentenciaSalto      ir al estado 42
-
-
-estado 136
-
-   90 sentenciaIteracion: DO sentencia WHILE '(' . exp ')'
-
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-
-    exp             ir al estado 153
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
-
-
-estado 137
-
-   91 sentenciaIteracion: FOR '(' expOP ';' . expOP ';' expOP ')' sentencia
-
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
-
-    exp             ir al estado 56
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
-    expOP           ir al estado 154
-
-
-estado 138
-
-   53 declaracion: TIPO_DATO IDENTIFICADOR parametros .
-
-    $default  reduce usando la regla 53 (declaracion)
-
-
-estado 139
-
-   74 sentenciaCompuesta: '{' listaDeDeclaracionesOP listaSentenciasOP '}' .
-
-    $default  reduce usando la regla 74 (sentenciaCompuesta)
-
-
-estado 140
-
-   82 listaSentencias: listaSentencias sentencia .
-
-    $default  reduce usando la regla 82 (listaSentencias)
-
-
-estado 141
-
-   38 expSufijo: expSufijo '(' listaArgumentos ')' .
-
-    $default  reduce usando la regla 38 (expSufijo)
-
-
-estado 142
-
-   44 listaArgumentos: listaArgumentos ',' . exp
-
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ','         reduce usando la regla 46 (expPrimaria)
-
-    exp             ir al estado 155
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
-
-
-estado 143
-
-   37 expSufijo: expSufijo '[' exp ']' .
+   37 expSufijo: expSufijo FLECHA IDENTIFICADOR .
 
     $default  reduce usando la regla 37 (expSufijo)
 
 
+estado 113
+
+   40 listaArgumentos: expGeneral .
+
+    $default  reduce usando la regla 40 (listaArgumentos)
+
+
+estado 114
+
+   35 expSufijo: expSufijo '(' listaArgumentos . ')'
+   41 listaArgumentos: listaArgumentos . ',' expGeneral
+
+    ')'  desplazar e ir al estado 139
+    ','  desplazar e ir al estado 140
+
+
+estado 115
+
+   34 expSufijo: expSufijo '[' expGeneral . ']'
+
+    ']'  desplazar e ir al estado 141
+
+
+estado 116
+
+   36 expSufijo: expSufijo '.' IDENTIFICADOR .
+
+    $default  reduce usando la regla 36 (expSufijo)
+
+
+estado 117
+
+   57 parametro: error . IDENTIFICADOR
+
+    IDENTIFICADOR  desplazar e ir al estado 142
+
+
+estado 118
+
+   55 parametro: TIPO_DATO .
+   56          | TIPO_DATO . IDENTIFICADOR
+   58          | TIPO_DATO . error
+
+    error          desplazar e ir al estado 143
+    IDENTIFICADOR  desplazar e ir al estado 144
+
+    ')'  reduce usando la regla 55 (parametro)
+    ','  reduce usando la regla 55 (parametro)
+
+
+estado 119
+
+   52 parametros: '(' ')' .
+
+    $default  reduce usando la regla 52 (parametros)
+
+
+estado 120
+
+   51 parametros: '(' listaDeParametros . ')'
+   54 listaDeParametros: listaDeParametros . ',' parametro
+
+    ')'  desplazar e ir al estado 145
+    ','  desplazar e ir al estado 146
+
+
+estado 121
+
+   53 listaDeParametros: parametro .
+
+    $default  reduce usando la regla 53 (listaDeParametros)
+
+
+estado 122
+
+   62 cuerpo: error .
+
+    $default  reduce usando la regla 62 (cuerpo)
+
+
+estado 123
+
+   59 cuerpo: ';' .
+
+    $default  reduce usando la regla 59 (cuerpo)
+
+
+estado 124
+
+   61 cuerpo: '{' . error '}'
+   71 sentenciaCompuesta: '{' . listaDeDeclaracionesOP listaSentenciasOP '}'
+
+    error      desplazar e ir al estado 147
+    TIPO_DATO  desplazar e ir al estado 60
+
+    NUM            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    IDENTIFICADOR  reduce usando la regla 72 (listaDeDeclaracionesOP)
+    STRING         reduce usando la regla 72 (listaDeDeclaracionesOP)
+    CCARACTER      reduce usando la regla 72 (listaDeDeclaracionesOP)
+    MENORIGUAL     reduce usando la regla 72 (listaDeDeclaracionesOP)
+    IGUALIGUAL     reduce usando la regla 72 (listaDeDeclaracionesOP)
+    DISTINTO       reduce usando la regla 72 (listaDeDeclaracionesOP)
+    INCREMENTO     reduce usando la regla 72 (listaDeDeclaracionesOP)
+    DECREMENTO     reduce usando la regla 72 (listaDeDeclaracionesOP)
+    FLECHA         reduce usando la regla 72 (listaDeDeclaracionesOP)
+    OR             reduce usando la regla 72 (listaDeDeclaracionesOP)
+    AND            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    MASIGUAL       reduce usando la regla 72 (listaDeDeclaracionesOP)
+    SIZEOF         reduce usando la regla 72 (listaDeDeclaracionesOP)
+    IF             reduce usando la regla 72 (listaDeDeclaracionesOP)
+    SWITCH         reduce usando la regla 72 (listaDeDeclaracionesOP)
+    WHILE          reduce usando la regla 72 (listaDeDeclaracionesOP)
+    DO             reduce usando la regla 72 (listaDeDeclaracionesOP)
+    CONTINUE       reduce usando la regla 72 (listaDeDeclaracionesOP)
+    BREAK          reduce usando la regla 72 (listaDeDeclaracionesOP)
+    RETURN         reduce usando la regla 72 (listaDeDeclaracionesOP)
+    FOR            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    GOTO           reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '+'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '='            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '<'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '>'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '-'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '*'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '/'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '%'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '('            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '&'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '!'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '['            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '.'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    ';'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '{'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+    '}'            reduce usando la regla 72 (listaDeDeclaracionesOP)
+
+    declaracion             ir al estado 61
+    listaDeDeclaracionesOP  ir al estado 62
+    listaDeDeclaraciones    ir al estado 63
+
+
+estado 125
+
+   64 definicionDeFuncion: error IDENTIFICADOR parametros cuerpo .
+
+    $default  reduce usando la regla 64 (definicionDeFuncion)
+
+
+estado 126
+
+   60 cuerpo: sentenciaCompuesta .
+
+    $default  reduce usando la regla 60 (cuerpo)
+
+
+estado 127
+
+   65 definicionDeFuncion: TIPO_DATO error parametros cuerpo .
+
+    $default  reduce usando la regla 65 (definicionDeFuncion)
+
+
+estado 128
+
+   50 declaracion: TIPO_DATO IDENTIFICADOR '=' expGeneral .
+
+    $default  reduce usando la regla 50 (declaracion)
+
+
+estado 129
+
+   63 definicionDeFuncion: TIPO_DATO IDENTIFICADOR parametros cuerpo .
+
+    $default  reduce usando la regla 63 (definicionDeFuncion)
+
+
+estado 130
+
+   29 expUnaria: SIZEOF '(' TIPO_DATO ')' .
+
+    $default  reduce usando la regla 29 (expUnaria)
+
+
+estado 131
+
+   83 sentenciaSeleccion: IF '(' expGeneral ')' . sentencia
+   84                   | IF '(' expGeneral ')' . sentencia ELSE sentencia
+
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    IF             desplazar e ir al estado 12
+    SWITCH         desplazar e ir al estado 13
+    WHILE          desplazar e ir al estado 14
+    DO             desplazar e ir al estado 15
+    CONTINUE       desplazar e ir al estado 16
+    BREAK          desplazar e ir al estado 17
+    RETURN         desplazar e ir al estado 18
+    FOR            desplazar e ir al estado 19
+    GOTO           desplazar e ir al estado 20
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+    '{'            desplazar e ir al estado 26
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral          ir al estado 52
+    expUnaria           ir al estado 29
+    operadorUnario      ir al estado 30
+    expSufijo           ir al estado 31
+    expPrimaria         ir al estado 32
+    sentencia           ir al estado 148
+    sentenciaCompuesta  ir al estado 36
+    sentenciaExpresion  ir al estado 37
+    expOP               ir al estado 38
+    sentenciaSeleccion  ir al estado 39
+    sentenciaIteracion  ir al estado 40
+    sentenciaSalto      ir al estado 41
+
+
+estado 132
+
+   85 sentenciaSeleccion: SWITCH '(' IDENTIFICADOR ')' . sentencia
+
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    IF             desplazar e ir al estado 12
+    SWITCH         desplazar e ir al estado 13
+    WHILE          desplazar e ir al estado 14
+    DO             desplazar e ir al estado 15
+    CONTINUE       desplazar e ir al estado 16
+    BREAK          desplazar e ir al estado 17
+    RETURN         desplazar e ir al estado 18
+    FOR            desplazar e ir al estado 19
+    GOTO           desplazar e ir al estado 20
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+    '{'            desplazar e ir al estado 26
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral          ir al estado 52
+    expUnaria           ir al estado 29
+    operadorUnario      ir al estado 30
+    expSufijo           ir al estado 31
+    expPrimaria         ir al estado 32
+    sentencia           ir al estado 149
+    sentenciaCompuesta  ir al estado 36
+    sentenciaExpresion  ir al estado 37
+    expOP               ir al estado 38
+    sentenciaSeleccion  ir al estado 39
+    sentenciaIteracion  ir al estado 40
+    sentenciaSalto      ir al estado 41
+
+
+estado 133
+
+   86 sentenciaIteracion: WHILE '(' expGeneral ')' . sentencia
+
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    IF             desplazar e ir al estado 12
+    SWITCH         desplazar e ir al estado 13
+    WHILE          desplazar e ir al estado 14
+    DO             desplazar e ir al estado 15
+    CONTINUE       desplazar e ir al estado 16
+    BREAK          desplazar e ir al estado 17
+    RETURN         desplazar e ir al estado 18
+    FOR            desplazar e ir al estado 19
+    GOTO           desplazar e ir al estado 20
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+    '{'            desplazar e ir al estado 26
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral          ir al estado 52
+    expUnaria           ir al estado 29
+    operadorUnario      ir al estado 30
+    expSufijo           ir al estado 31
+    expPrimaria         ir al estado 32
+    sentencia           ir al estado 150
+    sentenciaCompuesta  ir al estado 36
+    sentenciaExpresion  ir al estado 37
+    expOP               ir al estado 38
+    sentenciaSeleccion  ir al estado 39
+    sentenciaIteracion  ir al estado 40
+    sentenciaSalto      ir al estado 41
+
+
+estado 134
+
+   87 sentenciaIteracion: DO sentencia WHILE '(' . expGeneral ')'
+
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral      ir al estado 151
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
+
+
+estado 135
+
+   88 sentenciaIteracion: FOR '(' expOP ';' . expOP ';' expOP ')' sentencia
+
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral      ir al estado 52
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
+    expOP           ir al estado 152
+
+
+estado 136
+
+   49 declaracion: TIPO_DATO IDENTIFICADOR parametros .
+
+    $default  reduce usando la regla 49 (declaracion)
+
+
+estado 137
+
+   71 sentenciaCompuesta: '{' listaDeDeclaracionesOP listaSentenciasOP '}' .
+
+    $default  reduce usando la regla 71 (sentenciaCompuesta)
+
+
+estado 138
+
+   79 listaSentencias: listaSentencias sentencia .
+
+    $default  reduce usando la regla 79 (listaSentencias)
+
+
+estado 139
+
+   35 expSufijo: expSufijo '(' listaArgumentos ')' .
+
+    $default  reduce usando la regla 35 (expSufijo)
+
+
+estado 140
+
+   41 listaArgumentos: listaArgumentos ',' . expGeneral
+
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral      ir al estado 153
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
+
+
+estado 141
+
+   34 expSufijo: expSufijo '[' expGeneral ']' .
+
+    $default  reduce usando la regla 34 (expSufijo)
+
+
+estado 142
+
+   57 parametro: error IDENTIFICADOR .
+
+    $default  reduce usando la regla 57 (parametro)
+
+
+estado 143
+
+   58 parametro: TIPO_DATO error .
+
+    $default  reduce usando la regla 58 (parametro)
+
+
 estado 144
 
-   60 parametro: error IDENTIFICADOR .
+   56 parametro: TIPO_DATO IDENTIFICADOR .
 
-    $default  reduce usando la regla 60 (parametro)
+    $default  reduce usando la regla 56 (parametro)
 
 
 estado 145
 
-   61 parametro: TIPO_DATO error .
+   51 parametros: '(' listaDeParametros ')' .
 
-    $default  reduce usando la regla 61 (parametro)
+    $default  reduce usando la regla 51 (parametros)
 
 
 estado 146
 
-   59 parametro: TIPO_DATO IDENTIFICADOR .
+   54 listaDeParametros: listaDeParametros ',' . parametro
 
-    $default  reduce usando la regla 59 (parametro)
+    error      desplazar e ir al estado 117
+    TIPO_DATO  desplazar e ir al estado 118
+
+    parametro  ir al estado 154
 
 
 estado 147
 
-   54 parametros: '(' listaDeParametros ')' .
+   61 cuerpo: '{' error . '}'
 
-    $default  reduce usando la regla 54 (parametros)
+    '}'  desplazar e ir al estado 155
 
 
 estado 148
 
-   57 listaDeParametros: listaDeParametros ',' . parametro
+   83 sentenciaSeleccion: IF '(' expGeneral ')' sentencia .
+   84                   | IF '(' expGeneral ')' sentencia . ELSE sentencia
 
-    error      desplazar e ir al estado 120
-    TIPO_DATO  desplazar e ir al estado 121
+    ELSE  desplazar e ir al estado 156
 
-    parametro  ir al estado 156
+    ELSE      [reduce usando la regla 83 (sentenciaSeleccion)]
+    $default  reduce usando la regla 83 (sentenciaSeleccion)
 
 
 estado 149
 
-   64 cuerpo: '{' error . '}'
+   85 sentenciaSeleccion: SWITCH '(' IDENTIFICADOR ')' sentencia .
 
-    '}'  desplazar e ir al estado 157
+    $default  reduce usando la regla 85 (sentenciaSeleccion)
 
 
 estado 150
 
-   86 sentenciaSeleccion: IF '(' exp ')' sentencia .
-   87                   | IF '(' exp ')' sentencia . ELSE sentencia
+   86 sentenciaIteracion: WHILE '(' expGeneral ')' sentencia .
 
-    ELSE  desplazar e ir al estado 158
-
-    ELSE      [reduce usando la regla 86 (sentenciaSeleccion)]
-    $default  reduce usando la regla 86 (sentenciaSeleccion)
+    $default  reduce usando la regla 86 (sentenciaIteracion)
 
 
 estado 151
 
-   88 sentenciaSeleccion: SWITCH '(' IDENTIFICADOR ')' sentencia .
+   87 sentenciaIteracion: DO sentencia WHILE '(' expGeneral . ')'
 
-    $default  reduce usando la regla 88 (sentenciaSeleccion)
+    ')'  desplazar e ir al estado 157
 
 
 estado 152
 
-   89 sentenciaIteracion: WHILE '(' exp ')' sentencia .
+   88 sentenciaIteracion: FOR '(' expOP ';' expOP . ';' expOP ')' sentencia
 
-    $default  reduce usando la regla 89 (sentenciaIteracion)
+    ';'  desplazar e ir al estado 158
 
 
 estado 153
 
-   90 sentenciaIteracion: DO sentencia WHILE '(' exp . ')'
+   41 listaArgumentos: listaArgumentos ',' expGeneral .
 
-    ')'  desplazar e ir al estado 159
+    $default  reduce usando la regla 41 (listaArgumentos)
 
 
 estado 154
 
-   91 sentenciaIteracion: FOR '(' expOP ';' expOP . ';' expOP ')' sentencia
+   54 listaDeParametros: listaDeParametros ',' parametro .
 
-    ';'  desplazar e ir al estado 160
+    $default  reduce usando la regla 54 (listaDeParametros)
 
 
 estado 155
 
-   44 listaArgumentos: listaArgumentos ',' exp .
+   61 cuerpo: '{' error '}' .
 
-    $default  reduce usando la regla 44 (listaArgumentos)
+    $default  reduce usando la regla 61 (cuerpo)
 
 
 estado 156
 
-   57 listaDeParametros: listaDeParametros ',' parametro .
+   84 sentenciaSeleccion: IF '(' expGeneral ')' sentencia ELSE . sentencia
 
-    $default  reduce usando la regla 57 (listaDeParametros)
+    NUM            desplazar e ir al estado 4
+    IDENTIFICADOR  desplazar e ir al estado 5
+    STRING         desplazar e ir al estado 7
+    CCARACTER      desplazar e ir al estado 8
+    INCREMENTO     desplazar e ir al estado 9
+    DECREMENTO     desplazar e ir al estado 10
+    SIZEOF         desplazar e ir al estado 11
+    IF             desplazar e ir al estado 12
+    SWITCH         desplazar e ir al estado 13
+    WHILE          desplazar e ir al estado 14
+    DO             desplazar e ir al estado 15
+    CONTINUE       desplazar e ir al estado 16
+    BREAK          desplazar e ir al estado 17
+    RETURN         desplazar e ir al estado 18
+    FOR            desplazar e ir al estado 19
+    GOTO           desplazar e ir al estado 20
+    '*'            desplazar e ir al estado 22
+    '('            desplazar e ir al estado 23
+    '&'            desplazar e ir al estado 24
+    '!'            desplazar e ir al estado 25
+    '{'            desplazar e ir al estado 26
+
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    $default    reduce usando la regla 43 (expPrimaria)
+
+    expGeneral          ir al estado 52
+    expUnaria           ir al estado 29
+    operadorUnario      ir al estado 30
+    expSufijo           ir al estado 31
+    expPrimaria         ir al estado 32
+    sentencia           ir al estado 159
+    sentenciaCompuesta  ir al estado 36
+    sentenciaExpresion  ir al estado 37
+    expOP               ir al estado 38
+    sentenciaSeleccion  ir al estado 39
+    sentenciaIteracion  ir al estado 40
+    sentenciaSalto      ir al estado 41
 
 
 estado 157
 
-   64 cuerpo: '{' error '}' .
+   87 sentenciaIteracion: DO sentencia WHILE '(' expGeneral ')' .
 
-    $default  reduce usando la regla 64 (cuerpo)
+    $default  reduce usando la regla 87 (sentenciaIteracion)
 
 
 estado 158
 
-   87 sentenciaSeleccion: IF '(' exp ')' sentencia ELSE . sentencia
+   88 sentenciaIteracion: FOR '(' expOP ';' expOP ';' . expOP ')' sentencia
 
-    error          desplazar e ir al estado 55
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -2705,134 +2394,45 @@ estado 158
     INCREMENTO     desplazar e ir al estado 9
     DECREMENTO     desplazar e ir al estado 10
     SIZEOF         desplazar e ir al estado 11
-    IF             desplazar e ir al estado 12
-    SWITCH         desplazar e ir al estado 13
-    WHILE          desplazar e ir al estado 14
-    DO             desplazar e ir al estado 15
-    CONTINUE       desplazar e ir al estado 16
-    BREAK          desplazar e ir al estado 17
-    RETURN         desplazar e ir al estado 18
-    FOR            desplazar e ir al estado 19
-    GOTO           desplazar e ir al estado 20
     '*'            desplazar e ir al estado 22
     '('            desplazar e ir al estado 23
     '&'            desplazar e ir al estado 24
     '!'            desplazar e ir al estado 25
-    '{'            desplazar e ir al estado 26
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ')'         reduce usando la regla 43 (expPrimaria)
+    ')'         [reduce usando la regla 81 (expOP)]
+    $default    reduce usando la regla 43 (expPrimaria)
 
-    exp                 ir al estado 56
-    expGeneral          ir al estado 29
-    expUnaria           ir al estado 30
-    operadorUnario      ir al estado 31
-    expSufijo           ir al estado 32
-    expPrimaria         ir al estado 33
-    sentencia           ir al estado 161
-    sentenciaCompuesta  ir al estado 37
-    sentenciaExpresion  ir al estado 38
-    expOP               ir al estado 39
-    sentenciaSeleccion  ir al estado 40
-    sentenciaIteracion  ir al estado 41
-    sentenciaSalto      ir al estado 42
+    expGeneral      ir al estado 52
+    expUnaria       ir al estado 29
+    operadorUnario  ir al estado 30
+    expSufijo       ir al estado 31
+    expPrimaria     ir al estado 32
+    expOP           ir al estado 160
 
 
 estado 159
 
-   90 sentenciaIteracion: DO sentencia WHILE '(' exp ')' .
+   84 sentenciaSeleccion: IF '(' expGeneral ')' sentencia ELSE sentencia .
 
-    $default  reduce usando la regla 90 (sentenciaIteracion)
+    $default  reduce usando la regla 84 (sentenciaSeleccion)
 
 
 estado 160
 
-   91 sentenciaIteracion: FOR '(' expOP ';' expOP ';' . expOP ')' sentencia
+   88 sentenciaIteracion: FOR '(' expOP ';' expOP ';' expOP . ')' sentencia
 
-    error          desplazar e ir al estado 55
-    NUM            desplazar e ir al estado 4
-    IDENTIFICADOR  desplazar e ir al estado 5
-    STRING         desplazar e ir al estado 7
-    CCARACTER      desplazar e ir al estado 8
-    INCREMENTO     desplazar e ir al estado 9
-    DECREMENTO     desplazar e ir al estado 10
-    SIZEOF         desplazar e ir al estado 11
-    '*'            desplazar e ir al estado 22
-    '('            desplazar e ir al estado 23
-    '&'            desplazar e ir al estado 24
-    '!'            desplazar e ir al estado 25
-
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    ')'         reduce usando la regla 46 (expPrimaria)
-    ')'         [reduce usando la regla 84 (expOP)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-
-    exp             ir al estado 56
-    expGeneral      ir al estado 29
-    expUnaria       ir al estado 30
-    operadorUnario  ir al estado 31
-    expSufijo       ir al estado 32
-    expPrimaria     ir al estado 33
-    expOP           ir al estado 162
+    ')'  desplazar e ir al estado 161
 
 
 estado 161
 
-   87 sentenciaSeleccion: IF '(' exp ')' sentencia ELSE sentencia .
+   88 sentenciaIteracion: FOR '(' expOP ';' expOP ';' expOP ')' . sentencia
 
-    $default  reduce usando la regla 87 (sentenciaSeleccion)
-
-
-estado 162
-
-   91 sentenciaIteracion: FOR '(' expOP ';' expOP ';' expOP . ')' sentencia
-
-    ')'  desplazar e ir al estado 163
-
-
-estado 163
-
-   91 sentenciaIteracion: FOR '(' expOP ';' expOP ';' expOP ')' . sentencia
-
-    error          desplazar e ir al estado 55
     NUM            desplazar e ir al estado 4
     IDENTIFICADOR  desplazar e ir al estado 5
     STRING         desplazar e ir al estado 7
@@ -2855,46 +2455,30 @@ estado 163
     '!'            desplazar e ir al estado 25
     '{'            desplazar e ir al estado 26
 
-    MENORIGUAL  reduce usando la regla 46 (expPrimaria)
-    IGUALIGUAL  reduce usando la regla 46 (expPrimaria)
-    DISTINTO    reduce usando la regla 46 (expPrimaria)
-    INCREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    DECREMENTO  [reduce usando la regla 46 (expPrimaria)]
-    FLECHA      reduce usando la regla 46 (expPrimaria)
-    OR          reduce usando la regla 46 (expPrimaria)
-    AND         reduce usando la regla 46 (expPrimaria)
-    MASIGUAL    reduce usando la regla 46 (expPrimaria)
-    '+'         reduce usando la regla 46 (expPrimaria)
-    '='         reduce usando la regla 46 (expPrimaria)
-    '<'         reduce usando la regla 46 (expPrimaria)
-    '>'         reduce usando la regla 46 (expPrimaria)
-    '-'         reduce usando la regla 46 (expPrimaria)
-    '*'         [reduce usando la regla 46 (expPrimaria)]
-    '/'         reduce usando la regla 46 (expPrimaria)
-    '%'         reduce usando la regla 46 (expPrimaria)
-    '('         [reduce usando la regla 46 (expPrimaria)]
-    '['         reduce usando la regla 46 (expPrimaria)
-    '.'         reduce usando la regla 46 (expPrimaria)
-    ';'         reduce usando la regla 46 (expPrimaria)
-    ';'         [reduce usando la regla 84 (expOP)]
+    INCREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    DECREMENTO  [reduce usando la regla 43 (expPrimaria)]
+    '*'         [reduce usando la regla 43 (expPrimaria)]
+    '('         [reduce usando la regla 43 (expPrimaria)]
+    ';'         reduce usando la regla 43 (expPrimaria)
+    ';'         [reduce usando la regla 81 (expOP)]
+    $default    reduce usando la regla 43 (expPrimaria)
 
-    exp                 ir al estado 56
-    expGeneral          ir al estado 29
-    expUnaria           ir al estado 30
-    operadorUnario      ir al estado 31
-    expSufijo           ir al estado 32
-    expPrimaria         ir al estado 33
-    sentencia           ir al estado 164
-    sentenciaCompuesta  ir al estado 37
-    sentenciaExpresion  ir al estado 38
-    expOP               ir al estado 39
-    sentenciaSeleccion  ir al estado 40
-    sentenciaIteracion  ir al estado 41
-    sentenciaSalto      ir al estado 42
+    expGeneral          ir al estado 52
+    expUnaria           ir al estado 29
+    operadorUnario      ir al estado 30
+    expSufijo           ir al estado 31
+    expPrimaria         ir al estado 32
+    sentencia           ir al estado 162
+    sentenciaCompuesta  ir al estado 36
+    sentenciaExpresion  ir al estado 37
+    expOP               ir al estado 38
+    sentenciaSeleccion  ir al estado 39
+    sentenciaIteracion  ir al estado 40
+    sentenciaSalto      ir al estado 41
 
 
-estado 164
+estado 162
 
-   91 sentenciaIteracion: FOR '(' expOP ';' expOP ';' expOP ')' sentencia .
+   88 sentenciaIteracion: FOR '(' expOP ';' expOP ';' expOP ')' sentencia .
 
-    $default  reduce usando la regla 91 (sentenciaIteracion)
+    $default  reduce usando la regla 88 (sentenciaIteracion)

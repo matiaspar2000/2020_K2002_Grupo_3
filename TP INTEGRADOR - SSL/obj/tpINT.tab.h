@@ -66,7 +66,8 @@
      BREAK = 282,
      RETURN = 283,
      FOR = 284,
-     GOTO = 285
+     GOTO = 285,
+     Funcion = 286
    };
 #endif
 
@@ -77,7 +78,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 31 "../src/tpINT.y"
+#line 35 "../src/tpINT.y"
 
         struct yylval_struct
   {
@@ -91,7 +92,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 95 "tpINT.tab.h"
+#line 96 "tpINT.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

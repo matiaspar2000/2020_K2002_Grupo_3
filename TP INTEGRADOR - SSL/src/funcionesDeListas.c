@@ -12,7 +12,7 @@ typedef struct listaDeVariables {
 typedef struct listaDeFunciones{
     char tipoDeDatoSalida[20];
     char nombreF[20];
-    struct listaDeVariables *parametros[10];
+    struct listaDeVariables *parametros;
     struct listaDeFunciones *siguiente;
 }listaDeFunciones;
 
@@ -27,6 +27,7 @@ int contarParametros(listaDeVariables *parametros){//cantidad de parametros de l
 }
 
 void reportarVariablesDeclaradas(listaDeVariables *TSVar){ //me dice el nombre y tipo de cada variable 
+    printf("VARIABLES DECLARADAS: ");
     while(TSVar->siguiente != NULL){
         printf("Variable declarada: %s - ", TSVar->nombreV);
         printf("Tipo: %s \n", TSVar->tipoDeDato);
@@ -38,14 +39,15 @@ void reportarFuncionesDeclaradas(listaDeFunciones *TSFunc){
     while(TSFunc->siguiente != NULL){
         printf("Funcion declarada: %s - ", TSFunc->nombreF);
         printf("Tipo que devuelve: %s - ", TSFunc->tipoDeDatoSalida);
-        printf("Cantidad de parametros: %s \n", contarParametros(*TSFunc->parametros));
+        printf("Cantidad de parametros: %s \n", contarParametros(TSFunc->parametros));
         printf("Parametros: %s \n");
-        reportarVariablesDeclaradas(*TSFunc->parametros);
+        reportarVariablesDeclaradas(TSFunc->parametros);
         TSFunc = TSFunc->siguiente;
     }       
 }
 
 int insertarVariableUnica(listaDeVariables *nueva, listaDeVariables *TS){
+   printf("INSERTANDO VARIABLE...\n");
    while (TS->siguiente != NULL){
         if(TS->nombreV == nueva->nombreV){
             printf("ERROR SEMANTICO: Ya existe una variable declarada con este nombre \n");
@@ -53,19 +55,8 @@ int insertarVariableUnica(listaDeVariables *nueva, listaDeVariables *TS){
         }
         TS = TS->siguiente;
    }
-   /*if(nueva->valor != NULL){
-        if(nueva->tipoDeDato == detectarTipoDeDatoVariableNoDeclarada(nueva->valor)){ //si tiene un valor asignado controlo el tipo antes de insertar
-                TS->siguiente = nueva;
-                printf("Variable insertada correctamente en tabla de simbolos \n");
-                return 0;
-        }else{
-                printf("ERROR SEMANTICO: Error al asignar el valor %s a una variable de tipo %s \n", nueva->valor, nueva->tipoDeDato);
-                return -1
-        };
-   }else{ //si no tiene valor asignado la inserto directamente*/
-        printf("Variable insertada correctamente en tabla de simbolos (sin valor asignado) \n");
-        TS->siguiente = nueva;
-   //}
+    printf("Variable insertada correctamente en tabla de simbolos \n");
+    TS->siguiente = nueva;
    return 0;
 }  
 
@@ -81,52 +72,6 @@ int insertarFuncionUnica(listaDeFunciones *nueva, listaDeFunciones *TS){
    printf("Funcion insertada correctamente en tabla de simbolos \n");
    return 0;
 }  
-
-/*
-char* detectarTipoDeDatoVariableDeclarada(char nombreVariable[20], listaDeVariables *TS){
-  while (TS->siguiente != NULL){
-        if(TS->nombreV == nombreVariable && TS->nombreV != NULL){
-            printf("La variable es de tipo %s \n", TS->tipoDeDato);
-            return TS->tipoDeDato;
-        }
-        TS = TS->siguiente;
-   };
-   printf("ERROR SEMANTICO: La variable no fue declarada o definida todavia");
-   return "noDeclarado";
-}
-
-char* detectarTipoDeDatoVariableNoDeclarada(char valor[20]){
-    int i=0;
-    int longitudValor= strlen(valor);
-    while(isdigit(valor[i])!=0){
-        i++;
-    };
-    if (longitudValor==i){
-        printf("Se encontro un INT %s \n"); // esto no es para variables, seria por ejemplo si quiero sumar 1 + 2 
-        return "int";                       // que controle que ambos sean del mismo tipo de dato
-    }else if(valor[i] = "."){
-        printf("Se encontro un FLOAT %s \n");
-        return "float";
-    }else if(longitudValor >= 1 && isdigit(valor[i])==0){
-        printf("Se encontro un CHAR %s \n");
-        return "char";
-    /*}else if(longitudValor > 1 && isdigit(valor[i])==0){
-        longitudValor = 1;
-        printf("La variable es de tipo STRING %s \n");
-        return "string";
-    };   esto no va xq no existe el tipo de dato string 
-}
-
-char* detectarTipoDeDato(char variableOvalor[20]){
-    char tipoDeDato = detectarTipoDeDatoVariableDeclarada(variableOvalor,TS);
-    if(tipoDeDato = "noDeclarado"){
-        tipoDeDato = detectarTipoDeDatoVariableNoDeclarada(variableOvalor);
-        return tipoDeDato;
-    }else{
-        return tipoDeDato;
-    }   
-}*/
-
 typedef struct parametrosAlInvocar{
     int tipo;
     struct parametrosAlInvocar *siguiente;
@@ -149,44 +94,36 @@ void insertarTipoParametro(parametrosAlInvocar *lista, int nuevo){
    lista->siguiente->siguiente = NULL;
 }
 
-listaDeFunciones* buscarFuncion(listaDeFunciones *TSFunc, char* buscada){
-    while(TSFunc->siguiente != buscada){
+listaDeFunciones buscarFuncion(listaDeFunciones *TSFunc, char* buscada){
+    while(TSFunc->siguiente->nombreF != buscada){
         TSFunc = TSFunc->siguiente;
     }    
-    if(TSFunc->siguiente == buscada){
-        return TSFunc;
+    if(TSFunc->siguiente->nombreF == buscada){
+        return *TSFunc;
     /*}else{
         printf("ERROR SEMANTICO: funcion no declarada");
     }*/
     }
 }
 
-int tipoDeParametro(listaDeVariables *parametros){
-    if(parametros->tipoDeDato == "int"){
+int tipoDeParametro(char* parametros){
+    if(parametros == "int"){
             return 1;
-    }else if(parametros->tipoDeDato == "char"){
+    }else if(parametros == "char"){
             return 2;           
-    }else if(parametros->tipoDeDato == "float"){
+    }else if(parametros == "float"){
             return 3;            
-    }else if(parametros->tipoDeDato == "char*"){
+    }else if(parametros == "char*"){
             return 4;
     }
 }
 
-//control de cantidad y tipo de dato al invocar funciones
-/*
-
-invocada = buscarFuncion(TSFunc, <$1>)
-parametros = fInvocada->listaDeParametros
-misParametros = lista de ints que saco de hacer $<miestructura>1.tipo de cada uno de los parametros y guardarlos en un struct a definir
-*/
-
-
-int controlDeParametrosDeInvocacion(parametrosAlInvocar *misParametros, listaDeVariables *parametros){
-    if(contarParametrosInvocacion(misParametros) <= contarparametros(parametros)){
+int controlDeParametrosDeInvocacion(parametrosAlInvocar *misParametros, listaDeFunciones funcionInvocada){
+    struct listaDeVariables *parametros = funcionInvocada.parametros;
+    if(contarParametrosInvocacion(misParametros) <= contarParametros(parametros)){
         printf("ERROR SEMANTICO: faltan parametros al invocar la funcion \n");
         return 0;
-    }else if(contarParametrosInvocacion(misParametros) >= contarparametros(parametros)){
+    }else if(contarParametrosInvocacion(misParametros) >= contarParametros(parametros)){
         printf("ERROR SEMANTICO: sobran parametros al invocar la funcion \n");
         return 0;
     }else{
