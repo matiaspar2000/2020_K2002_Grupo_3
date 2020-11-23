@@ -82,10 +82,11 @@ int flag_error=0;
 extern int lineno;
 extern FILE* yyin;
 
+
 struct listaDeVariables *TSVar;
 struct listaDeFunciones *TSFunc;
-struct listaDeVariables *unaVar;
-struct listaDeFunciones *unaFunc;
+struct listaDeVariables unaVar;
+struct listaDeFunciones unaFunc;
 struct listaDeVariables *listaAux;
 struct listaDeFunciones fInvocada;
 struct listaDeVariables parInvocada;
@@ -103,7 +104,7 @@ void yyerror (char const *s){
 
 
 /* Line 189 of yacc.c  */
-#line 107 "tpINT.tab.c"
+#line 108 "tpINT.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -169,7 +170,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 35 "../src/tpINT.y"
+#line 36 "../src/tpINT.y"
 
         struct yylval_struct
   {
@@ -183,7 +184,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 187 "tpINT.tab.c"
+#line 188 "tpINT.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -195,7 +196,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 199 "tpINT.tab.c"
+#line 200 "tpINT.tab.c"
 
 #ifdef short
 # undef short
@@ -417,7 +418,7 @@ union yyalloc
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  27
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  93
+#define YYNRULES  94
 /* YYNRULES -- Number of states.  */
 #define YYNSTATES  163
 
@@ -472,11 +473,11 @@ static const yytype_uint16 yyprhs[] =
       47,    49,    51,    53,    55,    57,    59,    62,    65,    68,
       71,    76,    78,    80,    82,    84,    89,    94,    98,   102,
      105,   108,   110,   114,   115,   116,   118,   120,   122,   124,
-     128,   132,   137,   141,   144,   146,   150,   152,   155,   158,
-     161,   163,   165,   169,   171,   176,   181,   186,   188,   190,
-     192,   194,   196,   201,   202,   204,   206,   209,   210,   212,
-     214,   217,   220,   221,   223,   229,   237,   243,   249,   256,
-     266,   269,   272,   276
+     128,   132,   137,   140,   144,   147,   149,   153,   155,   158,
+     161,   164,   166,   168,   172,   174,   179,   184,   189,   191,
+     193,   195,   197,   199,   204,   205,   207,   209,   212,   213,
+     215,   217,   220,   223,   224,   226,   232,   240,   246,   252,
+     259,   269,   272,   275,   279
 };
 
 /* YYRHS -- A `-1'-separated list of the rules' RHS.  */
@@ -495,36 +496,37 @@ static const yytype_int8 yyrhs[] =
        4,    -1,    59,    14,    -1,    59,    15,    -1,    55,    -1,
       60,    48,    55,    -1,    -1,    -1,     4,    -1,     8,    -1,
        7,    -1,     3,    -1,    41,    55,    42,    -1,     5,     4,
-      63,    -1,     5,     4,    34,    55,    -1,    41,    64,    42,
-      -1,    41,    42,    -1,    65,    -1,    64,    48,    65,    -1,
-       5,    -1,     5,     4,    -1,     1,     4,    -1,     5,     1,
-      -1,    49,    -1,    69,    -1,    50,     1,    51,    -1,     1,
-      -1,     5,     4,    63,    66,    -1,     1,     4,    63,    66,
-      -1,     5,     1,    63,    66,    -1,    69,    -1,    74,    -1,
-      76,    -1,    77,    -1,    78,    -1,    50,    70,    72,    51,
-      -1,    -1,    71,    -1,    62,    -1,    71,    62,    -1,    -1,
-      73,    -1,    68,    -1,    73,    68,    -1,    75,    49,    -1,
-      -1,    55,    -1,    21,    41,    55,    42,    68,    -1,    21,
-      41,    55,    42,    68,    22,    68,    -1,    23,    41,     4,
-      42,    68,    -1,    24,    41,    55,    42,    68,    -1,    25,
-      68,    24,    41,    55,    42,    -1,    29,    41,    75,    49,
-      75,    49,    75,    42,    68,    -1,    26,    49,    -1,    27,
-      49,    -1,    28,    75,    49,    -1,    30,     4,    49,    -1
+      63,    -1,     5,     4,    34,    55,    -1,     5,     4,    -1,
+      41,    64,    42,    -1,    41,    42,    -1,    65,    -1,    64,
+      48,    65,    -1,     5,    -1,     5,     4,    -1,     1,     4,
+      -1,     5,     1,    -1,    49,    -1,    69,    -1,    50,     1,
+      51,    -1,     1,    -1,     5,     4,    63,    66,    -1,     1,
+       4,    63,    66,    -1,     5,     1,    63,    66,    -1,    69,
+      -1,    74,    -1,    76,    -1,    77,    -1,    78,    -1,    50,
+      70,    72,    51,    -1,    -1,    71,    -1,    62,    -1,    71,
+      62,    -1,    -1,    73,    -1,    68,    -1,    73,    68,    -1,
+      75,    49,    -1,    -1,    55,    -1,    21,    41,    55,    42,
+      68,    -1,    21,    41,    55,    42,    68,    22,    68,    -1,
+      23,    41,     4,    42,    68,    -1,    24,    41,    55,    42,
+      68,    -1,    25,    68,    24,    41,    55,    42,    -1,    29,
+      41,    75,    49,    75,    49,    75,    42,    68,    -1,    26,
+      49,    -1,    27,    49,    -1,    28,    75,    49,    -1,    30,
+       4,    49,    -1
 };
 
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    79,    79,    80,    83,    84,    85,    86,    87,    90,
-      91,    92,   108,   108,   109,   109,   109,   109,   110,   110,
-     110,   111,   112,   112,   112,   115,   116,   117,   118,   119,
-     120,   123,   123,   123,   126,   127,   128,   132,   133,   134,
-     135,   138,   139,   140,   143,   143,   144,   145,   146,   147,
-     150,   156,   163,   164,   167,   168,   171,   175,   179,   180,
-     183,   184,   185,   186,   189,   195,   196,   199,   200,   201,
-     202,   203,   206,   209,   210,   213,   214,   217,   218,   221,
-     222,   225,   228,   229,   232,   233,   234,   237,   238,   239,
-     242,   243,   244,   245
+       0,    80,    80,    81,    84,    85,    86,    87,    88,    91,
+      92,    93,   109,   109,   110,   110,   110,   110,   111,   111,
+     111,   112,   113,   113,   113,   116,   117,   118,   119,   120,
+     121,   124,   124,   124,   127,   128,   129,   133,   134,   135,
+     136,   139,   140,   141,   144,   144,   145,   146,   147,   148,
+     151,   157,   162,   169,   170,   173,   174,   177,   181,   185,
+     186,   189,   190,   191,   192,   195,   200,   201,   204,   205,
+     206,   207,   208,   211,   214,   215,   218,   219,   222,   223,
+     226,   227,   230,   233,   234,   237,   238,   239,   242,   243,
+     244,   247,   248,   249,   250
 };
 #endif
 
@@ -572,11 +574,11 @@ static const yytype_uint8 yyr1[] =
       56,    56,    56,    56,    56,    57,    57,    57,    57,    57,
       57,    58,    58,    58,    59,    59,    59,    59,    59,    59,
       59,    60,    60,    60,    61,    61,    61,    61,    61,    61,
-      62,    62,    63,    63,    64,    64,    65,    65,    65,    65,
-      66,    66,    66,    66,    67,    67,    67,    68,    68,    68,
-      68,    68,    69,    70,    70,    71,    71,    72,    72,    73,
-      73,    74,    75,    75,    76,    76,    76,    77,    77,    77,
-      78,    78,    78,    78
+      62,    62,    62,    63,    63,    64,    64,    65,    65,    65,
+      65,    66,    66,    66,    66,    67,    67,    67,    68,    68,
+      68,    68,    68,    69,    70,    70,    71,    71,    72,    72,
+      73,    73,    74,    75,    75,    76,    76,    76,    77,    77,
+      77,    78,    78,    78,    78
 };
 
 /* YYR2[YYN] -- Number of symbols composing right hand side of rule YYN.  */
@@ -587,11 +589,11 @@ static const yytype_uint8 yyr2[] =
        1,     1,     1,     1,     1,     1,     2,     2,     2,     2,
        4,     1,     1,     1,     1,     4,     4,     3,     3,     2,
        2,     1,     3,     0,     0,     1,     1,     1,     1,     3,
-       3,     4,     3,     2,     1,     3,     1,     2,     2,     2,
-       1,     1,     3,     1,     4,     4,     4,     1,     1,     1,
-       1,     1,     4,     0,     1,     1,     2,     0,     1,     1,
-       2,     2,     0,     1,     5,     7,     5,     5,     6,     9,
-       2,     2,     3,     3
+       3,     4,     2,     3,     2,     1,     3,     1,     2,     2,
+       2,     1,     1,     3,     1,     4,     4,     4,     1,     1,
+       1,     1,     1,     4,     0,     1,     1,     2,     0,     1,
+       1,     2,     2,     0,     1,     5,     7,     5,     5,     6,
+       9,     2,     2,     3,     3
 };
 
 /* YYDEFACT[STATE-NAME] -- Default rule to reduce with in state
@@ -601,21 +603,21 @@ static const yytype_uint8 yydefact[] =
 {
        2,     0,     1,     0,    48,    45,     0,    47,    46,    44,
       44,    44,     0,     0,     0,    44,     0,     0,    44,     0,
-       0,     4,    32,    44,    31,    33,    73,     3,    83,     9,
-      44,    25,    34,     0,     0,     0,    67,    68,     0,    69,
-      70,    71,     0,     0,     0,    26,    27,    44,    29,    44,
-       0,    44,    83,     0,    90,    91,     0,    44,     0,     0,
-       0,    75,    44,    74,     5,    20,    16,    17,    14,    15,
+       0,     4,    32,    44,    31,    33,    74,     3,    84,     9,
+      44,    25,    34,     0,     0,     0,    68,    69,     0,    70,
+      71,    72,     0,     0,    52,    26,    27,    44,    29,    44,
+       0,    44,    84,     0,    91,    92,     0,    44,     0,     0,
+       0,    76,    44,    75,     5,    20,    16,    17,    14,    15,
       13,    44,    12,    18,    19,    21,    22,    23,    24,    44,
       28,    39,    40,     0,    44,    44,     0,     6,     7,     8,
-      81,     0,     0,     0,    44,     0,     0,     0,     0,     0,
-       0,    92,     0,    93,    49,     0,    79,     0,    44,    76,
-      11,    10,    38,    41,     0,     0,    37,     0,     0,    53,
-       0,    54,    63,    60,     0,    65,    61,    66,    51,    64,
-      30,    44,    44,    44,    44,    44,    50,    72,    80,    36,
-      44,    35,    58,    59,    57,    52,     0,     0,    84,    86,
-      87,     0,     0,    42,    55,    62,    44,    88,    44,    85,
-       0,    44,    89
+      82,     0,     0,     0,    44,     0,     0,     0,     0,     0,
+       0,    93,     0,    94,    49,    52,    80,     0,    44,    77,
+      11,    10,    38,    41,     0,     0,    37,     0,     0,    54,
+       0,    55,    64,    61,     0,    66,    62,    67,    51,    65,
+      30,    44,    44,    44,    44,    44,    50,    73,    81,    36,
+      44,    35,    59,    60,    58,    53,     0,     0,    85,    87,
+      88,     0,     0,    42,    56,    63,    44,    89,    44,    86,
+       0,    44,    90
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
@@ -662,7 +664,7 @@ static const yytype_int8 yypgoto[] =
    positive, shift that token.  If negative, reduce the rule which
    number is the opposite.  If zero, do what YYDEFACT says.
    If YYTABLE_NINF, syntax error.  */
-#define YYTABLE_NINF -79
+#define YYTABLE_NINF -80
 static const yytype_int16 yytable[] =
 {
       53,    33,    56,    42,    28,    93,    95,   122,    49,   122,
@@ -670,7 +672,7 @@ static const yytype_int16 yytable[] =
       91,    43,   145,   117,    44,   140,    59,   118,   146,    51,
       54,     4,     5,    57,    58,     7,     8,    80,   -50,    55,
       60,   102,     9,    10,   127,    64,   129,   106,    11,    87,
-      59,   119,    97,   -56,    99,   123,   124,   123,   124,   -56,
+      59,   119,    97,   -57,    99,   123,   124,   123,   124,   -57,
       91,   126,   126,   109,   126,    88,    22,   136,    89,    23,
      -43,    24,    25,    90,   110,    98,   -43,    81,    82,    83,
      100,   101,   111,   103,   104,   105,   112,   113,   115,   116,
@@ -684,20 +686,20 @@ static const yytype_int16 yytable[] =
      -44,   -44,   -44,   -44,    11,    12,     0,    13,    14,    15,
       16,    17,    18,    19,    20,     0,    21,   -44,   -44,   -44,
      -44,   -44,    22,   -44,   -44,    23,     0,    24,    25,   -44,
-       0,   -44,     0,   -44,    26,   147,     0,   -73,   -73,    60,
-       0,   -73,   -73,     0,     0,   -73,   -73,   -73,   -73,   -73,
-     -73,   -73,   -73,   -73,   -73,   -73,     0,   -73,   -73,   -73,
-     -73,   -73,   -73,   -73,   -73,     0,     0,   -73,   -73,   -73,
-     -73,   -73,   -73,   -73,   -73,   -73,     0,   -73,   -73,   -73,
-       0,   -73,     0,   -73,   -73,   -73,     4,     5,     0,     0,
+       0,   -44,     0,   -44,    26,   147,     0,   -74,   -74,    60,
+       0,   -74,   -74,     0,     0,   -74,   -74,   -74,   -74,   -74,
+     -74,   -74,   -74,   -74,   -74,   -74,     0,   -74,   -74,   -74,
+     -74,   -74,   -74,   -74,   -74,     0,     0,   -74,   -74,   -74,
+     -74,   -74,   -74,   -74,   -74,   -74,     0,   -74,   -74,   -74,
+       0,   -74,     0,   -74,   -74,   -74,     4,     5,     0,     0,
        7,     8,     0,     0,     0,     0,     0,     9,    10,     0,
        0,     0,     0,    11,    12,     0,    13,    14,    15,    16,
       17,    18,    19,    20,     0,     0,     0,     0,     4,     5,
        0,    22,     7,     8,    23,     0,    24,    25,     0,     9,
-      10,     0,     0,    26,   -77,    11,    12,     0,    13,    14,
+      10,     0,     0,    26,   -78,    11,    12,     0,    13,    14,
       15,    16,    17,    18,    19,    20,     0,     0,     0,     0,
        4,     5,     0,    22,     7,     8,    23,     0,    24,    25,
-       0,     9,    10,     0,     0,    26,   -78,    11,    12,     0,
+       0,     9,    10,     0,     0,    26,   -79,    11,    12,     0,
       13,    14,    15,    16,    17,    18,    19,    20,     0,     0,
        0,     0,     4,     5,     0,    22,     7,     8,    23,     0,
       24,    25,     0,     9,    10,     0,     0,    26,     0,    11,
@@ -1589,14 +1591,14 @@ yyreduce:
         case 3:
 
 /* Line 1455 of yacc.c  */
-#line 80 "../src/tpINT.y"
+#line 81 "../src/tpINT.y"
     {flag_error=0;;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 92 "../src/tpINT.y"
+#line 93 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion aditiva \n"); 
 
                                         if((yyvsp[(1) - (3)].miestructura).tipo == (yyvsp[(3) - (3)].miestructura).tipo){ 
@@ -1615,49 +1617,49 @@ yyreduce:
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 108 "../src/tpINT.y"
+#line 109 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion de asignacion \n");;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 109 "../src/tpINT.y"
+#line 110 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion logica \n");;}
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 110 "../src/tpINT.y"
+#line 111 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion relacional \n");;}
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 111 "../src/tpINT.y"
+#line 112 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion de sustraccion \n");;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 112 "../src/tpINT.y"
+#line 113 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion multiplicativa \n");;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 123 "../src/tpINT.y"
+#line 124 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion unaria \n");;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 128 "../src/tpINT.y"
+#line 129 "../src/tpINT.y"
     {fInvocada = buscarFuncion(TSFunc, (yyvsp[(1) - (4)].miestructura).cadena);
                                                 if(controlDeParametrosDeInvocacion(misParametros,fInvocada)){
                                                         printf("Fin de la lista de parametros, todos son del tipo de dato correcto \n'");
@@ -1667,272 +1669,282 @@ yyreduce:
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 138 "../src/tpINT.y"
+#line 139 "../src/tpINT.y"
     {insertarTipoParametro(misParametros,(yyvsp[(1) - (1)].miestructura).entero);}
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 143 "../src/tpINT.y"
+#line 144 "../src/tpINT.y"
     {printf("Se encontro el identificador %s \n" , (yyvsp[(1) - (1)].miestructura).cadena);;}
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 144 "../src/tpINT.y"
+#line 145 "../src/tpINT.y"
     {printf(" Se encontro el caracter %c \n" , (yyvsp[(1) - (1)].miestructura).caracter);;}
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 145 "../src/tpINT.y"
+#line 146 "../src/tpINT.y"
     {printf ( "Se encontro la palabra %s \n " , (yyvsp[(1) - (1)].miestructura).cadena);;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 146 "../src/tpINT.y"
+#line 147 "../src/tpINT.y"
     {printf("Se encontro un numero %d \n", (yyvsp[(1) - (1)].miestructura).entero);;}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 150 "../src/tpINT.y"
+#line 151 "../src/tpINT.y"
     {if(flag_error==0) printf("función declarada correctamente");
-                                                strcpy(unaFunc->nombreF, (yyvsp[(2) - (3)].miestructura).cadena);   
-                                                strcpy(unaFunc->tipoDeDatoSalida, (yyvsp[(1) - (3)].miestructura).cadena);
-                                                unaFunc->parametros = listaAux;
-                                                insertarFuncionUnica(unaFunc,TSFunc);
-                                                ;}
+                                                        strcpy(unaFunc.nombreF, (yyvsp[(2) - (3)].miestructura).cadena);   
+                                                        strcpy(unaFunc.tipoDeDatoSalida, (yyvsp[(1) - (3)].miestructura).cadena);
+                                                        unaFunc.parametros = listaAux;
+                                                        insertarFuncionUnica(unaFunc,TSFunc);
+                                                        ;}
     break;
 
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 156 "../src/tpINT.y"
-    {if(flag_error==0) printf("Variable declarada correctamente");
-                                                        strcpy(unaVar->nombreV, (yyvsp[(2) - (4)].miestructura).cadena);   
-                                                        strcpy(unaVar->tipoDeDato, (yyvsp[(1) - (4)].miestructura).cadena); 
+#line 157 "../src/tpINT.y"
+    {if(flag_error==0){ printf("Variable declarada correctamente");
+                                                        strcpy(unaVar.nombreV, (yyvsp[(2) - (4)].miestructura).cadena);   
+                                                        strcpy(unaVar.tipoDeDato, (yyvsp[(1) - (4)].miestructura).cadena);  
                                                         insertarVariableUnica(unaVar, TSVar); 
-                                                        ;}
+                                                        };;}
     break;
 
-  case 56:
+  case 52:
 
 /* Line 1455 of yacc.c  */
-#line 171 "../src/tpINT.y"
-    {if(flag_error==0) printf("Se encontró un parámetro de tipo %s \n", (yyvsp[(1) - (1)].miestructura).cadena); 
-                                                  strcpy(unaVar->tipoDeDato, (yyvsp[(1) - (1)].miestructura).cadena);
-                                                  strcpy(unaVar->nombreV, "sin definir");
-                                                  insertarVariableUnica(unaVar,listaAux);;}
+#line 162 "../src/tpINT.y"
+    {if(flag_error==0){ printf("Variable declarada correctamente");
+                                                        strcpy(unaVar.nombreV, (yyvsp[(2) - (2)].miestructura).cadena); 
+                                                        strcpy(unaVar.tipoDeDato, (yyvsp[(1) - (2)].miestructura).cadena);  
+                                                        insertarVariableUnica(unaVar, TSVar); 
+                                                        };;}
     break;
 
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 175 "../src/tpINT.y"
-    {if(flag_error==0) printf("Se encontró un parámetro de tipo %s de nombre %s \n", (yyvsp[(1) - (2)].miestructura).cadena, (yyvsp[(2) - (2)].miestructura).cadena); 
-                                                  strcpy(unaVar->nombreV, (yyvsp[(2) - (2)].miestructura).cadena);   
-                                                  strcpy(unaVar->tipoDeDato, (yyvsp[(1) - (2)].miestructura).cadena); 
+#line 177 "../src/tpINT.y"
+    {if(flag_error==0) printf("Se encontró un parámetro de tipo %s \n", (yyvsp[(1) - (1)].miestructura).cadena); 
+                                                  strcpy(unaVar.tipoDeDato, (yyvsp[(1) - (1)].miestructura).cadena);
+                                                  strcpy(unaVar.nombreV, "sin definir");
                                                   insertarVariableUnica(unaVar,listaAux);;}
     break;
 
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 179 "../src/tpINT.y"
-    {printf("error al declarar el tipo de dato del parámetro"); flag_error=1;;}
+#line 181 "../src/tpINT.y"
+    {if(flag_error==0) printf("Se encontró un parámetro de tipo %s de nombre %s \n", (yyvsp[(1) - (2)].miestructura).cadena, (yyvsp[(2) - (2)].miestructura).cadena); 
+                                                  strcpy(unaVar.nombreV, (yyvsp[(2) - (2)].miestructura).cadena);   
+                                                  strcpy(unaVar.tipoDeDato, (yyvsp[(1) - (2)].miestructura).cadena); 
+                                                  insertarVariableUnica(unaVar,listaAux);;}
     break;
 
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 180 "../src/tpINT.y"
-    {printf("error al definir el identificador del parámetro"); flag_error=1;;}
+#line 185 "../src/tpINT.y"
+    {printf("error al declarar el tipo de dato del parámetro"); flag_error=1;;}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 183 "../src/tpINT.y"
-    {if(flag_error==0) printf("función definida correctamente");;}
+#line 186 "../src/tpINT.y"
+    {printf("error al definir el identificador del parámetro"); flag_error=1;;}
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 184 "../src/tpINT.y"
-    {if(flag_error==0) (printf("función definida correctamente"));;}
+#line 189 "../src/tpINT.y"
+    {if(flag_error==0) printf("función definida correctamente");;}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 185 "../src/tpINT.y"
-    {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};;}
+#line 190 "../src/tpINT.y"
+    {if(flag_error==0) (printf("función definida correctamente"));;}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 186 "../src/tpINT.y"
+#line 191 "../src/tpINT.y"
     {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};;}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 189 "../src/tpINT.y"
-    {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", (yyvsp[(2) - (4)].miestructura).cadena);
-                                                                        strcpy(unaFunc->nombreF, (yyvsp[(2) - (4)].miestructura).cadena);   
-                                                                        strcpy(unaFunc->tipoDeDatoSalida, (yyvsp[(1) - (4)].miestructura).cadena);
-                                                                        insertarFuncionUnica(unaFunc,TSFunc);
-                
-                                                                        ;}
+#line 192 "../src/tpINT.y"
+    {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};;}
     break;
 
   case 65:
 
 /* Line 1455 of yacc.c  */
 #line 195 "../src/tpINT.y"
-    {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;;}
+    {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", (yyvsp[(2) - (4)].miestructura).cadena);
+                                                                        strcpy(unaFunc.nombreF, (yyvsp[(2) - (4)].miestructura).cadena);   
+                                                                        strcpy(unaFunc.tipoDeDatoSalida, (yyvsp[(1) - (4)].miestructura).cadena);
+                                                                        insertarFuncionUnica(unaFunc,TSFunc);
+                                                                        ;}
     break;
 
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 196 "../src/tpINT.y"
-    {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;;}
+#line 200 "../src/tpINT.y"
+    {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;;}
     break;
 
   case 67:
 
 /* Line 1455 of yacc.c  */
-#line 199 "../src/tpINT.y"
-    {printf("Se encontró una sentencia compuesta.\n");;}
+#line 201 "../src/tpINT.y"
+    {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;;}
     break;
 
   case 68:
 
 /* Line 1455 of yacc.c  */
-#line 200 "../src/tpINT.y"
-    {printf("Se encontró una sentencia expresión.\n");;}
+#line 204 "../src/tpINT.y"
+    {printf("Se encontró una sentencia compuesta.\n");;}
     break;
 
   case 69:
 
 /* Line 1455 of yacc.c  */
-#line 201 "../src/tpINT.y"
-    {printf("Se encontró una sentencia selección.\n");;}
+#line 205 "../src/tpINT.y"
+    {printf("Se encontró una sentencia expresión.\n");;}
     break;
 
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 202 "../src/tpINT.y"
-    {printf("Se encontró una sentencia iteración.\n");;}
+#line 206 "../src/tpINT.y"
+    {printf("Se encontró una sentencia selección.\n");;}
     break;
 
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 203 "../src/tpINT.y"
+#line 207 "../src/tpINT.y"
+    {printf("Se encontró una sentencia iteración.\n");;}
+    break;
+
+  case 72:
+
+/* Line 1455 of yacc.c  */
+#line 208 "../src/tpINT.y"
     {printf("Se encontró una sentencia salto.\n");;}
     break;
 
-  case 76:
+  case 77:
 
 /* Line 1455 of yacc.c  */
-#line 214 "../src/tpINT.y"
+#line 219 "../src/tpINT.y"
     {printf("Se encontró una lista de declaraciones.\n");;}
     break;
 
-  case 80:
+  case 81:
 
 /* Line 1455 of yacc.c  */
-#line 222 "../src/tpINT.y"
+#line 227 "../src/tpINT.y"
     {printf("Se encontró una lista de sentencias.\n");;}
-    break;
-
-  case 84:
-
-/* Line 1455 of yacc.c  */
-#line 232 "../src/tpINT.y"
-    {printf("Se encontró una sentencia if.\n");;}
     break;
 
   case 85:
 
 /* Line 1455 of yacc.c  */
-#line 233 "../src/tpINT.y"
-    {printf("Se encontró una sentencia if-else.\n");;}
+#line 237 "../src/tpINT.y"
+    {printf("Se encontró una sentencia if.\n");;}
     break;
 
   case 86:
 
 /* Line 1455 of yacc.c  */
-#line 234 "../src/tpINT.y"
-    {printf("Se encontró una sentencia switch.\n");;}
+#line 238 "../src/tpINT.y"
+    {printf("Se encontró una sentencia if-else.\n");;}
     break;
 
   case 87:
 
 /* Line 1455 of yacc.c  */
-#line 237 "../src/tpINT.y"
-    {printf("Se encontró una sentencia while.\n");;}
+#line 239 "../src/tpINT.y"
+    {printf("Se encontró una sentencia switch.\n");;}
     break;
 
   case 88:
 
 /* Line 1455 of yacc.c  */
-#line 238 "../src/tpINT.y"
-    {printf("Se encontró una sentencia do-while.\n");;}
+#line 242 "../src/tpINT.y"
+    {printf("Se encontró una sentencia while.\n");;}
     break;
 
   case 89:
 
 /* Line 1455 of yacc.c  */
-#line 239 "../src/tpINT.y"
-    {printf("Se encontró una sentencia for.\n");;}
+#line 243 "../src/tpINT.y"
+    {printf("Se encontró una sentencia do-while.\n");;}
     break;
 
   case 90:
 
 /* Line 1455 of yacc.c  */
-#line 242 "../src/tpINT.y"
-    {printf("Se encontró una sentencia continue.\n");;}
+#line 244 "../src/tpINT.y"
+    {printf("Se encontró una sentencia for.\n");;}
     break;
 
   case 91:
 
 /* Line 1455 of yacc.c  */
-#line 243 "../src/tpINT.y"
-    {printf("Se encontró una sentencia break.\n");;}
+#line 247 "../src/tpINT.y"
+    {printf("Se encontró una sentencia continue.\n");;}
     break;
 
   case 92:
 
 /* Line 1455 of yacc.c  */
-#line 244 "../src/tpINT.y"
-    {printf("Se encontró una sentencia return.\n");;}
+#line 248 "../src/tpINT.y"
+    {printf("Se encontró una sentencia break.\n");;}
     break;
 
   case 93:
 
 /* Line 1455 of yacc.c  */
-#line 245 "../src/tpINT.y"
+#line 249 "../src/tpINT.y"
+    {printf("Se encontró una sentencia return.\n");;}
+    break;
+
+  case 94:
+
+/* Line 1455 of yacc.c  */
+#line 250 "../src/tpINT.y"
     {printf("Se encontró una sentencia goto.\n");;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1936 "tpINT.tab.c"
+#line 1948 "tpINT.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2144,7 +2156,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 248 "../src/tpINT.y"
+#line 253 "../src/tpINT.y"
 
 
 int main (int argc, char *argv[])
@@ -2152,7 +2164,10 @@ int main (int argc, char *argv[])
     int flag;
  
     yyin=fopen("archivoFuente.txt","r");
- 
+        if(yyin == NULL){
+         puts(strerror(errno));
+    }
+
     flag=yyparse();
  
     fclose(yyin);
