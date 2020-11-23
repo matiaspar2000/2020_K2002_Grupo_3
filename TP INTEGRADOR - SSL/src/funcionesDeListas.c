@@ -27,7 +27,7 @@ int contarParametros(listaDeVariables *parametros){//cantidad de parametros de l
 }
 
 void reportarVariablesDeclaradas(listaDeVariables *TSVar){ //me dice el nombre y tipo de cada variable 
-    printf("VARIABLES DECLARADAS: ");
+    printf("VARIABLES DECLARADAS: \n");
     while(TSVar->siguiente != NULL){
         printf("Variable declarada: %s - ", TSVar->nombreV);
         printf("Tipo: %s \n", TSVar->tipoDeDato);
@@ -36,6 +36,7 @@ void reportarVariablesDeclaradas(listaDeVariables *TSVar){ //me dice el nombre y
 }
 
 void reportarFuncionesDeclaradas(listaDeFunciones *TSFunc){
+    printf("FUNCIONES DECLARADAS: \n");
     while(TSFunc->siguiente != NULL){
         printf("Funcion declarada: %s - ", TSFunc->nombreF);
         printf("Tipo que devuelve: %s - ", TSFunc->tipoDeDatoSalida);

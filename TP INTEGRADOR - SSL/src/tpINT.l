@@ -72,6 +72,6 @@ sizeof   {strcpy(yylval.miestructura.cadena,yytext); return SIZEOF;}
 ")"     {return ')';} 
 "{"     {return '{';} 
 "}"     {return '}';} 
-(.)+    {printf("ERROR LEXICO: Se encontró la cadena desconocida %s en la linea %d \n",yytext,yylineno);}
+[^\t' ']    {printf("Se encontró la cadena desconocida %s en la linea %d \n",yytext,yylineno);}
 
 %% 
