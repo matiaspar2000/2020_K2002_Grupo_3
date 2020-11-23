@@ -82,7 +82,6 @@ int flag_error=0;
 extern int lineno;
 extern FILE* yyin;
 
-
 struct listaDeVariables *TSVar;
 struct listaDeFunciones *TSFunc;
 struct listaDeVariables unaVar;
@@ -104,7 +103,7 @@ void yyerror (char const *s){
 
 
 /* Line 189 of yacc.c  */
-#line 108 "tpINT.tab.c"
+#line 107 "tpINT.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -170,10 +169,10 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 36 "../src/tpINT.y"
+#line 35 "../src/tpINT.y"
 
         struct yylval_struct
-  {
+{
         char cadena[50];
         int entero;
         int tipo;
@@ -184,7 +183,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 188 "tpINT.tab.c"
+#line 187 "tpINT.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -196,7 +195,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 200 "tpINT.tab.c"
+#line 199 "tpINT.tab.c"
 
 #ifdef short
 # undef short
@@ -517,16 +516,16 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    80,    80,    81,    84,    85,    86,    87,    88,    91,
-      92,    93,   109,   109,   110,   110,   110,   110,   111,   111,
-     111,   112,   113,   113,   113,   116,   117,   118,   119,   120,
-     121,   124,   124,   124,   127,   128,   129,   133,   134,   135,
-     136,   139,   140,   141,   144,   144,   145,   146,   147,   148,
-     151,   157,   162,   169,   170,   173,   174,   177,   181,   185,
-     186,   189,   190,   191,   192,   195,   200,   201,   204,   205,
-     206,   207,   208,   211,   214,   215,   218,   219,   222,   223,
-     226,   227,   230,   233,   234,   237,   238,   239,   242,   243,
-     244,   247,   248,   249,   250
+       0,    79,    79,    80,    83,    84,    85,    86,    87,    90,
+      91,    92,   108,   108,   109,   109,   109,   109,   110,   110,
+     110,   111,   112,   112,   112,   115,   116,   117,   118,   119,
+     120,   123,   123,   123,   126,   127,   128,   132,   133,   134,
+     135,   138,   139,   140,   143,   143,   144,   145,   146,   147,
+     150,   156,   161,   168,   169,   172,   173,   176,   180,   184,
+     185,   188,   189,   190,   191,   194,   199,   200,   203,   204,
+     205,   206,   207,   210,   213,   214,   217,   218,   221,   222,
+     225,   226,   229,   232,   233,   236,   237,   238,   241,   242,
+     243,   246,   247,   248,   249
 };
 #endif
 
@@ -1591,14 +1590,14 @@ yyreduce:
         case 3:
 
 /* Line 1455 of yacc.c  */
-#line 81 "../src/tpINT.y"
+#line 80 "../src/tpINT.y"
     {flag_error=0;;}
     break;
 
   case 11:
 
 /* Line 1455 of yacc.c  */
-#line 93 "../src/tpINT.y"
+#line 92 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion aditiva \n"); 
 
                                         if((yyvsp[(1) - (3)].miestructura).tipo == (yyvsp[(3) - (3)].miestructura).tipo){ 
@@ -1617,49 +1616,49 @@ yyreduce:
   case 13:
 
 /* Line 1455 of yacc.c  */
-#line 109 "../src/tpINT.y"
+#line 108 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion de asignacion \n");;}
     break;
 
   case 17:
 
 /* Line 1455 of yacc.c  */
-#line 110 "../src/tpINT.y"
+#line 109 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion logica \n");;}
     break;
 
   case 20:
 
 /* Line 1455 of yacc.c  */
-#line 111 "../src/tpINT.y"
+#line 110 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion relacional \n");;}
     break;
 
   case 21:
 
 /* Line 1455 of yacc.c  */
-#line 112 "../src/tpINT.y"
+#line 111 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion de sustraccion \n");;}
     break;
 
   case 24:
 
 /* Line 1455 of yacc.c  */
-#line 113 "../src/tpINT.y"
+#line 112 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion multiplicativa \n");;}
     break;
 
   case 33:
 
 /* Line 1455 of yacc.c  */
-#line 124 "../src/tpINT.y"
+#line 123 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro una expresion unaria \n");;}
     break;
 
   case 36:
 
 /* Line 1455 of yacc.c  */
-#line 129 "../src/tpINT.y"
+#line 128 "../src/tpINT.y"
     {fInvocada = buscarFuncion(TSFunc, (yyvsp[(1) - (4)].miestructura).cadena);
                                                 if(controlDeParametrosDeInvocacion(misParametros,fInvocada)){
                                                         printf("Fin de la lista de parametros, todos son del tipo de dato correcto \n'");
@@ -1669,43 +1668,43 @@ yyreduce:
   case 41:
 
 /* Line 1455 of yacc.c  */
-#line 139 "../src/tpINT.y"
-    {insertarTipoParametro(misParametros,(yyvsp[(1) - (1)].miestructura).entero);}
+#line 138 "../src/tpINT.y"
+    {insertarTipoParametro(misParametros,(yyvsp[(1) - (1)].miestructura).tipo);}
     break;
 
   case 45:
 
 /* Line 1455 of yacc.c  */
-#line 144 "../src/tpINT.y"
+#line 143 "../src/tpINT.y"
     {printf("Se encontro el identificador %s \n" , (yyvsp[(1) - (1)].miestructura).cadena);;}
     break;
 
   case 46:
 
 /* Line 1455 of yacc.c  */
-#line 145 "../src/tpINT.y"
+#line 144 "../src/tpINT.y"
     {printf(" Se encontro el caracter %c \n" , (yyvsp[(1) - (1)].miestructura).caracter);;}
     break;
 
   case 47:
 
 /* Line 1455 of yacc.c  */
-#line 146 "../src/tpINT.y"
+#line 145 "../src/tpINT.y"
     {printf ( "Se encontro la palabra %s \n " , (yyvsp[(1) - (1)].miestructura).cadena);;}
     break;
 
   case 48:
 
 /* Line 1455 of yacc.c  */
-#line 147 "../src/tpINT.y"
+#line 146 "../src/tpINT.y"
     {printf("Se encontro un numero %d \n", (yyvsp[(1) - (1)].miestructura).entero);;}
     break;
 
   case 50:
 
 /* Line 1455 of yacc.c  */
-#line 151 "../src/tpINT.y"
-    {if(flag_error==0) printf("función declarada correctamente");
+#line 150 "../src/tpINT.y"
+    {if(flag_error==0) printf("función declarada correctamente \n");
                                                         strcpy(unaFunc.nombreF, (yyvsp[(2) - (3)].miestructura).cadena);   
                                                         strcpy(unaFunc.tipoDeDatoSalida, (yyvsp[(1) - (3)].miestructura).cadena);
                                                         unaFunc.parametros = listaAux;
@@ -1716,8 +1715,8 @@ yyreduce:
   case 51:
 
 /* Line 1455 of yacc.c  */
-#line 157 "../src/tpINT.y"
-    {if(flag_error==0){ printf("Variable declarada correctamente");
+#line 156 "../src/tpINT.y"
+    {if(flag_error==0){ printf("Variable declarada correctamente \n");
                                                         strcpy(unaVar.nombreV, (yyvsp[(2) - (4)].miestructura).cadena);   
                                                         strcpy(unaVar.tipoDeDato, (yyvsp[(1) - (4)].miestructura).cadena);  
                                                         insertarVariableUnica(unaVar, TSVar); 
@@ -1727,8 +1726,8 @@ yyreduce:
   case 52:
 
 /* Line 1455 of yacc.c  */
-#line 162 "../src/tpINT.y"
-    {if(flag_error==0){ printf("Variable declarada correctamente");
+#line 161 "../src/tpINT.y"
+    {if(flag_error==0){ printf("Variable declarada correctamente \n");
                                                         strcpy(unaVar.nombreV, (yyvsp[(2) - (2)].miestructura).cadena); 
                                                         strcpy(unaVar.tipoDeDato, (yyvsp[(1) - (2)].miestructura).cadena);  
                                                         insertarVariableUnica(unaVar, TSVar); 
@@ -1738,7 +1737,7 @@ yyreduce:
   case 57:
 
 /* Line 1455 of yacc.c  */
-#line 177 "../src/tpINT.y"
+#line 176 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontró un parámetro de tipo %s \n", (yyvsp[(1) - (1)].miestructura).cadena); 
                                                   strcpy(unaVar.tipoDeDato, (yyvsp[(1) - (1)].miestructura).cadena);
                                                   strcpy(unaVar.nombreV, "sin definir");
@@ -1748,7 +1747,7 @@ yyreduce:
   case 58:
 
 /* Line 1455 of yacc.c  */
-#line 181 "../src/tpINT.y"
+#line 180 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontró un parámetro de tipo %s de nombre %s \n", (yyvsp[(1) - (2)].miestructura).cadena, (yyvsp[(2) - (2)].miestructura).cadena); 
                                                   strcpy(unaVar.nombreV, (yyvsp[(2) - (2)].miestructura).cadena);   
                                                   strcpy(unaVar.tipoDeDato, (yyvsp[(1) - (2)].miestructura).cadena); 
@@ -1758,49 +1757,49 @@ yyreduce:
   case 59:
 
 /* Line 1455 of yacc.c  */
-#line 185 "../src/tpINT.y"
+#line 184 "../src/tpINT.y"
     {printf("error al declarar el tipo de dato del parámetro"); flag_error=1;;}
     break;
 
   case 60:
 
 /* Line 1455 of yacc.c  */
-#line 186 "../src/tpINT.y"
+#line 185 "../src/tpINT.y"
     {printf("error al definir el identificador del parámetro"); flag_error=1;;}
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
-#line 189 "../src/tpINT.y"
+#line 188 "../src/tpINT.y"
     {if(flag_error==0) printf("función definida correctamente");;}
     break;
 
   case 62:
 
 /* Line 1455 of yacc.c  */
-#line 190 "../src/tpINT.y"
+#line 189 "../src/tpINT.y"
     {if(flag_error==0) (printf("función definida correctamente"));;}
     break;
 
   case 63:
 
 /* Line 1455 of yacc.c  */
-#line 191 "../src/tpINT.y"
+#line 190 "../src/tpINT.y"
     {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};;}
     break;
 
   case 64:
 
 /* Line 1455 of yacc.c  */
-#line 192 "../src/tpINT.y"
+#line 191 "../src/tpINT.y"
     {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};;}
     break;
 
   case 65:
 
 /* Line 1455 of yacc.c  */
-#line 195 "../src/tpINT.y"
+#line 194 "../src/tpINT.y"
     {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", (yyvsp[(2) - (4)].miestructura).cadena);
                                                                         strcpy(unaFunc.nombreF, (yyvsp[(2) - (4)].miestructura).cadena);   
                                                                         strcpy(unaFunc.tipoDeDatoSalida, (yyvsp[(1) - (4)].miestructura).cadena);
@@ -1811,140 +1810,133 @@ yyreduce:
   case 66:
 
 /* Line 1455 of yacc.c  */
-#line 200 "../src/tpINT.y"
-    {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;;}
+#line 199 "../src/tpINT.y"
+    {yyerror; printf("Error al definir el tipo de dato de la funcion \n"); flag_error=1;;}
     break;
 
   case 67:
 
 /* Line 1455 of yacc.c  */
-#line 201 "../src/tpINT.y"
-    {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;;}
+#line 200 "../src/tpINT.y"
+    {yyerror; printf("Error al definir el identificador de la funcion \n"); flag_error=1;;}
     break;
 
   case 68:
 
 /* Line 1455 of yacc.c  */
-#line 204 "../src/tpINT.y"
+#line 203 "../src/tpINT.y"
     {printf("Se encontró una sentencia compuesta.\n");;}
     break;
 
   case 69:
 
 /* Line 1455 of yacc.c  */
-#line 205 "../src/tpINT.y"
+#line 204 "../src/tpINT.y"
     {printf("Se encontró una sentencia expresión.\n");;}
     break;
 
   case 70:
 
 /* Line 1455 of yacc.c  */
-#line 206 "../src/tpINT.y"
+#line 205 "../src/tpINT.y"
     {printf("Se encontró una sentencia selección.\n");;}
     break;
 
   case 71:
 
 /* Line 1455 of yacc.c  */
-#line 207 "../src/tpINT.y"
+#line 206 "../src/tpINT.y"
     {printf("Se encontró una sentencia iteración.\n");;}
     break;
 
   case 72:
 
 /* Line 1455 of yacc.c  */
-#line 208 "../src/tpINT.y"
+#line 207 "../src/tpINT.y"
     {printf("Se encontró una sentencia salto.\n");;}
     break;
 
   case 77:
 
 /* Line 1455 of yacc.c  */
-#line 219 "../src/tpINT.y"
+#line 218 "../src/tpINT.y"
     {printf("Se encontró una lista de declaraciones.\n");;}
-    break;
-
-  case 81:
-
-/* Line 1455 of yacc.c  */
-#line 227 "../src/tpINT.y"
-    {printf("Se encontró una lista de sentencias.\n");;}
     break;
 
   case 85:
 
 /* Line 1455 of yacc.c  */
-#line 237 "../src/tpINT.y"
+#line 236 "../src/tpINT.y"
     {printf("Se encontró una sentencia if.\n");;}
     break;
 
   case 86:
 
 /* Line 1455 of yacc.c  */
-#line 238 "../src/tpINT.y"
+#line 237 "../src/tpINT.y"
     {printf("Se encontró una sentencia if-else.\n");;}
     break;
 
   case 87:
 
 /* Line 1455 of yacc.c  */
-#line 239 "../src/tpINT.y"
+#line 238 "../src/tpINT.y"
     {printf("Se encontró una sentencia switch.\n");;}
     break;
 
   case 88:
 
 /* Line 1455 of yacc.c  */
-#line 242 "../src/tpINT.y"
+#line 241 "../src/tpINT.y"
     {printf("Se encontró una sentencia while.\n");;}
     break;
 
   case 89:
 
 /* Line 1455 of yacc.c  */
-#line 243 "../src/tpINT.y"
+#line 242 "../src/tpINT.y"
     {printf("Se encontró una sentencia do-while.\n");;}
     break;
 
   case 90:
 
 /* Line 1455 of yacc.c  */
-#line 244 "../src/tpINT.y"
+#line 243 "../src/tpINT.y"
     {printf("Se encontró una sentencia for.\n");;}
     break;
 
   case 91:
 
 /* Line 1455 of yacc.c  */
-#line 247 "../src/tpINT.y"
+#line 246 "../src/tpINT.y"
     {printf("Se encontró una sentencia continue.\n");;}
     break;
 
   case 92:
 
 /* Line 1455 of yacc.c  */
-#line 248 "../src/tpINT.y"
+#line 247 "../src/tpINT.y"
     {printf("Se encontró una sentencia break.\n");;}
     break;
 
   case 93:
 
 /* Line 1455 of yacc.c  */
-#line 249 "../src/tpINT.y"
+#line 248 "../src/tpINT.y"
     {printf("Se encontró una sentencia return.\n");;}
     break;
 
   case 94:
 
 /* Line 1455 of yacc.c  */
-#line 250 "../src/tpINT.y"
+#line 249 "../src/tpINT.y"
     {printf("Se encontró una sentencia goto.\n");;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1948 "tpINT.tab.c"
+#line 1940 "tpINT.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2156,7 +2148,7 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 253 "../src/tpINT.y"
+#line 252 "../src/tpINT.y"
 
 
 int main (int argc, char *argv[])
@@ -2176,11 +2168,5 @@ int main (int argc, char *argv[])
     reportarFuncionesDeclaradas(TSFunc);
    
     return flag;
-//
 }
-//control de parametros
-/*                 if(buscarFuncion(TSFunc, unaFunc)){
-                            controlDeParametrosDeInvocacion(misParametros, unaVar)
-                            }else{
-                                    printf("ERROR SEMANTICO - funcion no declarada");
-                            }*/
+

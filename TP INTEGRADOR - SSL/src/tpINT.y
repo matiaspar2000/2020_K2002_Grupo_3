@@ -147,18 +147,18 @@ expPrimaria:      |IDENTIFICADOR          {printf("Se encontro el identificador 
                   |'(' expGeneral ')'       
 ;
 
-declaracion: TIPO_DATO IDENTIFICADOR parametros       {if(flag_error==0) printf("función declarada correctamente");
+declaracion: TIPO_DATO IDENTIFICADOR parametros       {if(flag_error==0) printf("función declarada correctamente \n");
                                                         strcpy(unaFunc.nombreF, $<miestructura>2.cadena);   
                                                         strcpy(unaFunc.tipoDeDatoSalida, $<miestructura>1.cadena);
                                                         unaFunc.parametros = listaAux;
                                                         insertarFuncionUnica(unaFunc,TSFunc);
                                                         }  
-            |TIPO_DATO IDENTIFICADOR '=' expGeneral   {if(flag_error==0){ printf("Variable declarada correctamente");
+            |TIPO_DATO IDENTIFICADOR '=' expGeneral   {if(flag_error==0){ printf("Variable declarada correctamente \n");
                                                         strcpy(unaVar.nombreV, $<miestructura>2.cadena);   
                                                         strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena);  
                                                         insertarVariableUnica(unaVar, TSVar); 
                                                         };}
-            |TIPO_DATO IDENTIFICADOR                  {if(flag_error==0){ printf("Variable declarada correctamente");
+            |TIPO_DATO IDENTIFICADOR                  {if(flag_error==0){ printf("Variable declarada correctamente \n");
                                                         strcpy(unaVar.nombreV, $<miestructura>2.cadena); 
                                                         strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena);  
                                                         insertarVariableUnica(unaVar, TSVar); 
@@ -196,8 +196,8 @@ definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_er
                                                                         strcpy(unaFunc.tipoDeDatoSalida, $<miestructura>1.cadena);
                                                                         insertarFuncionUnica(unaFunc,TSFunc);
                                                                         }    
-                        | error IDENTIFICADOR parametros cuerpo      {yyerror; printf("Error al definir el tipo de dato de la funcion\n"); flag_error=1;} 
-                        | TIPO_DATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion\n"); flag_error=1;}                                                        
+                        | error IDENTIFICADOR parametros cuerpo      {yyerror; printf("Error al definir el tipo de dato de la funcion \n"); flag_error=1;} 
+                        | TIPO_DATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion \n"); flag_error=1;}                                                        
 ;
 
 sentencia: sentenciaCompuesta                       {printf("Se encontró una sentencia compuesta.\n");}
@@ -223,7 +223,7 @@ listaSentenciasOP: /* vacio */
 ;
 
 listaSentencias: sentencia
-               | listaSentencias sentencia                 {printf("Se encontró una lista de sentencias.\n");}
+               | listaSentencias sentencia               
 ;
 
 sentenciaExpresion: expOP ';'      

@@ -1,11 +1,12 @@
+int main(){
+    3+3;
+    4+'n';
+    ñ
+    while(1 = 0){}
+    return 0;
+}
+
 int suma(int a, int b){
     int c = a + b;
     return c;
-}
-
-int main(){
-    int d = 1;
-    int e = 2;
-    suma(d,e);
-    return 0;
 }

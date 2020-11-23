@@ -48,6 +48,7 @@ void reportarFuncionesDeclaradas(listaDeFunciones *TSFunc){
 }
 
 int insertarVariableUnica(listaDeVariables insertada, listaDeVariables *TS){
+    printf("INSERTANDO VARIABLE EN LA TS: \n");
    struct listaDeVariables *nueva = &insertada;
    while(TS->siguiente != NULL){
         if(TS->nombreV == nueva->nombreV){
@@ -62,6 +63,7 @@ int insertarVariableUnica(listaDeVariables insertada, listaDeVariables *TS){
 }  
 
 int insertarFuncionUnica(listaDeFunciones insertada, listaDeFunciones *TS){
+ printf("INSERTANDO FUNCION EN LA TS: \n");
  struct listaDeFunciones *nueva = &insertada;
   while (TS->siguiente != NULL){
         if(TS->nombreF == nueva->nombreF){

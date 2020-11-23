@@ -78,10 +78,10 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 36 "../src/tpINT.y"
+#line 35 "../src/tpINT.y"
 
         struct yylval_struct
-  {
+{
         char cadena[50];
         int entero;
         int tipo;
