@@ -40,26 +40,26 @@ void reportarVariablesDeclaradas(){
     printf("VARIABLES DECLARADAS: \n");
    struct listaDeVariables *ptr = TSVar;
    while(ptr != NULL) {
-        printf("- Variable declarada: %s - \n", ptr->contenido.nombreV);
-        printf("Tipo: %s \n", ptr->contenido.tipoDeDato);
+        printf("Variable: %s - ", ptr->contenido.nombreV);
+        printf("Tipo: %s - ", ptr->contenido.tipoDeDato);
         printf("Valor: %s \n", ptr->contenido.valor);
       ptr = ptr->siguiente;
    }
     printf("-------------------------------------------------------------\n"); 
 }
 
-
 void reportarFuncionesDeclaradas(){
     printf("FUNCIONES DECLARADAS: \n");
     struct listaDeFunciones *ptr = TSFunc;
-    while(ptr->siguiente != NULL){
-        printf("Funcion declarada: %s - ", ptr->contenido.nombreF);
+    while(ptr != NULL){
+        printf("Funcion: %s - ", ptr->contenido.nombreF);
         printf("Tipo que devuelve: %s - ", ptr->contenido.tipoDeDatoSalida);
-        printf("Cantidad de parametros: %s \n", contarParametros(ptr->contenido.parametros));
+        //printf("Cantidad de parametros: %s \n", contarParametros(ptr->contenido.parametros));
         printf("Parametros: %s \n");
-        reportarVariablesDeclaradas(ptr->contenido.parametros);
+        //reportarVariablesDeclaradas(ptr->contenido.parametros);
         ptr = ptr->siguiente;
     }       
+    printf("-------------------------------------------------------------\n"); 
 }
 
 void insertarVariableUnica(variable valor) {
@@ -69,16 +69,17 @@ void insertarVariableUnica(variable valor) {
     temp->siguiente=NULL;
     if(TSVar==NULL){
             TSVar=temp;
-    }else{
-    ptr=TSVar;
-    while(ptr->siguiente !=NULL){
-        if(ptr->contenido.nombreV == valor.nombreV){
-            printf("ERROR SEMANTICO: Ya existe una variable declarada con este nombre \n");
             return;
-        }
+    }else{
+        ptr=TSVar;
+        while(ptr->siguiente !=NULL){
+            if(ptr->contenido.nombreV == valor.nombreV){
+                printf("ERROR SEMANTICO: Ya existe una variable declarada con este nombre \n");
+                return;
+            }
         ptr=ptr->siguiente ;
-    }
-    ptr->siguiente=temp;
+        }
+        ptr->siguiente=temp;
     }
 } 
 
@@ -88,17 +89,22 @@ void insertarFuncionUnica(funcion valor) {
     temp->contenido=valor;
     temp->siguiente=NULL;
     if(TSFunc==NULL){
-            TSFunc=temp;
+        TSFunc=temp;
+        printf("Preguntado si la lista es vacia \n");
+        return;
     }else{
-    ptr=TSFunc;
-    while(ptr->siguiente !=NULL){
-        if(ptr->contenido.nombreF == valor.nombreF){
-            printf("ERROR SEMANTICO: Ya existe una variable declarada con este nombre \n");
-            return;
+        ptr=TSFunc;
+        printf("Asignando ptr a tsfunc \n");
+        while(ptr->siguiente != NULL){
+            if(ptr->contenido.nombreF == valor.nombreF){
+                printf("ERROR SEMANTICO: Ya existe una variable declarada con este nombre \n");
+                return;
+            }
+        ptr=ptr->siguiente;
+        printf("circulando por la lista \n");
         }
-        ptr=ptr->siguiente ;
-    }
-    ptr->siguiente=temp;
+        ptr->siguiente=temp;
+        printf("Funcion insertada correctamente en la TS \n");
     }
 } 
 typedef struct parametrosAlInvocar{
