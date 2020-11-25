@@ -158,6 +158,8 @@ declaracion: TIPO_DATO IDENTIFICADOR parametros       {if(flag_error==0) printf(
                                                         strcpy(unaFunc.parametros,parametrosLista);
                                                         unaFunc.cantidadParametros = cantidadParametros;
                                                         insertarFuncionUnica(unaFunc);
+                                                        strcpy(parametrosLista," ");
+                                                        cantidadParametros = 0;
                                                         }  
             |TIPO_DATO IDENTIFICADOR '=' expGeneral ';'  {if(flag_error==0){printf("Variable declarada correctamente \n");
                                                         strcpy(unaVar.nombreV, $<miestructura>2.cadena);   
@@ -207,6 +209,8 @@ definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_er
                                                                         strcpy(unaFunc.parametros,parametrosLista);
                                                                         unaFunc.cantidadParametros = cantidadParametros;
                                                                         insertarFuncionUnica(unaFunc);
+                                                                        strcpy(parametrosLista," ");
+                                                                        cantidadParametros = 0;
                                                                         }    
                         | error IDENTIFICADOR parametros cuerpo      {yyerror; printf("Error al definir el tipo de dato de la funcion \n"); flag_error=1;} 
                         | TIPO_DATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion \n"); flag_error=1;}                                                        
