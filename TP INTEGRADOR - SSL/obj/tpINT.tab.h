@@ -78,7 +78,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 35 "../src/tpINT.y"
+#line 33 "../src/tpINT.y"
 
         struct yylval_struct
 {

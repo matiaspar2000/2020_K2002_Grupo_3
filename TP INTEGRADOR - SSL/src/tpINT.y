@@ -12,13 +12,11 @@ int flag_error=0;
 extern int lineno;
 extern FILE* yyin;
 
-struct listaDeVariables *TSVar;
-struct listaDeFunciones *TSFunc;
-struct listaDeVariables unaVar;
-struct listaDeFunciones unaFunc;
+struct variable unaVar;
 struct listaDeVariables *listaAux;
-struct listaDeFunciones fInvocada;
 struct listaDeVariables parInvocada;
+struct funcion unaFunc;
+struct listaDeFunciones fInvocada;
 struct parametrosAlInvocar *misParametros;
 
 int yylex();
@@ -125,10 +123,14 @@ operadorUnario: '&' |'*' |'!'        {if(flag_error==0) printf("Se encontro una 
 
 expSufijo: expPrimaria
           | expSufijo '[' expGeneral ']' 
-          | expSufijo '(' listaArgumentos ')'  {fInvocada = buscarFuncion(TSFunc, $<miestructura>1.cadena);
-                                                if(controlDeParametrosDeInvocacion(misParametros,fInvocada)){
-                                                        printf("Fin de la lista de parametros, todos son del tipo de dato correcto \n'");
-                                                };}
+          | expSufijo '(' listaArgumentos ')'  {
+                  
+                  if(controlDeParametrosDeInvocacion(misParametros,buscarFuncion($<miestructura>1.cadena))){
+                        printf("Fin de la lista de parametros, todos son del tipo de dato correcto \n");
+                   };
+                   }
+
+
           | expSufijo '.' IDENTIFICADOR
           | expSufijo FLECHA IDENTIFICADOR
           | expSufijo INCREMENTO
@@ -140,10 +142,10 @@ listaArgumentos: expGeneral                      {insertarTipoParametro(misParam
                 |/*vacio*/
 ;
 
-expPrimaria:      |IDENTIFICADOR          {printf("Se encontro el identificador %s \n" , $<miestructura>1.cadena);}
-                  |CCARACTER              {printf(" Se encontro el caracter %c \n" , $<miestructura>1.caracter);}
-                  |STRING                 {printf ( "Se encontro la palabra %s \n " , $<miestructura>1.cadena);}
-                  |NUM                    {printf("Se encontro un numero %d \n", $<miestructura>1.entero);}
+expPrimaria:      | IDENTIFICADOR          {printf("Se encontro el identificador %s \n" , $<miestructura>1.cadena);}
+                  | CCARACTER              {printf(" Se encontro el caracter %c \n" , $<miestructura>1.caracter);}
+                  | STRING                 {printf ( "Se encontro la palabra %s \n " , $<miestructura>1.cadena);}
+                  | NUM                    {printf("Se encontro un numero %d \n", $<miestructura>1.entero);}
                   |'(' expGeneral ')'       
 ;
 
@@ -151,17 +153,19 @@ declaracion: TIPO_DATO IDENTIFICADOR parametros       {if(flag_error==0) printf(
                                                         strcpy(unaFunc.nombreF, $<miestructura>2.cadena);   
                                                         strcpy(unaFunc.tipoDeDatoSalida, $<miestructura>1.cadena);
                                                         unaFunc.parametros = listaAux;
-                                                        insertarFuncionUnica(unaFunc,TSFunc);
+                                                        insertarFuncionUnica(unaFunc);
                                                         }  
-            |TIPO_DATO IDENTIFICADOR '=' expGeneral   {if(flag_error==0){ printf("Variable declarada correctamente \n");
-                                                        strcpy(unaVar.nombreV, $<miestructura>2.cadena);   
-                                                        strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena);  
-                                                        insertarVariableUnica(unaVar, TSVar); 
+            |TIPO_DATO IDENTIFICADOR '=' expGeneral ';'  {if(flag_error==0){printf("Variable declarada correctamente \n");
+                                                         strcpy(unaVar.nombreV, $<miestructura>2.cadena);   
+                                                        strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena); 
+                                                        strcpy(unaVar.valor,$<miestructura>4.cadena); 
+                                                        insertarVariableUnica(unaVar); 
                                                         };}
-            |TIPO_DATO IDENTIFICADOR                  {if(flag_error==0){ printf("Variable declarada correctamente \n");
+            |TIPO_DATO IDENTIFICADOR ';'                 {if(flag_error==0){ printf("Variable declarada correctamente \n");
                                                         strcpy(unaVar.nombreV, $<miestructura>2.cadena); 
-                                                        strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena);  
-                                                        insertarVariableUnica(unaVar, TSVar); 
+                                                        strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena);
+                                                        strcpy(unaVar.valor,"Sin valor");  
+                                                        insertarVariableUnica(unaVar); 
                                                         };}                                               
 ;
 
@@ -176,17 +180,17 @@ listaDeParametros:   parametro
 parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s \n", $<miestructura>1.cadena); 
                                                   strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena);
                                                   strcpy(unaVar.nombreV, "sin definir");
-                                                  insertarVariableUnica(unaVar,listaAux);}
+                                                  insertarVariableUnica(unaVar);}
                | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontró un parámetro de tipo %s de nombre %s \n", $<miestructura>1.cadena, $<miestructura>2.cadena); 
                                                   strcpy(unaVar.nombreV, $<miestructura>2.cadena);   
                                                   strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena); 
-                                                  insertarVariableUnica(unaVar,listaAux);}
+                                                  insertarVariableUnica(unaVar);}
                | error IDENTIFICADOR            {printf("error al declarar el tipo de dato del parámetro"); flag_error=1;}  
                | TIPO_DATO error                {printf("error al definir el identificador del parámetro"); flag_error=1;}
 ;
 
-cuerpo:  ';'                    {if(flag_error==0) printf("función definida correctamente");}                       
-         | sentenciaCompuesta   {if(flag_error==0) (printf("función definida correctamente"));}             
+cuerpo:  ';'                    {if(flag_error==0) printf("función definida correctamente \n");}                       
+         | sentenciaCompuesta   {if(flag_error==0) (printf("función definida correctamente \n"));}             
          | '{' error '}'        {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};}              
          | error                {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};} 
 ;
@@ -194,7 +198,7 @@ cuerpo:  ';'                    {if(flag_error==0) printf("función definida cor
 definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) printf("Se declaró correctamente la funcion %s \n", $<miestructura>2.cadena);
                                                                         strcpy(unaFunc.nombreF, $<miestructura>2.cadena);   
                                                                         strcpy(unaFunc.tipoDeDatoSalida, $<miestructura>1.cadena);
-                                                                        insertarFuncionUnica(unaFunc,TSFunc);
+                                                                        insertarFuncionUnica(unaFunc);
                                                                         }    
                         | error IDENTIFICADOR parametros cuerpo      {yyerror; printf("Error al definir el tipo de dato de la funcion \n"); flag_error=1;} 
                         | TIPO_DATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion \n"); flag_error=1;}                                                        
@@ -257,15 +261,15 @@ int main (int argc, char *argv[])
  
     yyin=fopen("archivoFuente.txt","r");
         if(yyin == NULL){
-         puts(strerror(errno));
+         printf("Error al abrir el archivo");
     }
 
     flag=yyparse();
  
     fclose(yyin);
 
-    reportarVariablesDeclaradas(TSVar);
-    reportarFuncionesDeclaradas(TSFunc);
+    reportarVariablesDeclaradas();
+    reportarFuncionesDeclaradas();
    
     return flag;
 }
