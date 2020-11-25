@@ -18,6 +18,9 @@ struct listaDeVariables parInvocada;
 struct funcion unaFunc;
 struct listaDeFunciones fInvocada;
 struct parametrosAlInvocar *misParametros;
+struct parametrosAlInvocar *parametrosDeFuncion;
+int cantidadParametros = 0;
+char parametrosLista[50];
 
 int yylex();
 int yywrap(){
@@ -152,11 +155,12 @@ expPrimaria:      | IDENTIFICADOR          {printf("Se encontro el identificador
 declaracion: TIPO_DATO IDENTIFICADOR parametros       {if(flag_error==0) printf("Funcion declarada correctamente \n");
                                                         strcpy(unaFunc.nombreF, $<miestructura>2.cadena);   
                                                         strcpy(unaFunc.tipoDeDatoSalida, $<miestructura>1.cadena);
-                                                        unaFunc.parametros = NULL;
+                                                        strcpy(unaFunc.parametros,parametrosLista);
+                                                        unaFunc.cantidadParametros = cantidadParametros;
                                                         insertarFuncionUnica(unaFunc);
                                                         }  
             |TIPO_DATO IDENTIFICADOR '=' expGeneral ';'  {if(flag_error==0){printf("Variable declarada correctamente \n");
-                                                         strcpy(unaVar.nombreV, $<miestructura>2.cadena);   
+                                                        strcpy(unaVar.nombreV, $<miestructura>2.cadena);   
                                                         strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena); 
                                                         strcpy(unaVar.valor,$<miestructura>4.cadena); 
                                                         insertarVariableUnica(unaVar); 
@@ -178,13 +182,15 @@ listaDeParametros:   parametro
 ;
 
 parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se encontro un parámetro de tipo %s \n", $<miestructura>1.cadena); 
-                                                  strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena);
-                                                  strcpy(unaVar.nombreV, "sin definir");
-                                                  insertarVariableUnica(unaVar);}
-               | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontro un parámetro de tipo %s de nombre %s \n", $<miestructura>1.cadena, $<miestructura>2.cadena); 
-                                                  strcpy(unaVar.nombreV, $<miestructura>2.cadena);   
-                                                  strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena); 
-                                                  insertarVariableUnica(unaVar);}
+                                                  strcat(parametrosLista, $<miestructura>1.cadena);
+                                                  strcat(parametrosLista, ", ");
+                                                  cantidadParametros = cantidadParametros + 1;
+                                                  }
+               | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontro un parámetro de tipo %s de nombre %s \n", $<miestructura>1.cadena, $<miestructura>2.cadena);   
+                                                  strcat(parametrosLista, $<miestructura>1.cadena);
+                                                  strcat(parametrosLista, ", "); 
+                                                  cantidadParametros = cantidadParametros + 1;
+                                                  }
                | error IDENTIFICADOR            {printf("error al declarar el tipo de dato del parametro"); flag_error=1;}  
                | TIPO_DATO error                {printf("error al definir el identificador del parametro"); flag_error=1;}
 ;
@@ -198,7 +204,8 @@ cuerpo:  ';'                    {if(flag_error==0) printf("Función definida cor
 definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) printf("Se declaracion correctamente la funcion %s \n", $<miestructura>2.cadena);
                                                                         strcpy(unaFunc.nombreF, $<miestructura>2.cadena);   
                                                                         strcpy(unaFunc.tipoDeDatoSalida, $<miestructura>1.cadena);
-                                                                        unaFunc.parametros = NULL;
+                                                                        strcpy(unaFunc.parametros,parametrosLista);
+                                                                        unaFunc.cantidadParametros = cantidadParametros;
                                                                         insertarFuncionUnica(unaFunc);
                                                                         }    
                         | error IDENTIFICADOR parametros cuerpo      {yyerror; printf("Error al definir el tipo de dato de la funcion \n"); flag_error=1;} 

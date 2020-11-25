@@ -1,1 +1,1 @@
-int suma(int a){};
+int suma(int a, char b, float d){};
