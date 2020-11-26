@@ -1,1 +1,8 @@
-int suma(int a, char b, float d){};
+int main(){
+int t = 4;
+int f = 4;
+int t = 3;
+int suma(int a, int b){};
+suma(a,b);
+}
+

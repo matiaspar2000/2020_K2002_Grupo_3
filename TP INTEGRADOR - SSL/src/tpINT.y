@@ -13,14 +13,13 @@ extern int lineno;
 extern FILE* yyin;
 
 struct variable unaVar;
-struct listaDeVariables *listaAux;
-struct listaDeVariables parInvocada;
 struct funcion unaFunc;
-struct listaDeFunciones fInvocada;
-struct parametrosAlInvocar *misParametros;
-struct parametrosAlInvocar *parametrosDeFuncion;
+struct funcion fInvocada;
 int cantidadParametros = 0;
-char parametrosLista[50];
+int parametrosInvocacion = 0;
+char tipoSiEsParametro[10];
+char listaParametrosLlamado[50] = " ";
+char parametrosLista[50] = " ";
 
 int yylex();
 int yywrap(){
@@ -126,29 +125,37 @@ operadorUnario: '&' |'*' |'!'        {if(flag_error==0) printf("Se encontro una 
 
 expSufijo: expPrimaria
           | expSufijo '[' expGeneral ']' 
-          | expSufijo '(' listaArgumentos ')'  {
-                  
-                  if(controlDeParametrosDeInvocacion(misParametros,buscarFuncion($<miestructura>1.cadena))){
-                        printf("Fin de la lista de parametros, todos son del tipo de dato correcto \n");
-                   };
-                   }
-
-
+          | expSufijo '(' listaArgumentos ')'  {strcpy(fInvocada.nombreF,$<miestructura>1.cadena);
+                                                strcpy(fInvocada.tipoDeDatoSalida," ");
+                                                strcpy(fInvocada.parametros,listaParametrosLlamado);
+                                                fInvocada.cantidadParametros=parametrosInvocacion;
+                                                if(controlDeParametrosDeInvocacion(fInvocada,buscarFuncion(fInvocada.nombreF))){
+                                                        printf("Todos los parametros son del tipo correcto \n");
+                                                };
+                                                parametrosInvocacion = 0;
+                                                strcpy(listaParametrosLlamado," ");}
           | expSufijo '.' IDENTIFICADOR
           | expSufijo FLECHA IDENTIFICADOR
           | expSufijo INCREMENTO
           | expSufijo DECREMENTO
 ;
 
-listaArgumentos: expGeneral                      {insertarTipoParametro(misParametros,$<miestructura>1.tipo)}
+listaArgumentos: expGeneral                      {parametrosInvocacion = parametrosInvocacion + 1;
+                                                 strcat(listaParametrosLlamado,tipoSiEsParametro);
+                                                 strcat(listaParametrosLlamado,", ");}
                 |listaArgumentos ',' expGeneral
                 |/*vacio*/
 ;
 
 expPrimaria:      | IDENTIFICADOR          {printf("Se encontro el identificador %s \n" , $<miestructura>1.cadena);}
-                  | CCARACTER              {printf(" Se encontro el caracter %c \n" , $<miestructura>1.caracter);}
-                  | STRING                 {printf ( "Se encontro la palabra %s \n " , $<miestructura>1.cadena);}
-                  | NUM                    {printf("Se encontro un numero %d \n", $<miestructura>1.entero);}
+                  | CCARACTER              {printf("Se encontro el caracter %s \n" , $<miestructura>1.cadena);
+                                                strcpy(tipoSiEsParametro,"char");}
+                  | STRING                 {printf ("Se encontro la palabra %s \n " , $<miestructura>1.cadena);
+                                                strcpy(tipoSiEsParametro,"string");}
+                  | NUM                    {printf("Se encontro un numero %d \n", $<miestructura>1.entero);
+                                                strcpy(tipoSiEsParametro,"int");}
+                  | CONSTANTE_REAL         {printf("Se encontro un numero %d \n", $<miestructura>1.real);
+                                                strcpy(tipoSiEsParametro,"float");}
                   |'(' expGeneral ')'       
 ;
 
@@ -164,13 +171,11 @@ declaracion: TIPO_DATO IDENTIFICADOR parametros       {if(flag_error==0) printf(
             |TIPO_DATO IDENTIFICADOR '=' expGeneral ';'  {if(flag_error==0){printf("Variable declarada correctamente \n");
                                                         strcpy(unaVar.nombreV, $<miestructura>2.cadena);   
                                                         strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena); 
-                                                        strcpy(unaVar.valor,$<miestructura>4.cadena); 
                                                         insertarVariableUnica(unaVar); 
                                                         };}
             |TIPO_DATO IDENTIFICADOR ';'                 {if(flag_error==0){ printf("Variable declarada correctamente \n");
                                                         strcpy(unaVar.nombreV, $<miestructura>2.cadena); 
                                                         strcpy(unaVar.tipoDeDato, $<miestructura>1.cadena);
-                                                        strcpy(unaVar.valor,"Sin valor");  
                                                         insertarVariableUnica(unaVar); 
                                                         };}                                               
 ;
@@ -183,12 +188,12 @@ listaDeParametros:   parametro
                     | listaDeParametros ',' parametro
 ;
 
-parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se encontro un parámetro de tipo %s \n", $<miestructura>1.cadena); 
+parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se encontro un parametro de tipo %s \n", $<miestructura>1.cadena); 
                                                   strcat(parametrosLista, $<miestructura>1.cadena);
                                                   strcat(parametrosLista, ", ");
                                                   cantidadParametros = cantidadParametros + 1;
                                                   }
-               | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontro un parámetro de tipo %s de nombre %s \n", $<miestructura>1.cadena, $<miestructura>2.cadena);   
+               | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontro un parametro de tipo %s de nombre %s \n", $<miestructura>1.cadena, $<miestructura>2.cadena);   
                                                   strcat(parametrosLista, $<miestructura>1.cadena);
                                                   strcat(parametrosLista, ", "); 
                                                   cantidadParametros = cantidadParametros + 1;
@@ -197,13 +202,13 @@ parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se en
                | TIPO_DATO error                {printf("error al definir el identificador del parametro"); flag_error=1;}
 ;
 
-cuerpo:  ';'                    {if(flag_error==0) printf("Función definida correctamente \n");}                       
-         | sentenciaCompuesta   {if(flag_error==0) (printf("Función definida correctamente \n"));}             
-         | '{' error '}'        {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};}              
-         | error                {if(flag_error==0) {printf("Error al definir la función \n"); flag_error=1;};} 
+cuerpo:  ';'                    {if(flag_error==0) printf("Funcion definida correctamente \n");}                       
+         | sentenciaCompuesta   {if(flag_error==0) (printf("Funcion definida correctamente \n"));}             
+         | '{' error '}'        {if(flag_error==0) {printf("Error al definir la funcion \n"); flag_error=1;};}              
+         | error                {if(flag_error==0) {printf("Error al definir la funcion \n"); flag_error=1;};} 
 ;
 
-definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) printf("Se declaracion correctamente la funcion %s \n", $<miestructura>2.cadena);
+definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) {printf("Se declaracion correctamente la funcion %s \n", $<miestructura>2.cadena);
                                                                         strcpy(unaFunc.nombreF, $<miestructura>2.cadena);   
                                                                         strcpy(unaFunc.tipoDeDatoSalida, $<miestructura>1.cadena);
                                                                         strcpy(unaFunc.parametros,parametrosLista);
@@ -211,16 +216,16 @@ definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_er
                                                                         insertarFuncionUnica(unaFunc);
                                                                         strcpy(parametrosLista," ");
                                                                         cantidadParametros = 0;
-                                                                        }    
+                                                                        };}    
                         | error IDENTIFICADOR parametros cuerpo      {yyerror; printf("Error al definir el tipo de dato de la funcion \n"); flag_error=1;} 
                         | TIPO_DATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion \n"); flag_error=1;}                                                        
 ;
 
-sentencia: sentenciaCompuesta                       {printf("Se encontró una sentencia compuesta.\n");}
-         | sentenciaExpresion                       {printf("Se encontró una sentencia expresión.\n");}
-         | sentenciaSeleccion                       {printf("Se encontró una sentencia selección.\n");}
-         | sentenciaIteracion                       {printf("Se encontró una sentencia iteración.\n");}
-         | sentenciaSalto                           {printf("Se encontró una sentencia salto.\n");}
+sentencia: sentenciaCompuesta                       {printf("Se encontro una sentencia compuesta.\n");}
+         | sentenciaExpresion                       {printf("Se encontro una sentencia expresion.\n");}
+         | sentenciaSeleccion                       {printf("Se encontro una sentencia seleccion.\n");}
+         | sentenciaIteracion                       {printf("Se encontro una sentencia iteracion.\n");}
+         | sentenciaSalto                           {printf("Se encontro una sentencia salto.\n");}
 ;
 
 sentenciaCompuesta: '{' listaDeDeclaracionesOP listaSentenciasOP '}'
@@ -231,7 +236,7 @@ listaDeDeclaracionesOP: /* vacio */
 ;
 
 listaDeDeclaraciones: declaracion
-                    | listaDeDeclaraciones declaracion     {printf("Se encontró una lista de declaraciones.\n");}
+                    | listaDeDeclaraciones declaracion     {printf("Se encontro una lista de declaraciones.\n");}
 ;
 
 listaSentenciasOP: /* vacio */
@@ -249,20 +254,20 @@ expOP: /* vacio */
        | expGeneral
 ;
 
-sentenciaSeleccion: IF '(' expGeneral ')' sentencia                    {printf("Se encontró una sentencia if.\n");}
-                  | IF '(' expGeneral ')' sentencia ELSE sentencia     {printf("Se encontró una sentencia if-else.\n");}
-                  | SWITCH '(' IDENTIFICADOR ')' sentencia             {printf("Se encontró una sentencia switch.\n");}
+sentenciaSeleccion: IF '(' expGeneral ')' sentencia                    {printf("Se encontro una sentencia if.\n");}
+                  | IF '(' expGeneral ')' sentencia ELSE sentencia     {printf("Se encontro una sentencia if-else.\n");}
+                  | SWITCH '(' IDENTIFICADOR ')' sentencia             {printf("Se encontro una sentencia switch.\n");}
 ;
 
-sentenciaIteracion: WHILE '(' expGeneral ')' sentencia                           {printf("Se encontró una sentencia while.\n");}                    
-                  | DO sentencia WHILE '(' expGeneral ')'                        {printf("Se encontró una sentencia do-while.\n");}     
-                  | FOR '(' expOP ';' expOP ';' expOP ')' sentencia       {printf("Se encontró una sentencia for.\n");}     
+sentenciaIteracion: WHILE '(' expGeneral ')' sentencia                           {printf("Se encontro una sentencia while.\n");}                    
+                  | DO sentencia WHILE '(' expGeneral ')'                        {printf("Se encontro una sentencia do-while.\n");}     
+                  | FOR '(' expOP ';' expOP ';' expOP ')' sentencia       {printf("Se encontro una sentencia for.\n");}     
 ;
 
-sentenciaSalto: CONTINUE ';'                    {printf("Se encontró una sentencia continue.\n");}       
-              | BREAK ';'                       {printf("Se encontró una sentencia break.\n");}
-              | RETURN expOP ';'                {printf("Se encontró una sentencia return.\n");}
-              | GOTO IDENTIFICADOR ';'          {printf("Se encontró una sentencia goto.\n");}
+sentenciaSalto: CONTINUE ';'                    {printf("Se encontro una sentencia continue.\n");}       
+              | BREAK ';'                       {printf("Se encontro una sentencia break.\n");}
+              | RETURN expOP ';'                {printf("Se encontro una sentencia return.\n");}
+              | GOTO IDENTIFICADOR ';'          {printf("Se encontro una sentencia goto.\n");}
 ;
         
 %%
@@ -280,6 +285,8 @@ int main (int argc, char *argv[])
  
     fclose(yyin);
 
+    printf("\n");
+    printf("------------------------------REPORTE------------------------------\n");
     reportarVariablesDeclaradas();
     reportarFuncionesDeclaradas();
    
