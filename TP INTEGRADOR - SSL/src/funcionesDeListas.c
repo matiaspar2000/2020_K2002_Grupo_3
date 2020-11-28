@@ -88,7 +88,6 @@ void insertarFuncionUnica(funcion valor) {
             }
         ptr=ptr->siguiente;
         }
-         printf("insertada en ts \n");
         ptr->siguiente=temp;
     }
 } 
@@ -116,7 +115,7 @@ int controlDeParametrosDeInvocacion(funcion invocada, funcion declaradaEnTS){
         printf("ERROR SEMANTICO: sobran parametros al invocar la funcion \n");
         return 0;
     }else{
-        printf(" Cantidad de parametros correcta, controlando tipo de parametros \n");
+        printf("Cantidad de parametros correcta, controlando tipo de parametros \n");
         if(strcmp(invocada.parametros,declaradaEnTS.parametros) == 0){
             printf("Funcion invocada correctamente \n");
             return 1;
@@ -125,6 +124,5 @@ int controlDeParametrosDeInvocacion(funcion invocada, funcion declaradaEnTS){
             return 0;
         }
     }
-
 }
 

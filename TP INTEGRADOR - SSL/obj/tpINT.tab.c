@@ -520,7 +520,7 @@ static const yytype_uint16 yyrline[] =
       91,    92,   108,   108,   109,   109,   109,   109,   110,   110,
      110,   111,   112,   112,   112,   115,   116,   117,   118,   119,
      120,   123,   123,   123,   126,   127,   128,   137,   138,   139,
-     140,   143,   146,   147,   150,   150,   151,   153,   155,   157,
+     140,   143,   145,   147,   150,   150,   151,   153,   155,   157,
      159,   162,   171,   176,   183,   184,   187,   188,   191,   196,
      201,   202,   205,   206,   207,   208,   211,   220,   221,   224,
      225,   226,   227,   228,   231,   234,   235,   238,   239,   242,
@@ -1687,8 +1687,15 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 143 "../src/tpINT.y"
     {parametrosInvocacion = parametrosInvocacion + 1;
-                                                 strcat(listaParametrosLlamado,tipoSiEsParametro);
-                                                 strcat(listaParametrosLlamado,", ");;}
+                                                        strcat(listaParametrosLlamado,tipoSiEsParametro);;}
+    break;
+
+  case 42:
+
+/* Line 1455 of yacc.c  */
+#line 145 "../src/tpINT.y"
+    {parametrosInvocacion = parametrosInvocacion + 1;
+                                                        strcat(listaParametrosLlamado,tipoSiEsParametro);;}
     break;
 
   case 45:
@@ -1703,7 +1710,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 151 "../src/tpINT.y"
     {printf("Se encontro el caracter %s \n" , (yyvsp[(1) - (1)].miestructura).cadena);
-                                                strcpy(tipoSiEsParametro,"char");;}
+                                                strcpy(tipoSiEsParametro,"char ");;}
     break;
 
   case 47:
@@ -1711,7 +1718,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 153 "../src/tpINT.y"
     {printf ("Se encontro la palabra %s \n " , (yyvsp[(1) - (1)].miestructura).cadena);
-                                                strcpy(tipoSiEsParametro,"string");;}
+                                                strcpy(tipoSiEsParametro,"string ");;}
     break;
 
   case 48:
@@ -1719,7 +1726,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 155 "../src/tpINT.y"
     {printf("Se encontro un numero %d \n", (yyvsp[(1) - (1)].miestructura).entero);
-                                                strcpy(tipoSiEsParametro,"int");;}
+                                                strcpy(tipoSiEsParametro,"int ");;}
     break;
 
   case 49:
@@ -1727,7 +1734,7 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 157 "../src/tpINT.y"
     {printf("Se encontro un numero %d \n", (yyvsp[(1) - (1)].miestructura).real);
-                                                strcpy(tipoSiEsParametro,"float");;}
+                                                strcpy(tipoSiEsParametro,"float ");;}
     break;
 
   case 51:
@@ -1773,7 +1780,7 @@ yyreduce:
 #line 191 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro un parametro de tipo %s \n", (yyvsp[(1) - (1)].miestructura).cadena); 
                                                   strcat(parametrosLista, (yyvsp[(1) - (1)].miestructura).cadena);
-                                                  strcat(parametrosLista, ", ");
+                                                  strcat(parametrosLista, " ");
                                                   cantidadParametros = cantidadParametros + 1;
                                                   ;}
     break;
@@ -1784,7 +1791,7 @@ yyreduce:
 #line 196 "../src/tpINT.y"
     {if(flag_error==0) printf("Se encontro un parametro de tipo %s de nombre %s \n", (yyvsp[(1) - (2)].miestructura).cadena, (yyvsp[(2) - (2)].miestructura).cadena);   
                                                   strcat(parametrosLista, (yyvsp[(1) - (2)].miestructura).cadena);
-                                                  strcat(parametrosLista, ", "); 
+                                                  strcat(parametrosLista, " "); 
                                                   cantidadParametros = cantidadParametros + 1;
                                                   ;}
     break;
@@ -1793,14 +1800,14 @@ yyreduce:
 
 /* Line 1455 of yacc.c  */
 #line 201 "../src/tpINT.y"
-    {printf("error al declarar el tipo de dato del parametro"); flag_error=1;;}
+    {printf("error al declarar el tipo de dato del parametro \n"); flag_error=1;;}
     break;
 
   case 61:
 
 /* Line 1455 of yacc.c  */
 #line 202 "../src/tpINT.y"
-    {printf("error al definir el identificador del parametro"); flag_error=1;;}
+    {printf("error al definir el identificador del parametro \n"); flag_error=1;;}
     break;
 
   case 62:
@@ -1858,48 +1865,6 @@ yyreduce:
 /* Line 1455 of yacc.c  */
 #line 221 "../src/tpINT.y"
     {yyerror; printf("Error al definir el identificador de la funcion \n"); flag_error=1;;}
-    break;
-
-  case 69:
-
-/* Line 1455 of yacc.c  */
-#line 224 "../src/tpINT.y"
-    {printf("Se encontro una sentencia compuesta.\n");;}
-    break;
-
-  case 70:
-
-/* Line 1455 of yacc.c  */
-#line 225 "../src/tpINT.y"
-    {printf("Se encontro una sentencia expresion.\n");;}
-    break;
-
-  case 71:
-
-/* Line 1455 of yacc.c  */
-#line 226 "../src/tpINT.y"
-    {printf("Se encontro una sentencia seleccion.\n");;}
-    break;
-
-  case 72:
-
-/* Line 1455 of yacc.c  */
-#line 227 "../src/tpINT.y"
-    {printf("Se encontro una sentencia iteracion.\n");;}
-    break;
-
-  case 73:
-
-/* Line 1455 of yacc.c  */
-#line 228 "../src/tpINT.y"
-    {printf("Se encontro una sentencia salto.\n");;}
-    break;
-
-  case 78:
-
-/* Line 1455 of yacc.c  */
-#line 239 "../src/tpINT.y"
-    {printf("Se encontro una lista de declaraciones.\n");;}
     break;
 
   case 86:
@@ -1975,7 +1940,7 @@ yyreduce:
 
 
 /* Line 1455 of yacc.c  */
-#line 1979 "tpINT.tab.c"
+#line 1944 "tpINT.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);

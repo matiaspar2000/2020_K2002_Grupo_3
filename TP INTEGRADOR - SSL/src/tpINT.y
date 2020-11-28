@@ -140,22 +140,22 @@ expSufijo: expPrimaria
           | expSufijo DECREMENTO
 ;
 
-listaArgumentos: expGeneral                      {parametrosInvocacion = parametrosInvocacion + 1;
-                                                 strcat(listaParametrosLlamado,tipoSiEsParametro);
-                                                 strcat(listaParametrosLlamado,", ");}
-                |listaArgumentos ',' expGeneral
+listaArgumentos: expGeneral                             {parametrosInvocacion = parametrosInvocacion + 1;
+                                                        strcat(listaParametrosLlamado,tipoSiEsParametro);}
+                |listaArgumentos ',' expGeneral         {parametrosInvocacion = parametrosInvocacion + 1;
+                                                        strcat(listaParametrosLlamado,tipoSiEsParametro);}
                 |/*vacio*/
 ;
 
 expPrimaria:      | IDENTIFICADOR          {printf("Se encontro el identificador %s \n" , $<miestructura>1.cadena);}
                   | CCARACTER              {printf("Se encontro el caracter %s \n" , $<miestructura>1.cadena);
-                                                strcpy(tipoSiEsParametro,"char");}
+                                                strcpy(tipoSiEsParametro,"char ");}
                   | STRING                 {printf ("Se encontro la palabra %s \n " , $<miestructura>1.cadena);
-                                                strcpy(tipoSiEsParametro,"string");}
+                                                strcpy(tipoSiEsParametro,"string ");}
                   | NUM                    {printf("Se encontro un numero %d \n", $<miestructura>1.entero);
-                                                strcpy(tipoSiEsParametro,"int");}
+                                                strcpy(tipoSiEsParametro,"int ");}
                   | CONSTANTE_REAL         {printf("Se encontro un numero %d \n", $<miestructura>1.real);
-                                                strcpy(tipoSiEsParametro,"float");}
+                                                strcpy(tipoSiEsParametro,"float ");}
                   |'(' expGeneral ')'       
 ;
 
@@ -190,16 +190,16 @@ listaDeParametros:   parametro
 
 parametro:     TIPO_DATO                        {if(flag_error==0) printf("Se encontro un parametro de tipo %s \n", $<miestructura>1.cadena); 
                                                   strcat(parametrosLista, $<miestructura>1.cadena);
-                                                  strcat(parametrosLista, ", ");
+                                                  strcat(parametrosLista, " ");
                                                   cantidadParametros = cantidadParametros + 1;
                                                   }
                | TIPO_DATO IDENTIFICADOR        {if(flag_error==0) printf("Se encontro un parametro de tipo %s de nombre %s \n", $<miestructura>1.cadena, $<miestructura>2.cadena);   
                                                   strcat(parametrosLista, $<miestructura>1.cadena);
-                                                  strcat(parametrosLista, ", "); 
+                                                  strcat(parametrosLista, " "); 
                                                   cantidadParametros = cantidadParametros + 1;
                                                   }
-               | error IDENTIFICADOR            {printf("error al declarar el tipo de dato del parametro"); flag_error=1;}  
-               | TIPO_DATO error                {printf("error al definir el identificador del parametro"); flag_error=1;}
+               | error IDENTIFICADOR            {printf("error al declarar el tipo de dato del parametro \n"); flag_error=1;}  
+               | TIPO_DATO error                {printf("error al definir el identificador del parametro \n"); flag_error=1;}
 ;
 
 cuerpo:  ';'                    {if(flag_error==0) printf("Funcion definida correctamente \n");}                       
@@ -208,7 +208,7 @@ cuerpo:  ';'                    {if(flag_error==0) printf("Funcion definida corr
          | error                {if(flag_error==0) {printf("Error al definir la funcion \n"); flag_error=1;};} 
 ;
 
-definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) {printf("Se declaracion correctamente la funcion %s \n", $<miestructura>2.cadena);
+definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_error==0) {printf("Se declaro correctamente la funcion %s \n", $<miestructura>2.cadena);
                                                                         strcpy(unaFunc.nombreF, $<miestructura>2.cadena);   
                                                                         strcpy(unaFunc.tipoDeDatoSalida, $<miestructura>1.cadena);
                                                                         strcpy(unaFunc.parametros,parametrosLista);
@@ -221,11 +221,11 @@ definicionDeFuncion:   TIPO_DATO IDENTIFICADOR parametros cuerpo     {if(flag_er
                         | TIPO_DATO error parametros cuerpo          {yyerror; printf("Error al definir el identificador de la funcion \n"); flag_error=1;}                                                        
 ;
 
-sentencia: sentenciaCompuesta                       {printf("Se encontro una sentencia compuesta.\n");}
-         | sentenciaExpresion                       {printf("Se encontro una sentencia expresion.\n");}
-         | sentenciaSeleccion                       {printf("Se encontro una sentencia seleccion.\n");}
-         | sentenciaIteracion                       {printf("Se encontro una sentencia iteracion.\n");}
-         | sentenciaSalto                           {printf("Se encontro una sentencia salto.\n");}
+sentencia: sentenciaCompuesta                       
+         | sentenciaExpresion                       
+         | sentenciaSeleccion                       
+         | sentenciaIteracion                       
+         | sentenciaSalto                           
 ;
 
 sentenciaCompuesta: '{' listaDeDeclaracionesOP listaSentenciasOP '}'
@@ -236,7 +236,7 @@ listaDeDeclaracionesOP: /* vacio */
 ;
 
 listaDeDeclaraciones: declaracion
-                    | listaDeDeclaraciones declaracion     {printf("Se encontro una lista de declaraciones.\n");}
+                    | listaDeDeclaraciones declaracion    
 ;
 
 listaSentenciasOP: /* vacio */
